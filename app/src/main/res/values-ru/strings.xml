@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">task-1</string>
+    <string name="settings">Настройки</string>
+    <string name="name_lastname_placeholder">Имя Фамилия</string>
+    <string name="career_placeholder">Должность</string>
+    <string name="home_address_placeholder">Домашний адрес</string>
+    <string name="fill_profile_proposal">Зайдите в настройки и измените профиль</string>
+    <string name="edit_profile_button">Изменить профиль</string>
+    <string name="view_contacts_button">МОИ КОНТАКТЫ</string>
+    <string name="greeting">Давайте познакомимся</string>
+    <string name="fill_form_proposal">Заполните профиль и зайдите в приложение!</string>
+    <string name="email_placeholder">Почта</string>
+    <string name="enter_email">Введите почту</string>
+    <string name="password_placeholder">Пароль</string>
+    <string name="enter_pass">Введите пароль</string>
+    <string name="remember_me_checkbox">Запомнить меня</string>
+    <string name="google_button">GOOGLE</string>
+    <string name="or">или</string>
+    <string name="register_button">ЗАРЕГИСТРИРОВАТЬСЯ</string>
+    <string name="terms_agreement">Нажимая Зарегистрироваться вы оглашаетесь с\nнашими условиями и положениями</string>
+    <string name="terms_agreement_land">Нажимая Зарегистрироваться вы оглашаетесь с нашими условиями и положениями</string>
+    <string name="have_acc_question">Уже есть аккаунт?</string>
+    <string name="sign_in_button">Войти</string>
+</resources>

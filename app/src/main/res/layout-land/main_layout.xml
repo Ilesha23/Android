@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/upperView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.4"
+            android:background="@color/dark_blue"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/settingsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cc_ysabeau_semi_bold"
+                android:text="@string/settings"
+                android:textSize="24sp"
+                android:textColor="@color/white"
+                android:gravity="start"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"></TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/man"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="100dp"
+                    android:background="@android:color/transparent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/nameText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cc_ysabeau_semi_bold"
+                        android:text="@string/name_lastname_placeholder"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp" />
+
+                    <TextView
+                        android:id="@+id/careerText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cc_ysabeau_semi_bold"
+                        android:text="@string/career_placeholder"
+                        android:textSize="14sp"
+                        android:textColor="@color/grey"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp" />
+
+                    <TextView
+                        android:id="@+id/addressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cc_ysabeau_semi_bold"
+                        android:text="@string/home_address_placeholder"
+                        android:textSize="14sp"
+                        android:textColor="@color/grey"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottomView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="244dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:fontFamily="@font/cc_ysabeau_semi_bold"
+                android:text="@string/fill_profile_proposal"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"></TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:id="@+id/editProfileBtn"
+                    android:layout_width="370dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/profile_button"
+                    android:text="@string/edit_profile_button"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/profile_button_text_color"
+                    android:textSize="14sp"
+                    android:paddingLeft="120dp"
+                    android:paddingRight="120dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginStart="30dp" />
+
+                <Button
+                    android:id="@+id/contactsBtn"
+                    android:layout_width="370dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/contacts_button"
+                    android:text="@string/view_contacts_button"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:paddingLeft="80dp"
+                    android:paddingRight="80dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="30dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>
