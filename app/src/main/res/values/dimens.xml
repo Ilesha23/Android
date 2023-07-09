@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="text_header_size">24sp</dimen>
+    <dimen name="text_big_size">18sp</dimen>
+    <dimen name="text_button_size">16sp</dimen>
+    <dimen name="text_middle_size">14sp</dimen>
+    <dimen name="text_small_size">12sp</dimen>
+
+    <dimen name="margin_top_main">170dp</dimen>
+    <dimen name="margin_big">24dp</dimen>
+    <dimen name="margin_middle">16dp</dimen>
+    <dimen name="margin_default">8dp</dimen>
+
+    <dimen name="margin_btn_google">67dp</dimen>
+    <dimen name="height_btn_google">40dp</dimen>
+    <dimen name="height_btn_register">55dp</dimen>
+
+    <dimen name="padding_default">8dp</dimen>
+
+</resources>

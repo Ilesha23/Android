@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,7 +76,7 @@
             android:fontFamily="@font/cc_ysabeau_semi_bold"
             android:hint="Enter password"
             android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
             android:singleLine="true"
             android:textColor="@color/white"
             android:textColorHint="@color/grey"
@@ -197,4 +199,4 @@
 
     </LinearLayout>
 
-</layout>
+</FrameLayout>
