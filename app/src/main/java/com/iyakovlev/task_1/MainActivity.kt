@@ -13,16 +13,8 @@ class MainActivity : ComponentActivity() {
         setContentView(binding.root)
 
         val preferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
-        val email = preferences.getString(EMAIL, "name.surname@example.com")
-        println(email)
-
-        val leftPart = email!!.split("@")[0]
-        var name = "Name"
-        var surname = "Surname"
-        if (leftPart.contains(".")) {
-            name = leftPart.split(".")[0].replaceFirstChar { it.uppercaseChar() }
-            surname = leftPart.split(".")[1].replaceFirstChar { it.uppercaseChar() }
-        }
+        val name = preferences.getString(NAME, "Name")
+        val surname = preferences.getString(SURNAME, "Surname")
 
         binding.nameText.text = "$name $surname"
 

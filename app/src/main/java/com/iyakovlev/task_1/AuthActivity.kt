@@ -9,11 +9,6 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.iyakovlev.task_1.databinding.AuthLayoutBinding
 
-//TODO rounded image
-const val APP_PREFERENCES = "APP_PREFERENCES"
-const val EMAIL = "EMAIL"
-const val ISLOGINED = "ISLOGINED"
-
 class AuthActivity : AppCompatActivity() {
 
     private lateinit var binding: AuthLayoutBinding
@@ -34,17 +29,23 @@ class AuthActivity : AppCompatActivity() {
 
     private fun setupActionListeners() {
         binding.btnRegister.setOnClickListener {
+
             if (isInputValid(binding.emailText, binding.passwordText)) {
                 preferences.edit()
                     .putString(EMAIL, binding.emailText.text.toString())
                     .apply()
+
+                parseEmailToPrefs()
+
                 if (binding.chkRemember.isChecked) {
                     preferences.edit()
                         .putBoolean(ISLOGINED, true)
                         .apply()
                 }
+
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+
             }
         }
     }
@@ -84,5 +85,19 @@ class AuthActivity : AppCompatActivity() {
         }
 
         return isValid
+    }
+
+    private fun parseEmailToPrefs() {
+        val leftPart = binding.emailText.text.toString()!!.split("@")[0]
+        var name = "Name"
+        var surname = "Surname"
+        if (leftPart.contains(".")) {
+            name = leftPart.split(".")[0].replaceFirstChar { it.uppercaseChar() }
+            surname = leftPart.split(".")[1].replaceFirstChar { it.uppercaseChar() }
+        }
+        preferences.edit()
+            .putString(NAME, name)
+            .putString(SURNAME, surname)
+            .apply()
     }
 }
