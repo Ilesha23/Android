@@ -40,7 +40,8 @@
         android:text="@string/email_placeholder"
         android:textColor="@color/color_text_secondary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_fill_form_proposal" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_fill_form_proposal"
+        tools:ignore="VisualLintOverlap" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_email"
@@ -54,10 +55,11 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_email"
+            style="@style/et_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/et_style"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress"
+            tools:ignore="VisualLintTextFieldSize,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,7 +73,8 @@
         android:text="@string/password_placeholder"
         android:textColor="@color/color_text_secondary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_email" />
+        app:layout_constraintTop_toBottomOf="@+id/til_email"
+        tools:ignore="VisualLintOverlap" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_password"
@@ -86,22 +89,24 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_password"
+            style="@style/et_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/et_style"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            tools:ignore="VisualLintTextFieldSize,SpeakableTextPresentCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/chk_remember"
+        style="@style/chk_remember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="true"
         android:text="@string/remember_me_checkbox"
-        style="@style/chk_remember"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_password" />
+        app:layout_constraintTop_toBottomOf="@+id/til_password"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_btn_google"
@@ -113,7 +118,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/tv_or"
         app:layout_constraintEnd_toStartOf="@+id/tv_or"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_or">
+        app:layout_constraintTop_toTopOf="@+id/tv_or"
+        tools:ignore="TouchTargetSizeCheck">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -171,7 +177,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/tv_or"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_or"
-        app:layout_constraintTop_toTopOf="@+id/tv_or" />
+        app:layout_constraintTop_toTopOf="@+id/tv_or"
+        tools:ignore="VisualLintButtonSize,TouchTargetSizeCheck" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_terms"

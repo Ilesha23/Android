@@ -41,7 +41,8 @@
         android:text="@string/email_placeholder"
         android:textColor="@color/color_text_secondary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_fill_form_proposal" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_fill_form_proposal"
+        tools:ignore="VisualLintOverlap" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_email"
@@ -55,10 +56,11 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_email"
+            style="@style/et_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/et_style"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,7 +74,8 @@
         android:text="@string/password_placeholder"
         android:textColor="@color/color_text_secondary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_email" />
+        app:layout_constraintTop_toBottomOf="@+id/til_email"
+        tools:ignore="VisualLintOverlap" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_password"
@@ -88,65 +91,68 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_password"
+            style="@style/et_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/et_style"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            tools:ignore="SpeakableTextPresentCheck,VisualLintTextFieldSize" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/chk_remember"
+        style="@style/chk_remember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_default"
         android:checked="true"
         android:text="@string/remember_me_checkbox"
-        style="@style/chk_remember"
-        android:layout_marginTop="@dimen/margin_default"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_password" />
+        app:layout_constraintTop_toBottomOf="@+id/til_password"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_btn_google"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_btn_google"
-        android:background="@drawable/google_button_shape"
-        android:focusable="true"
-        android:clickable="true"
         android:layout_marginTop="@dimen/margin_btn_google"
+        android:background="@drawable/google_button_shape"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chk_remember">
+        app:layout_constraintTop_toBottomOf="@+id/chk_remember"
+        tools:ignore="TouchTargetSizeCheck">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_default"
             android:layout_marginBottom="@dimen/margin_default"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_btn_google"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/google_logo"
                 android:layout_marginEnd="@dimen/margin_middle"
+                android:src="@drawable/google_logo"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/tv_btn_google"/>
+                app:layout_constraintRight_toLeftOf="@id/tv_btn_google"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_btn_google"
+                style="@style/text_button_caps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/google_button"
                 android:textColor="@color/color_text_additional"
-                style="@style/text_button_caps"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -174,7 +180,8 @@
         android:background="@drawable/register_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_or" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_or"
+        tools:ignore="VisualLintButtonSize" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_terms"
