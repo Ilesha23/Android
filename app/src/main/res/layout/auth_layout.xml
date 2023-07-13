@@ -80,6 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_big"
         app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/color_secondary"
         style="@style/til_style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
