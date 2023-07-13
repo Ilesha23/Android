@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_auth"
     android:padding="@dimen/padding_default"
+    android:background="@color/color_primary"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,9 +13,8 @@
         android:id="@+id/tv_greeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/ysabeau_semi_bold"
         android:text="@string/greeting"
-        android:textSize="@dimen/text_header_size"
+        style="@style/text_header"
         android:layout_marginTop="@dimen/margin_top_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,72 +24,109 @@
         android:id="@+id/tv_fill_form_proposal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/ysabeau_regular"
         android:text="@string/fill_form_proposal"
-        android:textSize="@dimen/text_small_size"
+        style="@style/text_small"
         android:layout_marginTop="@dimen/margin_default"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_greeting" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_email"
+        style="@style/text_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_middle"
+        android:layout_marginStart="@dimen/margin_default"
+        android:text="@string/email_placeholder"
+        android:textColor="@color/color_text_secondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_fill_form_proposal" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_big"
-        app:layout_constraintTop_toBottomOf="@+id/tv_fill_form_proposal"
-        tools:layout_editor_absoluteX="8dp">
+        style="@style/til_style"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_fill_form_proposal">
 
-        <RelativeLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="@dimen/margin_default"
-                android:text="@string/email_placeholder" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_default"/>
-
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            style="@style/et_style"
+            android:inputType="textEmailAddress"/>
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView"
+        style="@style/text_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_default"
+        android:layout_marginTop="@dimen/margin_middle"
+        android:text="@string/password_placeholder"
+        android:textColor="@color/color_text_secondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_email" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_big"
+        app:passwordToggleEnabled="true"
+        style="@style/til_style"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_email">
 
-        <RelativeLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="@dimen/margin_default"
-                android:text="@string/password_placeholder" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_default" />
-
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            style="@style/et_style"
+            android:inputType="textPassword"/>
 
     </com.google.android.material.textfield.TextInputLayout>
+
+
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:id="@+id/til_password"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/margin_big"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/til_email">-->
+
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/password_placeholder"-->
+<!--                android:textColor="@color/color_text_secondary"-->
+<!--                style="@style/text_middle"-->
+<!--                android:layout_alignParentStart="true"-->
+<!--                android:layout_alignParentTop="true"-->
+<!--                android:layout_marginStart="@dimen/margin_default" />-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/et_password"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:inputType="textPassword"-->
+<!--                style="@style/et_style"-->
+<!--                android:layout_marginTop="@dimen/margin_middle" />-->
+
+<!--        </RelativeLayout>-->
+
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/chk_remember"
@@ -96,7 +134,8 @@
         android:layout_height="wrap_content"
         android:checked="true"
         android:text="@string/remember_me_checkbox"
-        android:layout_marginTop="@dimen/margin_middle"
+        style="@style/chk_remember"
+        android:layout_marginTop="@dimen/margin_default"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_password" />
 
@@ -104,6 +143,9 @@
         android:id="@+id/cl_btn_google"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_btn_google"
+        android:background="@drawable/google_button_shape"
+        android:focusable="true"
+        android:clickable="true"
         android:layout_marginTop="@dimen/margin_btn_google"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -134,6 +176,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/google_button"
+                android:textColor="@color/color_text_additional"
+                style="@style/text_button_caps"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
 
@@ -146,9 +190,9 @@
         android:id="@+id/tv_or"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_default"
         android:text="@string/or"
-        android:textSize="@dimen/text_big_size"
+        style="@style/text_big"
+        android:layout_marginTop="@dimen/margin_default"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cl_btn_google" />
@@ -159,7 +203,8 @@
         android:layout_height="@dimen/height_btn_register"
         android:layout_marginTop="@dimen/margin_default"
         android:text="@string/register_button"
-        android:textSize="@dimen/text_middle_size"
+        style="@style/text_button_caps"
+        android:background="@drawable/register_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_or" />
@@ -171,7 +216,7 @@
         android:layout_marginTop="@dimen/margin_middle"
         android:text="@string/terms_agreement"
         android:textAlignment="center"
-        android:textSize="@dimen/text_small_size"
+        style="@style/text_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_register" />
@@ -181,7 +226,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/have_acc_question"
-        android:textSize="@dimen/text_middle_size"
+        android:textColor="@color/color_text_secondary"
+        style="@style/text_middle"
         android:layout_marginTop="@dimen/margin_default"
         app:layout_constraintEnd_toStartOf="@+id/appCompatTextView4"
         app:layout_constraintStart_toStartOf="@+id/tv_terms"
@@ -192,209 +238,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_in_button"
-        android:textSize="@dimen/text_middle_size"
+        style="@style/text_middle"
         app:layout_constraintEnd_toEndOf="@+id/tv_terms"
         app:layout_constraintTop_toTopOf="@+id/appCompatTextView3" />
 
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    android:layout_height="match_parent"-->
-<!--    android:layout_width="match_parent">-->
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_weight="18"-->
-<!--        android:background="@color/dark_blue"-->
-<!--        android:orientation="vertical"-->
-<!--        android:padding="15dp">-->
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="0dp"-->
-<!--            android:layout_marginTop="178dp"-->
-<!--            android:fontFamily="@font/cc_ysabeau_semi_bold"-->
-<!--            android:gravity="center"-->
-<!--            android:text="@string/greeting"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="24sp" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="0dp"-->
-<!--            android:layout_marginTop="5dp"-->
-<!--            android:fontFamily="@font/cc_ysabeau_semi_bold"-->
-<!--            android:gravity="center"-->
-<!--            android:text="@string/fill_form_proposal"-->
-<!--            android:textColor="@color/grey"-->
-<!--            android:textSize="12sp" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="5dp"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:fontFamily="@font/cc_ysabeau_semi_bold"-->
-<!--            android:gravity="start"-->
-<!--            android:text="@string/email_placeholder"-->
-<!--            android:textColor="@color/grey"-->
-<!--            android:textSize="14sp" />-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/emailText"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_marginStart="0dp"-->
-<!--            android:backgroundTint="@color/white"-->
-<!--            android:fontFamily="@font/cc_ysabeau_semi_bold"-->
-<!--            android:imeOptions="actionNext"-->
-<!--            android:inputType="textEmailAddress"-->
-<!--            android:singleLine="true"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textColorHint="@color/grey"-->
-<!--            android:textSize="18sp" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="5dp"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:fontFamily="@font/cc_ysabeau_semi_bold"-->
-<!--            android:gravity="start"-->
-<!--            android:text="@string/password_placeholder"-->
-<!--            android:textColor="@color/grey"-->
-<!--            android:textSize="14sp" />-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/passwordText"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_marginStart="0dp"-->
-<!--            android:backgroundTint="@color/white"-->
-<!--            android:fontFamily="@font/cc_ysabeau_semi_bold"-->
-<!--            android:imeOptions="actionNext"-->
-<!--            android:inputType="textPassword"-->
-<!--            android:singleLine="true"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textColorHint="@color/grey"-->
-<!--            android:textSize="18sp" />-->
-
-<!--        <CheckBox-->
-<!--            android:id="@+id/chk_remember"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="0dp"-->
-<!--            android:checked="true"-->
-<!--            android:theme="@style/checkBoxStyle"-->
-<!--            android:fontFamily="@font/cc_ysabeau_semi_bold"-->
-<!--            android:text="@string/remember_me_checkbox"-->
-<!--            android:textColor="@color/grey"-->
-<!--            android:textSize="14sp" />-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:layout_marginTop="55dp"-->
-<!--            android:background="@drawable/google_button_shape"-->
-<!--            android:clickable="true"-->
-<!--            android:focusable="true"-->
-<!--            android:orientation="horizontal">-->
-
-<!--            <ImageView-->
-<!--                android:layout_width="20dp"-->
-<!--                android:layout_height="20dp"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_marginStart="130dp"-->
-<!--                android:src="@drawable/google_logo" />-->
-
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="10dp"-->
-<!--                android:fontFamily="@font/cc_ysabeau_semi_bold"-->
-<!--                android:gravity="center"-->
-<!--                android:text="@string/google_button"-->
-<!--                android:textAllCaps="true"-->
-<!--                android:textColor="?android:textColor"-->
-<!--                android:textSize="16sp" />-->
-
-<!--        </LinearLayout>-->
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="5dp"-->
-<!--            android:fontFamily="@font/cc_ysabeau_semi_bold"-->
-<!--            android:gravity="center"-->
-<!--            android:text="@string/or"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="18sp" />-->
-
-<!--        <androidx.appcompat.widget.AppCompatButton-->
-<!--            android:id="@+id/btnRegister"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="55dp"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:background="@drawable/register_button"-->
-<!--            android:fontFamily="@font/cc_ysabeau_semi_bold"-->
-<!--            android:text="@string/register_button"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="16sp" />-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="15dp"-->
-<!--            android:paddingHorizontal="30dp"-->
-<!--            android:weightSum="20">-->
-
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:fontFamily="@font/cc_ysabeau_semi_bold"-->
-<!--                android:gravity="center"-->
-<!--                android:text="@string/terms_agreement"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="12sp" />-->
-
-<!--        </LinearLayout>-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:gravity="center"-->
-<!--            android:orientation="horizontal">-->
-
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:fontFamily="@font/cc_ysabeau_semi_bold"-->
-<!--                android:text="@string/have_acc_question"-->
-<!--                android:textColor="@color/grey"-->
-<!--                android:textSize="14sp" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/sign_in_click"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_marginStart="8dp"-->
-<!--                android:focusable="true"-->
-<!--                android:fontFamily="@font/cc_ysabeau_semi_bold"-->
-<!--                android:text="@string/sign_in_button"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="14sp" />-->
-
-<!--        </LinearLayout>-->
-
-
-<!--    </LinearLayout>-->
-
-<!--</FrameLayout>-->

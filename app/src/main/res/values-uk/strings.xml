@@ -23,6 +23,7 @@
     <string name="sign_in_button">Увійти</string>
     <string name="default_name">Ім\'я</string>
     <string name="default_lastname">Прізвищє</string>
+    <string name="error_email">Пошта некоректна</string>
 
 
 </resources>

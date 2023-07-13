@@ -1,9 +1,16 @@
-package com.iyakovlev.task_1
+package com.iyakovlev.task_1.ui
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import com.iyakovlev.task_1.R
+import com.iyakovlev.task_1.common.Constants.APP_PREFERENCES
+import com.iyakovlev.task_1.common.Constants.DELIMITER_AT
+import com.iyakovlev.task_1.common.Constants.DELIMITER_DOT
+import com.iyakovlev.task_1.common.Constants.EMAIL
+import com.iyakovlev.task_1.common.Constants.NAME
+import com.iyakovlev.task_1.common.Constants.SURNAME
 import com.iyakovlev.task_1.databinding.MainLayoutBinding
+import com.iyakovlev.task_1.utils.extensions.capitalizeFirstChar
 
 class MainActivity : BaseActivity<MainLayoutBinding>(MainLayoutBinding::inflate) {
 
@@ -20,12 +27,12 @@ class MainActivity : BaseActivity<MainLayoutBinding>(MainLayoutBinding::inflate)
     private fun parseEmailToPrefs() {
         val email = preferences.getString(EMAIL, null)
         if (email != null) {
-            val leftPart = email.split("@")[0]
-            var name = "Name"
-            var surname = "Surname"
-            if (leftPart.contains(".")) {
-                name = leftPart.split(".")[0].replaceFirstChar { it.uppercaseChar() }
-                surname = leftPart.split(".")[1].replaceFirstChar { it.uppercaseChar() }
+            val leftPart = email.split(DELIMITER_AT)[0]
+            var name = getString(R.string.default_name)
+            var surname = getString(R.string.default_lastname)
+            if (leftPart.contains(DELIMITER_DOT)) {
+                name = leftPart.split(DELIMITER_DOT)[0].capitalizeFirstChar()
+                surname = leftPart.split(DELIMITER_DOT)[1].capitalizeFirstChar()
             }
             preferences.edit()
                 .putString(NAME, name)
@@ -33,8 +40,8 @@ class MainActivity : BaseActivity<MainLayoutBinding>(MainLayoutBinding::inflate)
                 .apply()
         } else {
             preferences.edit()
-                .putString(NAME, "name") // TODO: strings
-                .putString(SURNAME, "surname") // TODO: strings
+                .putString(NAME, getString(R.string.default_name))
+                .putString(SURNAME, getString(R.string.default_lastname))
                 .apply()
         }
     }
@@ -42,7 +49,8 @@ class MainActivity : BaseActivity<MainLayoutBinding>(MainLayoutBinding::inflate)
     private fun setNameInTextView() {
         val name = preferences.getString(NAME, getString(R.string.default_name))
         val lastname = preferences.getString(SURNAME, getString(R.string.default_lastname))
-        binding.nameText.text = "$name $lastname" // TODO:
+        val fullName = "$name $lastname"
+        binding.fullName?.text = fullName //
     }
 
 }

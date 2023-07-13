@@ -27,6 +27,7 @@
     <!--   Main activity   -->
     <string name="default_name">Name</string>
     <string name="default_lastname">Lastname</string>
+    <string name="error_email">Email is invalid</string>
 
 
 </resources>

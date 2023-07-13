@@ -3,13 +3,13 @@
 
     <!--  Colors background  -->
     <color name="color_primary">#242235</color>
-    <color name="color_secondary">#FAFAFA</color>
+    <color name="color_secondary">#4A55A2</color>
     <color name="color_additional">#FB5E06</color>
-
+    
     <!--  Colors text  -->
     <color name="color_text_primary">#FAFAFA</color>
     <color name="color_text_secondary">#B2B2B3</color>
-    <color name="color_text_additional">#18181F</color>
+    <color name="color_text_additional">@color/color_text_primary</color>
     <color name="color_error">#F93E3E</color>
 
 </resources>
