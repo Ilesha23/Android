@@ -28,16 +28,15 @@ class MainActivity : BaseActivity<MainLayoutBinding>(MainLayoutBinding::inflate)
         val email = preferences.getString(EMAIL, null)
         if (email != null) {
             val leftPart = email.split(DELIMITER_AT)[0]
-            var name = getString(R.string.default_name)
-            var surname = getString(R.string.default_lastname)
             if (leftPart.contains(DELIMITER_DOT)) {
-                name = leftPart.split(DELIMITER_DOT)[0].capitalizeFirstChar()
-                surname = leftPart.split(DELIMITER_DOT)[1].capitalizeFirstChar()
-            }
+                val name = leftPart.split(DELIMITER_DOT)[0].capitalizeFirstChar()
+                val surname = leftPart.split(DELIMITER_DOT)[1].capitalizeFirstChar()
             preferences.edit()
                 .putString(NAME, name)
                 .putString(SURNAME, surname)
                 .apply()
+            }
+
         } else {
             preferences.edit()
                 .putString(NAME, getString(R.string.default_name))
@@ -50,7 +49,7 @@ class MainActivity : BaseActivity<MainLayoutBinding>(MainLayoutBinding::inflate)
         val name = preferences.getString(NAME, getString(R.string.default_name))
         val lastname = preferences.getString(SURNAME, getString(R.string.default_lastname))
         val fullName = "$name $lastname"
-        binding.fullName?.text = fullName //
+        binding.tvFullName.text = fullName
     }
 
 }

@@ -33,6 +33,9 @@
     <dimen name="ic_links_margin_top">62dp</dimen>
     <dimen name="ic_links_margin">32dp</dimen>
 
+    <!--  ImageView sizes  -->
+    <dimen name="avatar_size">113dp</dimen>
+
     <!--  Paddings  -->
     <dimen name="padding_default">8dp</dimen>
     <dimen name="padding_middle">16dp</dimen>

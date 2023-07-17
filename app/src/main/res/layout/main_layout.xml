@@ -6,15 +6,15 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/top_half"
+        android:id="@+id/clTopHalf"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="?attr/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottom_half">
+        app:layout_constraintBottom_toTopOf="@id/clBottomHalf">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_settings"
+            android:id="@+id/tvSettings"
             style="@style/text_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,18 +25,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/shapeableImageView"
-            android:layout_width="113dp"
-            android:layout_height="113dp"
+            android:id="@+id/ivAvatar"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
             android:layout_marginTop="@dimen/margin_big"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_settings"
+            app:layout_constraintTop_toBottomOf="@id/tvSettings"
             app:shapeAppearanceOverlay="@style/circleImageView"
             app:srcCompat="@drawable/avatar" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/full_name"
+            android:id="@+id/tvFullName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/name_lastname_placeholder"
@@ -44,10 +44,10 @@
             android:layout_marginTop="@dimen/margin_big"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/shapeableImageView" />
+            app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/career"
+            android:id="@+id/tvCareer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/career_placeholder"
@@ -56,10 +56,10 @@
             android:layout_marginTop="@dimen/margin_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/full_name" />
+            app:layout_constraintTop_toBottomOf="@+id/tvFullName" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/address"
+            android:id="@+id/tvAddress"
             style="@style/text_middle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,30 +68,30 @@
             android:layout_marginTop="@dimen/margin_middle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/career" />
+            app:layout_constraintTop_toBottomOf="@+id/tvCareer" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottom_half"
+        android:id="@+id/clBottomHalf"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/color_secondary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_half">
+        app:layout_constraintTop_toBottomOf="@id/clTopHalf">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ic_facebook"
+            android:id="@+id/ivFacebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/ic_links_margin"
-            app:layout_constraintEnd_toStartOf="@+id/ic_linkedin"
-            app:layout_constraintTop_toTopOf="@+id/ic_linkedin"
+            app:layout_constraintEnd_toStartOf="@+id/ivLinkedin"
+            app:layout_constraintTop_toTopOf="@+id/ivLinkedin"
             app:srcCompat="@drawable/ic_link_facebook" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ic_linkedin"
+            android:id="@+id/ivLinkedin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/ic_links_margin_top"
@@ -101,15 +101,16 @@
             app:srcCompat="@drawable/ic_link_linkedin" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ic_instagram"
+            android:id="@+id/ivInstagram"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/ic_links_margin"
-            app:layout_constraintStart_toEndOf="@+id/ic_linkedin"
-            app:layout_constraintTop_toTopOf="@+id/ic_linkedin"
+            app:layout_constraintStart_toEndOf="@+id/ivLinkedin"
+            app:layout_constraintTop_toTopOf="@+id/ivLinkedin"
             app:srcCompat="@drawable/ic_link_instagram" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnEditProfile"
             style="@style/text_middle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_btn_register"
@@ -118,13 +119,13 @@
             android:text="@string/edit_profile_button"
             android:textAllCaps="false"
             android:textColor="@color/color_text_additional"
-            app:layout_constraintBottom_toTopOf="@+id/appCompatButton"
+            app:layout_constraintBottom_toTopOf="@+id/btnViewContacts"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="VisualLintButtonSize" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/appCompatButton"
+            android:id="@+id/btnViewContacts"
             style="@style/text_button"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_btn_register"

@@ -9,6 +9,7 @@ import android.util.Patterns
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.app.ActivityOptionsCompat
 import com.iyakovlev.task_1.R
 import com.iyakovlev.task_1.common.Constants.APP_PREFERENCES
 import com.iyakovlev.task_1.common.Constants.EMAIL
@@ -84,10 +85,18 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
 
     /* Starts main activity with animation */
     private fun goToMainActivity() {
-        val intent = Intent(this@AuthActivity, MainActivity::class.java)
-        startActivity(intent)
-        overridePendingTransition(R.anim.slide_start, R.anim.slide_end)
+        startActivity(
+            Intent(this@AuthActivity, MainActivity::class.java),
+            ActivityOptionsCompat
+                .makeCustomAnimation(this, R.anim.slide_start, R.anim.slide_end)
+                .toBundle()
+        )
         finish()
+
+//        or
+//        startActivity(Intent(this@AuthActivity, MainActivity::class.java))
+//        overridePendingTransition(R.anim.slide_start, R.anim.slide_end)
+//        finish()
     }
 
     /* Automatically pass register screen if user is logined */
