@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title">Контакты</string>
+    <string name="add_contacts">Добавить контакты</string>
+    <string name="default_name">Имя Фамилия</string>
+    <string name="default_career">Должность</string>
+</resources>

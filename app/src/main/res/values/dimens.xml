@@ -1,0 +1,31 @@
+<resources>
+
+    <!-- Margins -->
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_additional_small">10dp</dimen>
+    <dimen name="margin_additional_middle">12dp</dimen>
+    <dimen name="margin_default">16dp</dimen>
+    <dimen name="margin_middle">26dp</dimen>
+    <dimen name="margin_big">32dp</dimen>
+
+    <dimen name="margin_add_contacts">73dp</dimen>
+
+    <!-- Text sizes -->
+    <dimen name="text_header_main">24sp</dimen>
+    <dimen name="text_header">18sp</dimen>
+    <dimen name="text_big">16sp</dimen>
+    <dimen name="text_middle">14sp</dimen>
+    <dimen name="text_small">12sp</dimen>
+
+    <!-- View sizes -->
+    <dimen name="toolbar_height">117dp</dimen>
+
+    <!-- ImageView -->
+    <dimen name="avatar_list_size">50dp</dimen>
+    <dimen name="delete_list_height">23dp</dimen>
+    <dimen name="delete_list_width">20dp</dimen>
+
+    <!-- Contacts item -->
+    <dimen name="contacts_item_height">66dp</dimen>
+
+</resources>

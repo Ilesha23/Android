@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--**************** Text styles ****************-->
+    <!--  Default font  -->
+    <style name="text_font" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/ysabeau_semi_bold</item>
+    </style>
+
+    <!--  Small font  -->
+    <style name="text_font_small" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/ysabeau_regular</item>
+    </style>
+
+    <!--  Main header text  -->
+    <style name="text_header_main" parent="text_font">
+        <item name="android:textSize">@dimen/text_header_main</item>
+    </style>
+
+    <!--  Header text  -->
+    <style name="text_header" parent="text_font">
+        <item name="android:textSize">@dimen/text_header</item>
+    </style>
+
+    <!--  Big text  -->
+    <style name="text_big" parent="text_font">
+        <item name="android:textSize">@dimen/text_big</item>
+    </style>
+
+    <!--  Middle text  -->
+    <style name="text_middle" parent="text_font">
+        <item name="android:textSize">@dimen/text_middle</item>
+    </style>
+
+    <!--  Small text  -->
+    <style name="text_small" parent="text_font_small">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+</resources>
