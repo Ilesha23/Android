@@ -6,7 +6,7 @@
     android:layout_marginTop="@dimen/margin_default"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivAvatar"
         android:layout_width="@dimen/avatar_list_size"
         android:layout_height="@dimen/avatar_list_size"

@@ -1,5 +1,7 @@
 package com.iyakovlev.task2.data.viewmodel
 
+import android.content.ContentResolver
+import android.provider.ContactsContract
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,6 +16,17 @@ class ContactsViewModel : ViewModel() {
 
 
     init {
+//        val faker = Faker.instance()
+//        _contacts.value = (1..20).map { Contact(
+//            id = it.toLong(),
+//            name = faker.name().name(),
+//            career = faker.company().name(),
+//            photo = IMAGES[it % IMAGES.size]
+//        ) }
+        Log.e("AAA", "view model created")
+    }
+
+    fun createDefaultContacts() {
         val faker = Faker.instance()
         _contacts.value = (1..20).map { Contact(
             id = it.toLong(),
@@ -21,7 +34,46 @@ class ContactsViewModel : ViewModel() {
             career = faker.company().name(),
             photo = IMAGES[it % IMAGES.size]
         ) }
-        Log.e("AAA", "view model created")
+    }
+
+    fun loadContactsFromStorage(contentResolver: ContentResolver) {
+        val projection = arrayOf(
+            ContactsContract.Contacts._ID,
+            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
+            ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
+//            ContactsContract.CommonDataKinds.Organization.COMPANY
+        )
+
+        Log.e("AAA", "before cursor")
+        val cursor = contentResolver.query(
+            ContactsContract.Contacts.CONTENT_URI,
+            projection,
+            null,
+            null,
+            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY
+        )
+        Log.e("AAA", "after cursor")
+
+        val contactsList = mutableListOf<Contact>()
+        cursor?.use {
+            val idColIndex = it.getColumnIndex(ContactsContract.Contacts._ID)
+            val nameColIndex = it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)
+            val photoColIndex = it.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI)
+//            val companyColIndex = it.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY)
+
+            while (it.moveToNext()) {
+                val id = it.getLong(idColIndex)
+                val name = it.getString(nameColIndex)
+                val photo = it.getString(photoColIndex) ?: ""
+//                val company = it.getString(companyColIndex) ?: ""
+
+                val contact = Contact(id, photo, name, "company")
+                contactsList.add(contact)
+            }
+        }
+
+        _contacts.value = contactsList
+
     }
 
     override fun onCleared() {

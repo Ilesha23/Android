@@ -7,7 +7,9 @@ import com.bumptech.glide.Glide
 import com.iyakovlev.task2.R
 import com.iyakovlev.task2.databinding.ItemUserBinding
 import com.iyakovlev.task2.data.model.Contact
-import com.iyakovlev.task2.utils.ImageLoader.loadImage
+import com.iyakovlev.task2.utils.loadImageWithCoil
+import com.iyakovlev.task2.utils.loadImageWithGlide
+import com.iyakovlev.task2.utils.loadImageWithPicasso
 
 class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>() {
 
@@ -39,7 +41,7 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
                 tvContactName.text = contact.name
                 tvContactCareer.text = contact.career
                 if (contact.photo.isNotBlank()) {
-                    loadImage(binding.root.context, contact.photo, binding.ivAvatar)
+                    binding.ivAvatar.loadImageWithGlide(contact.photo)
                 } else {
                     Glide.with(ivAvatar.context).clear(ivAvatar)
                     ivAvatar.setImageResource(R.drawable.baseline_person_24)
