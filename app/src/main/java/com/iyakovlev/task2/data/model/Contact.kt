@@ -1,4 +1,4 @@
-package com.iyakovlev.task2.model
+package com.iyakovlev.task2.data.model
 
 data class Contact (
     val id: Long,

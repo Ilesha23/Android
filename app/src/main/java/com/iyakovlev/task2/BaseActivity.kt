@@ -1,4 +1,4 @@
-package com.iyakovlev.task2.ui
+package com.iyakovlev.task2
 
 import android.os.Bundle
 import android.view.LayoutInflater
