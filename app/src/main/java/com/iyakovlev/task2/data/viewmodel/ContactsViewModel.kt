@@ -29,6 +29,13 @@ class ContactsViewModel : ViewModel() {
         ) }
     }
 
+    fun removeContact(contact: Contact) {
+        val currentContacts = _contacts.value ?: return
+        val updatedList = currentContacts.toMutableList()
+        updatedList.remove(contact)
+        _contacts.value = updatedList
+    }
+
     fun loadContactsFromStorage(contentResolver: ContentResolver) {
         val projection = arrayOf(
             ContactsContract.Contacts._ID,

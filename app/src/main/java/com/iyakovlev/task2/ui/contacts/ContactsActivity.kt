@@ -28,6 +28,7 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
 
         setupRecyclerView()
         observeContacts()
+        setupListeners()
 
     }
 
@@ -86,13 +87,11 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
         }
     }
 
-//    override fun onDestroy() {
-//        super.onDestroy()
-////        contactsService.removeListener(contactsListener)
-//    }
-//
-//    private val contactsListener: ContactsListener = {
-//        adapter.contacts = it
-//    }
+    private fun setupListeners() {
+        contactAdapter.setOnRemoveClickListener { contact ->
+            vm.removeContact(contact)
+            Toast.makeText(this@ContactsActivity, "Contact removed", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 }

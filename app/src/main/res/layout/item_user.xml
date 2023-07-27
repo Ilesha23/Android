@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/clContactItem"
     android:layout_width="match_parent"
     android:layout_height="@dimen/contacts_item_height"
     android:background="@drawable/viewholder_shape"
@@ -42,9 +43,10 @@
 
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="@dimen/delete_list_width"
-        android:layout_height="@dimen/delete_list_height"
-        android:src="@drawable/baseline_delete_24"
+        android:id="@+id/ivContactRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_delete"
         android:layout_marginEnd="@dimen/margin_additional_middle"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"

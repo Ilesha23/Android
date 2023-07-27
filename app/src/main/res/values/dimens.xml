@@ -22,8 +22,8 @@
 
     <!-- ImageView -->
     <dimen name="avatar_list_size">50dp</dimen>
-    <dimen name="delete_list_height">23dp</dimen>
-    <dimen name="delete_list_width">20dp</dimen>
+    <dimen name="delete_list_height">35dp</dimen>
+    <dimen name="delete_list_width">30dp</dimen>
 
     <!-- Contacts item -->
     <dimen name="contacts_item_height">66dp</dimen>

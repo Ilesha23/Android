@@ -15,6 +15,11 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
 
     private var contacts: List<Contact> = emptyList()
 
+    private var onRemoveClickListener: ((Contact) -> Unit)? = null
+    fun setOnRemoveClickListener(listener: (Contact) -> Unit) {
+        onRemoveClickListener = listener
+    }
+
     fun setContacts(contacts: List<Contact>) {
         this.contacts = contacts
         notifyDataSetChanged()
@@ -30,13 +35,15 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        holder.bind(contacts[position])
+        holder.bind(contacts[position]) { clickedContact ->
+            onRemoveClickListener?.invoke(clickedContact)
+        }
     }
 
     class ContactViewHolder(private val binding: ItemUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(contact: Contact) {
+        fun bind(contact: Contact, onRemoveClickListener: (Contact) -> Unit) {
             binding.apply {
                 tvContactName.text = contact.name
                 tvContactCareer.text = contact.career
@@ -45,6 +52,9 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
                 } else {
                     Glide.with(ivAvatar.context).clear(ivAvatar)
                     ivAvatar.setImageResource(R.drawable.baseline_person_24)
+                }
+                ivContactRemove.setOnClickListener {
+                    onRemoveClickListener.invoke(contact)
                 }
             }
         }
