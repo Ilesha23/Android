@@ -2,7 +2,9 @@ package com.iyakovlev.task2.utils
 
 object Constants {
 
-    val READ_CONTACTS_PERMISSION_REQUEST = 1
+    const val READ_CONTACTS_PERMISSION_REQUEST = 1
+
+    const val SNACK_BAR_LENGTH = 5000
 
     val IMAGES = mutableListOf(
         "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80",

@@ -4,4 +4,6 @@
     <string name="add_contacts">Додати контакти</string>
     <string name="default_name">Ім\'я Прізвищє</string>
     <string name="default_career">Посада</string>
+    <string name="undo_remove_snackbar">Відмінити</string>
+    <string name="contact_deleted_snackbar">Контакт був видалений</string>
 </resources>

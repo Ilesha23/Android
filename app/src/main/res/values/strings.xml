@@ -7,5 +7,7 @@
     <string name="add_contacts">Add contacts</string>
     <string name="default_name">Name Lastname</string>
     <string name="default_career">Career</string>
+    <string name="undo_remove_snackbar">Undo</string>
+    <string name="contact_deleted_snackbar">Contact has been removed</string>
 
 </resources>

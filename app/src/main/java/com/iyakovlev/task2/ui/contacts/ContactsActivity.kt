@@ -11,8 +11,11 @@ import com.iyakovlev.task2.data.viewmodel.ContactsViewModel
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.task2.BaseActivity
+import com.iyakovlev.task2.R
 import com.iyakovlev.task2.utils.Constants.READ_CONTACTS_PERMISSION_REQUEST
+import com.iyakovlev.task2.utils.Constants.SNACK_BAR_LENGTH
 
 class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsBinding::inflate) {
 
@@ -90,8 +93,16 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
     private fun setupListeners() {
         contactAdapter.setOnRemoveClickListener { contact ->
             vm.removeContact(contact)
-            Toast.makeText(this@ContactsActivity, "Contact removed", Toast.LENGTH_SHORT).show()
+            showUndoDeleteSnackBar()
         }
+    }
+
+    private fun showUndoDeleteSnackBar() {
+        Snackbar.make(binding.root, R.string.contact_deleted_snackbar, SNACK_BAR_LENGTH)
+            .setAction(R.string.undo_remove_snackbar) {
+                vm.undoRemoveContact()
+            }
+            .show()
     }
 
 }

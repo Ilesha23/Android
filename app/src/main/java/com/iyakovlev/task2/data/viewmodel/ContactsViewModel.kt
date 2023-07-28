@@ -14,6 +14,8 @@ class ContactsViewModel : ViewModel() {
     private val _contacts = MutableLiveData<List<Contact>>()
     val contacts: LiveData<List<Contact>> get() = _contacts
 
+    private var lastRemovedContact: Contact? = null
+    private var lastRemovedContactIndex: Int? = null
 
     init {
         Log.e("AAA", "view model created")
@@ -32,8 +34,21 @@ class ContactsViewModel : ViewModel() {
     fun removeContact(contact: Contact) {
         val currentContacts = _contacts.value ?: return
         val updatedList = currentContacts.toMutableList()
+        lastRemovedContactIndex = updatedList.indexOf(contact)
         updatedList.remove(contact)
         _contacts.value = updatedList
+        lastRemovedContact = contact
+    }
+
+    fun undoRemoveContact() {
+        lastRemovedContact?.let {
+            val currentContacts = _contacts.value ?: return
+            val updatedList = currentContacts.toMutableList()
+            updatedList.add(lastRemovedContactIndex!!, it)
+            _contacts.value = updatedList
+        }
+        lastRemovedContact = null
+        lastRemovedContactIndex = null
     }
 
     fun loadContactsFromStorage(contentResolver: ContentResolver) {
