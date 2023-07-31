@@ -37,4 +37,21 @@
         <item name="android:textSize">@dimen/text_small</item>
     </style>
 
+
+    <!--**************** View styles ****************-->
+    <!--  TextInputLayout  -->
+    <style name="TextInputLayout">
+        <item name="boxBackgroundMode">none</item>
+    </style>
+
+
+    <!--**************** DialogFragment styles ****************-->
+    <!--  DialogFragment  -->
+    <style name="FullScreenDialog" parent="Theme.Task2">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+
 </resources>

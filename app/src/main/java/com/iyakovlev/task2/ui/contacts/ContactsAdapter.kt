@@ -3,6 +3,7 @@ package com.iyakovlev.task2.ui.contacts
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -14,6 +15,23 @@ import com.iyakovlev.task2.utils.loadImageWithCoil
 import com.iyakovlev.task2.utils.loadImageWithGlide
 import com.iyakovlev.task2.utils.loadImageWithPicasso
 
+class ContactsDiffCallback(
+    private val oldList: List<Contact>,
+    private val newList: List<Contact>
+) : DiffUtil.Callback() {
+    override fun getOldListSize(): Int = oldList.size
+
+    override fun getNewListSize(): Int = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].id == newList[newItemPosition].id
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition] == newList[newItemPosition]
+    }
+}
+
 class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>() {
 
     private var contacts: List<Contact> = emptyList()
@@ -24,8 +42,10 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
     }
 
     fun setContacts(contacts: List<Contact>) {
+        val diffCallback = ContactsDiffCallback(this.contacts, contacts)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         this.contacts = contacts
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {

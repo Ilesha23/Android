@@ -6,4 +6,12 @@
     <string name="default_career">Должность</string>
     <string name="undo_remove_snackbar">Отменить</string>
     <string name="contact_deleted_snackbar">Контакт был удален</string>
+    <string name="add_contact">Добавить контакт</string>
+    <string name="username">Имя пользователя</string>
+    <string name="career">Должность</string>
+    <string name="email">Почта</string>
+    <string name="phone">Телефон</string>
+    <string name="address">Адрес</string>
+    <string name="date_of_birth">Дата рождения</string>
+    <string name="save">сохранить</string>
 </resources>

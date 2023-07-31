@@ -9,5 +9,13 @@
     <string name="default_career">Career</string>
     <string name="undo_remove_snackbar">Undo</string>
     <string name="contact_deleted_snackbar">Contact has been removed</string>
+    <string name="add_contact">Add contact</string>
+    <string name="username">Username</string>
+    <string name="career">Career</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="address">Address</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="save">save</string>
 
 </resources>

@@ -11,6 +11,7 @@ import com.iyakovlev.task2.data.viewmodel.ContactsViewModel
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.task2.BaseActivity
 import com.iyakovlev.task2.R
@@ -95,6 +96,14 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
             vm.removeContact(contact)
             showUndoDeleteSnackBar()
         }
+        binding.btnAddContact.setOnClickListener {
+            openAddContactDialog()
+        }
+    }
+
+    private fun openAddContactDialog() {
+        val dialogFragment = AddContactDialogFragment()
+        dialogFragment.show(supportFragmentManager, "TAG") // TODO:  
     }
 
     private fun showUndoDeleteSnackBar() {
