@@ -6,6 +6,9 @@ object Constants {
 
     const val SNACK_BAR_LENGTH = 5000
 
+    const val IS_USER_ASKED_KEY = "IS_USER_ASKED_KEY"
+    const val LOG_TAG = "LOG_TAG"
+
     val IMAGES = mutableListOf(
         "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80",
         "https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80",

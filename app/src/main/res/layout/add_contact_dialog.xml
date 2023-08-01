@@ -85,6 +85,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etUsername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/username" />
@@ -99,6 +100,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tilUsername">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCareer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/career" />
@@ -113,6 +115,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tilCareer">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email" />
@@ -127,6 +130,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tilEmail">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/phone" />
@@ -141,6 +145,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tilPhone">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/address" />
@@ -155,6 +160,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tilAddress">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etBirth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/date_of_birth" />
@@ -162,6 +168,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="?attr/colorSecondary"

@@ -11,10 +11,11 @@ import com.iyakovlev.task2.data.viewmodel.ContactsViewModel
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.task2.BaseActivity
 import com.iyakovlev.task2.R
+import com.iyakovlev.task2.utils.Constants.IS_USER_ASKED_KEY
+import com.iyakovlev.task2.utils.Constants.LOG_TAG
 import com.iyakovlev.task2.utils.Constants.READ_CONTACTS_PERMISSION_REQUEST
 import com.iyakovlev.task2.utils.Constants.SNACK_BAR_LENGTH
 
@@ -22,18 +23,27 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
 
     private val vm: ContactsViewModel by viewModels()
     private val contactAdapter = ContactsAdapter()
+    private var isUserAsked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.e("AAA", "activity created")
+        Log.e(LOG_TAG, "activity created")
 
-        requestContactsReadPermission()
+        isUserAsked = savedInstanceState?.getBoolean(IS_USER_ASKED_KEY) ?: false
+        if (!isUserAsked) {
+            requestContactsReadPermission()
+        }
 
         setupRecyclerView()
         observeContacts()
         setupListeners()
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(IS_USER_ASKED_KEY, isUserAsked)
+        super.onSaveInstanceState(outState)
     }
 
     private fun requestContactsReadPermission() {
@@ -45,7 +55,8 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
                 arrayOf(Manifest.permission.READ_CONTACTS),
                 READ_CONTACTS_PERMISSION_REQUEST
             )
-            Log.e("AAA", "permission to read contacts asked")
+            isUserAsked = true
+            Log.e(LOG_TAG, "permission to read contacts asked")
         } else {
             vm.loadContactsFromStorage(contentResolver)
         }
@@ -58,21 +69,17 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == READ_CONTACTS_PERMISSION_REQUEST) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, load contacts
+            if (grantResults.isNotEmpty() and (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 Toast.makeText(this, "granted", Toast.LENGTH_SHORT).show() // TODO:
-                Log.e("AAA", "permission to read contacts granted")
+                Log.e(LOG_TAG, "permission to read contacts granted")
 
                 vm.loadContactsFromStorage(contentResolver)
 
             } else {
-                // Permission denied, handle it accordingly (e.g., show a message)
                 Toast.makeText(this, "not granted", Toast.LENGTH_SHORT).show() // TODO:
-                Log.e("AAA", "permission to read contacts not granted")
+                Log.e(LOG_TAG, "permission to read contacts not granted")
 
                 vm.createDefaultContacts()
-                setupRecyclerView()
-                observeContacts()
 
             }
         }
@@ -103,7 +110,9 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
 
     private fun openAddContactDialog() {
         val dialogFragment = AddContactDialogFragment()
-        dialogFragment.show(supportFragmentManager, "TAG") // TODO:  
+
+        dialogFragment.show(supportFragmentManager, "TAG") // TODO:
+        Log.e(LOG_TAG, "dialog showed")
     }
 
     private fun showUndoDeleteSnackBar() {

@@ -70,7 +70,7 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
             binding.apply {
                 tvContactName.text = contact.name
                 tvContactCareer.text = contact.career
-                if (contact.photo.isNotBlank()) {
+                if (!contact.photo.isNullOrBlank()) {
                     binding.ivAvatar.loadImageWithGlide(contact.photo)
                 } else {
                     Glide.with(ivAvatar.context).clear(ivAvatar)
@@ -83,41 +83,4 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
         }
     }
 
-
-//    var contacts: List<Contact> = emptyList()
-//        set(newVal) {
-//            field = newVal
-//            notifyDataSetChanged()
-//        }
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactsViewHolder {
-//        val inflater = LayoutInflater.from(parent.context)
-//        val binding = ItemUserBinding.inflate(inflater, parent, false)
-//        return ContactsViewHolder(binding)
-//    }
-//
-//    override fun getItemCount(): Int = contacts.size
-//
-//    override fun onBindViewHolder(holder: ContactsViewHolder, position: Int) {
-//        val contact = contacts[position]
-//        with(holder.binding) {
-//            tvContactName.text = contact.name
-//            tvContactCareer.text = contact.career
-//            if (contact.photo.isNotBlank()) {
-//                Glide.with(ivAvatar.context)
-//                    .load(contact.photo)
-//                    .circleCrop()
-//                    .placeholder(R.drawable.baseline_person_24)
-//                    .error(R.drawable.baseline_person_24)
-//                    .into(ivAvatar)
-//            } else {
-//                Glide.with(ivAvatar.context).clear(ivAvatar)
-//                ivAvatar.setImageResource(R.drawable.baseline_person_24)
-//            }
-//        }
-//    }
-//
-//    class ContactsViewHolder (
-//        val binding: ItemUserBinding
-//    ) : RecyclerView.ViewHolder(binding.root)
 }

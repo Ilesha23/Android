@@ -6,9 +6,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.DiffUtil
 import com.github.javafaker.Faker
 import com.iyakovlev.task2.data.model.Contact
 import com.iyakovlev.task2.utils.Constants.IMAGES
+import com.iyakovlev.task2.utils.Constants.LOG_TAG
+import java.util.UUID
 
 class ContactsViewModel : ViewModel() {
     private val _contacts = MutableLiveData<List<Contact>>()
@@ -24,11 +27,14 @@ class ContactsViewModel : ViewModel() {
     fun createDefaultContacts() {
         val faker = Faker.instance()
         _contacts.value = (1..20).map { Contact(
-            id = it.toLong(),
+            //id = it.toLong(),
             name = faker.name().name(),
             career = faker.company().name(),
             photo = IMAGES[it % IMAGES.size]
-        ) }
+        ) }.sortedBy {
+            it.name//.lowercase()
+        }
+        Log.e(LOG_TAG, "default contacts created")
     }
 
     fun removeContact(contact: Contact) {
@@ -42,13 +48,44 @@ class ContactsViewModel : ViewModel() {
 
     fun undoRemoveContact() {
         lastRemovedContact?.let {
-            val currentContacts = _contacts.value ?: return
-            val updatedList = currentContacts.toMutableList()
-            updatedList.add(lastRemovedContactIndex!!, it)
-            _contacts.value = updatedList
+            addContact(lastRemovedContactIndex!!, it)
         }
         lastRemovedContact = null
         lastRemovedContactIndex = null
+    }
+
+    private fun addContact(index: Int, contact: Contact) {
+        val currentContacts = _contacts.value ?: return
+        val updatedContacts = currentContacts.toMutableList()
+        updatedContacts.add(index, contact)
+        _contacts.value = updatedContacts
+        Log.e(LOG_TAG, "$contact added")
+    }
+
+    fun addContact(contact: Contact) {
+        val index = findInsertionIndex(contact.name)
+        if (index != -1) {
+            addContact(index, contact)
+        }
+    }
+
+    private fun findInsertionIndex(name: String): Int {
+        val list = _contacts.value?.toMutableList() ?: return -1
+        var left = 0
+        var right = list.size - 1
+
+        while (left <= right) {
+            val mid = left + (right - left) / 2
+            val midName = list[mid].name.lowercase()
+
+            when {
+                midName == name -> return mid
+                midName < name -> left = mid + 1
+                else -> right = mid - 1
+            }
+        }
+
+        return left
     }
 
     fun loadContactsFromStorage(contentResolver: ContentResolver) {
@@ -80,7 +117,8 @@ class ContactsViewModel : ViewModel() {
                 val photo = it.getString(photoColIndex) ?: ""
                 val career = getCareerByContactId(contentResolver, id) ?: ""
 
-                val contact = Contact(id, photo, name, career)
+                val uuid = UUID.fromString(id.toString())
+                val contact = Contact(uuid, photo, name, career)
                 contactsList.add(contact)
             }
         }
