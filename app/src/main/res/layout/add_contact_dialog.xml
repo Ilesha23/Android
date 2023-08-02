@@ -45,6 +45,7 @@
         android:layout_height="@dimen/add_contact_avatar_size"
         android:layout_marginTop="@dimen/margin_add_contact_avatar"
         android:src="@drawable/baseline_person_24"
+        android:tint="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="@id/toolbar"
         app:layout_constraintTop_toBottomOf="@+id/tvHeader" />
@@ -61,9 +62,6 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingStart="@dimen/padding_default"
-        android:paddingEnd="@dimen/padding_default"
-        android:paddingTop="@dimen/padding_default"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
@@ -76,8 +74,8 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilUsername"
+                android:theme="@style/TextInputLayoutTheme"
                 style="@style/TextInputLayout"
-                app:boxBackgroundMode="none"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -88,12 +86,14 @@
                     android:id="@+id/etUsername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
                     android:hint="@string/username" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilCareer"
+                android:theme="@style/TextInputLayoutTheme"
                 style="@style/TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,12 +103,14 @@
                     android:id="@+id/etCareer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
                     android:hint="@string/career" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilEmail"
+                android:theme="@style/TextInputLayoutTheme"
                 style="@style/TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -118,12 +120,14 @@
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
                     android:hint="@string/email" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPhone"
+                android:theme="@style/TextInputLayoutTheme"
                 style="@style/TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,12 +137,14 @@
                     android:id="@+id/etPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="phone"
                     android:hint="@string/phone" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilAddress"
+                android:theme="@style/TextInputLayoutTheme"
                 style="@style/TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -148,12 +154,14 @@
                     android:id="@+id/etAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textPostalAddress"
                     android:hint="@string/address" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilBirth"
+                android:theme="@style/TextInputLayoutTheme"
                 style="@style/TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -163,6 +171,7 @@
                     android:id="@+id/etBirth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="date"
                     android:hint="@string/date_of_birth" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -174,8 +183,13 @@
                 android:backgroundTint="?attr/colorSecondary"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
+                android:layout_marginTop="@dimen/margin_add_contact_save_btn"
+                android:layout_marginBottom="@dimen/margin_default"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default"
                 android:text="@string/save"
-                android:textColor="?attr/colorOnSecondary"
+                android:textColor="?attr/colorSecondaryContainer"
+                android:textSize="@dimen/text_big"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tilBirth" />

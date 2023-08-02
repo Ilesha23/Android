@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/contacts_item_height"
     android:background="@drawable/viewholder_shape"
-    android:layout_marginTop="@dimen/margin_default"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.AppCompatImageView

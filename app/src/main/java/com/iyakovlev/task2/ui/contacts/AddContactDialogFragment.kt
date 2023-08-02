@@ -40,17 +40,22 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
     }
 
     private fun setupListeners() {
-        binding.btnSave.setOnClickListener {
-            Toast.makeText(context, "*saved*", Toast.LENGTH_SHORT).show()
-            var contact: Contact
-            with(binding) {
-                val name = etUsername.text.toString()
-                val career = etCareer.text.toString()
-                // TODO: photo
-                contact = Contact(UUID.randomUUID(), null, name, career)
+        with(binding) {
+            btnSave.setOnClickListener {
+//                Toast.makeText(context, "*saved*", Toast.LENGTH_SHORT).show()
+                var contact: Contact
+                with(binding) {
+                    val name = etUsername.text.toString()
+                    val career = etCareer.text.toString()
+                    // TODO: photo
+                    contact = Contact(UUID.randomUUID(), null, name, career)
+                }
+                viewModel.addContact(contact)
+                dismiss()
             }
-            viewModel.addContact(contact)
-            dismiss()
+            ibBack.setOnClickListener {
+                dismiss()
+            }
         }
     }
 

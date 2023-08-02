@@ -18,6 +18,7 @@ import com.iyakovlev.task2.utils.Constants.IS_USER_ASKED_KEY
 import com.iyakovlev.task2.utils.Constants.LOG_TAG
 import com.iyakovlev.task2.utils.Constants.READ_CONTACTS_PERMISSION_REQUEST
 import com.iyakovlev.task2.utils.Constants.SNACK_BAR_LENGTH
+import com.iyakovlev.task2.utils.ItemSpacingDecoration
 
 class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsBinding::inflate) {
 
@@ -89,6 +90,8 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
         binding.rvContacts.apply {
             layoutManager = LinearLayoutManager(this@ContactsActivity)
             adapter = contactAdapter
+            val spacing = resources.getDimensionPixelSize(R.dimen.contacts_item_spacing)
+            addItemDecoration(ItemSpacingDecoration(spacing))
         }
     }
 

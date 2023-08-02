@@ -41,7 +41,16 @@
     <!--**************** View styles ****************-->
     <!--  TextInputLayout  -->
     <style name="TextInputLayout">
-        <item name="boxBackgroundMode">none</item>
+        <item name="android:layout_marginTop">@dimen/margin_middle</item>
+        <item name="boxBackgroundMode">filled</item>
+        <item name="android:lines">1</item>
+        <item name="hintTextColor">?attr/colorOnSecondary</item>
+        <item name="android:paddingStart">@dimen/padding_default</item>
+        <item name="android:paddingEnd">@dimen/padding_default</item>
+    </style>
+
+    <style name="TextInputLayoutTheme">
+        <item name="colorPrimary">?attr/colorOnSecondary</item>
     </style>
 
 
@@ -51,6 +60,12 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
+        <item name="android:windowAnimationStyle">@style/MyAnimation.Window</item>
+    </style>
+
+    <style name="MyAnimation.Window" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/anim_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_out</item>
     </style>
 
 
