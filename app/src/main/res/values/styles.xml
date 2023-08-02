@@ -54,6 +54,12 @@
     </style>
 
 
+    <style name="MyFloatingActionButton" parent="ShapeAppearanceOverlay.Material3.FloatingActionButton">
+        <item name="colorContainer">?attr/colorSecondary</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+
     <!--**************** DialogFragment styles ****************-->
     <!--  DialogFragment  -->
     <style name="FullScreenDialog" parent="Theme.Task2">

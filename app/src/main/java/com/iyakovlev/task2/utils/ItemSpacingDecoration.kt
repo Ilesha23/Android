@@ -3,8 +3,12 @@ package com.iyakovlev.task2.utils
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.iyakovlev.task2.R
 
-class ItemSpacingDecoration(private var spacing: Int) : RecyclerView.ItemDecoration() {
+class ItemSpacingDecoration(
+    private var spacing: Int,
+    private var lastSpacing: Int
+    ) : RecyclerView.ItemDecoration() {
     init {
         spacing /= 2
     }
@@ -30,7 +34,7 @@ class ItemSpacingDecoration(private var spacing: Int) : RecyclerView.ItemDecorat
             }
         } else if (position == count - 1) { // bottom element spacing
             outRect.apply {
-                bottom = spacing * 2
+                bottom = lastSpacing
             }
         }
     }
