@@ -1,4 +1,4 @@
-package com.iyakovlev.task2
+package com.iyakovlev.task2.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater

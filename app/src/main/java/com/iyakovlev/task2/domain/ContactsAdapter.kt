@@ -1,19 +1,13 @@
-package com.iyakovlev.task2.ui.contacts
+package com.iyakovlev.task2.domain
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.task2.R
 import com.iyakovlev.task2.databinding.ItemUserBinding
-import com.iyakovlev.task2.data.model.Contact
-import com.iyakovlev.task2.data.viewmodel.ContactsViewModel
-import com.iyakovlev.task2.utils.loadImageWithCoil
 import com.iyakovlev.task2.utils.loadImageWithGlide
-import com.iyakovlev.task2.utils.loadImageWithPicasso
 
 class ContactsDiffCallback(
     private val oldList: List<Contact>,

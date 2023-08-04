@@ -1,4 +1,4 @@
-package com.iyakovlev.task2.data.viewmodel
+package com.iyakovlev.task2.domain
 
 import android.content.ContentResolver
 import android.provider.ContactsContract
@@ -6,9 +6,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.recyclerview.widget.DiffUtil
 import com.github.javafaker.Faker
-import com.iyakovlev.task2.data.model.Contact
 import com.iyakovlev.task2.utils.Constants.IMAGES
 import com.iyakovlev.task2.utils.Constants.LOG_TAG
 import java.util.UUID
@@ -67,6 +65,10 @@ class ContactsViewModel : ViewModel() {
         if (index != -1) {
             addContact(index, contact)
         }
+    }
+
+    fun getContact(index: Int): Contact? {
+        return _contacts.value?.get(index)
     }
 
     private fun findInsertionIndex(name: String): Int {

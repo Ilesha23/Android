@@ -1,28 +1,35 @@
-package com.iyakovlev.task2.ui.contacts
+package com.iyakovlev.task2.presentation
 
 import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.pm.PackageManager
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.iyakovlev.task2.databinding.ActivityContactsBinding
-import com.iyakovlev.task2.data.viewmodel.ContactsViewModel
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.iyakovlev.task2.BaseActivity
 import com.iyakovlev.task2.R
+import com.iyakovlev.task2.domain.Contact
+import com.iyakovlev.task2.domain.ContactsViewModel
+import com.iyakovlev.task2.databinding.ActivityContactsBinding
+import com.iyakovlev.task2.domain.ContactsAdapter
 import com.iyakovlev.task2.utils.Constants.IS_USER_ASKED_KEY
 import com.iyakovlev.task2.utils.Constants.LOG_TAG
 import com.iyakovlev.task2.utils.Constants.READ_CONTACTS_PERMISSION_REQUEST
 import com.iyakovlev.task2.utils.Constants.SNACK_BAR_LENGTH
 import com.iyakovlev.task2.utils.ItemSpacingDecoration
+
 
 class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsBinding::inflate) {
 
@@ -43,6 +50,7 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
         setupRecyclerView()
         observeContacts()
         setupListeners()
+        addSwipeToDelete()
 
     }
 
@@ -168,6 +176,61 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
                 vm.undoRemoveContact()
             }
             .show()
+    }
+
+    private fun addSwipeToDelete() {
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,
+            ItemTouchHelper.END or ItemTouchHelper.START) {
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            )
+                    : Boolean = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val index = viewHolder.bindingAdapterPosition
+                val contact: Contact? = vm.getContact(index)
+
+                if (contact != null) {
+                    vm.removeContact(contact)
+                    showUndoDeleteSnackBar()
+                }
+            }
+
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                val paint = Paint()
+                paint.color = Color.RED
+
+                val background: RectF = if (dX > 0) {
+                    RectF(
+                        viewHolder.itemView.left.toFloat(),
+                        viewHolder.itemView.top.toFloat(),
+                        viewHolder.itemView.left.toFloat() + dX,
+                        viewHolder.itemView.bottom.toFloat()
+                    )
+                } else {
+                    RectF(
+                        viewHolder.itemView.right.toFloat() + dX,
+                        viewHolder.itemView.top.toFloat(),
+                        viewHolder.itemView.right.toFloat(),
+                        viewHolder.itemView.bottom.toFloat()
+                    )
+                }
+                c.drawRect(background, paint)
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            }
+        }).attachToRecyclerView(binding.rvContacts)
     }
 
 }
