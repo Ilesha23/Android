@@ -111,53 +111,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tilPassword"
         tools:ignore="TouchTargetSizeCheck" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.iyakovlev.task_1.ui.CustomImageButton
         android:id="@+id/clBtnGoogle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_btn_google"
-        android:layout_marginTop="@dimen/margin_btn_google"
-        android:background="@drawable/google_button_shape"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chkRemember"
-        tools:ignore="TouchTargetSizeCheck">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginBottom="@dimen/margin_default"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivBtnGoogle"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginEnd="@dimen/margin_middle"
-                android:src="@drawable/google_logo"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/tvBtnGoogle"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvBtnGoogle"
-                style="@style/text_button_caps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/google_button"
-                android:textColor="@color/color_text_additional"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:text="@string/google_button"
+        android:textAllCaps="true"
+        android:fontFamily="@font/ysabeau_semi_bold"
+        android:textColor="?attr/colorOnSecondary"
+        app:customImageButton_radius="5dp"
+        android:background="?attr/colorSecondary"
+        app:layout_constraintTop_toBottomOf="@+id/chkRemember" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvOr"

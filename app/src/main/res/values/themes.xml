@@ -4,6 +4,8 @@
 
         <item name="colorPrimary">@color/color_primary</item> <!-- ??? -->
         <item name="colorSecondary">@color/color_secondary</item> <!-- ??? -->
+        <item name="colorOnSecondary">@color/color_text_additional</item> <!-- ??? -->
+        <item name="colorTertiary">@color/color_additional</item>
 
         <!--  Text default color  -->
         <item name="android:textColor">@color/color_text_primary</item>
