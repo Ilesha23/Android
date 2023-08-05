@@ -119,7 +119,8 @@ class ContactsViewModel : ViewModel() {
                 val photo = it.getString(photoColIndex) ?: ""
                 val career = getCareerByContactId(contentResolver, id) ?: ""
 
-                val uuid = UUID.fromString(id.toString())
+                val uniqueString = "$id:$photo:$name:$career"
+                val uuid = UUID.nameUUIDFromBytes(uniqueString.toByteArray())
                 val contact = Contact(uuid, photo, name, career)
                 contactsList.add(contact)
             }
