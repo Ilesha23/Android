@@ -9,6 +9,7 @@ import android.util.Patterns
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import com.iyakovlev.task_1.R
 import com.iyakovlev.task_1.common.Constants.APP_PREFERENCES
@@ -57,6 +58,9 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
     private fun setListeners() {
         binding.btnRegister.setOnClickListener {
             onRegisterClick()
+        }
+        binding.btnGoogle?.setOnClickListener {
+//            Toast.makeText(applicationContext, "click", Toast.LENGTH_LONG).show()
         }
     }
 

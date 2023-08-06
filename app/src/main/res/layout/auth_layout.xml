@@ -112,15 +112,18 @@
         tools:ignore="TouchTargetSizeCheck" />
 
     <com.iyakovlev.task_1.ui.CustomImageButton
-        android:id="@+id/clBtnGoogle"
+        android:id="@+id/btnGoogle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_btn_google"
+        android:src="@drawable/google_logo"
+        app:customImageButton_image_width="@dimen/btn_img_width"
+        app:customImageButton_space_between="@dimen/margin_middle"
         android:text="@string/google_button"
+        android:textSize="16sp"
         android:textAllCaps="true"
         android:fontFamily="@font/ysabeau_semi_bold"
         android:textColor="?attr/colorOnSecondary"
-        app:customImageButton_radius="5dp"
-        android:background="?attr/colorSecondary"
+        android:background="@drawable/google_button_shape"
         app:layout_constraintTop_toBottomOf="@+id/chkRemember" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -132,7 +135,7 @@
         android:layout_marginTop="@dimen/margin_default"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clBtnGoogle" />
+        app:layout_constraintTop_toBottomOf="@+id/btnGoogle" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegister"
