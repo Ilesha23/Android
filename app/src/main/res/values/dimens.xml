@@ -9,7 +9,6 @@
     <dimen name="text_small_size">12sp</dimen>
 
     <!--  Margins  -->
-    <dimen name="margin_top_main">160dp</dimen>
     <dimen name="margin_big">24dp</dimen>
     <dimen name="margin_middle">16dp</dimen>
     <dimen name="margin_default">8dp</dimen>

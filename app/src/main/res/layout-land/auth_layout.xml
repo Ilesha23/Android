@@ -17,7 +17,8 @@
         style="@style/text_header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvFillFormProposal"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvFillFormProposal"
@@ -25,10 +26,10 @@
         android:layout_height="wrap_content"
         android:text="@string/fill_form_proposal"
         style="@style/text_small"
-        android:layout_marginTop="@dimen/margin_default_land"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvGreeting" />
+        app:layout_constraintTop_toBottomOf="@+id/tvGreeting"
+        app:layout_constraintBottom_toTopOf="@id/tilEmail"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvEmail"
@@ -47,11 +48,11 @@
         android:id="@+id/tilEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_big_land"
         style="@style/til_style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvFillFormProposal">
+        app:layout_constraintTop_toBottomOf="@+id/tvFillFormProposal"
+        app:layout_constraintBottom_toTopOf="@id/tilPassword">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etEmail"
@@ -80,12 +81,12 @@
         android:id="@+id/tilPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_big_land"
         app:passwordToggleEnabled="true"
         style="@style/til_style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilEmail">
+        app:layout_constraintTop_toBottomOf="@+id/tilEmail"
+        app:layout_constraintBottom_toTopOf="@id/chkRemember">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPassword"
@@ -106,55 +107,27 @@
         android:text="@string/remember_me_checkbox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilPassword"
+        app:layout_constraintBottom_toTopOf="@id/tvOr"
         tools:ignore="TouchTargetSizeCheck" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clBtnGoogle"
-        android:layout_width="350dp"
+    <com.iyakovlev.task_1.ui.CustomImageButton
+        android:id="@+id/btnGoogle"
+        android:layout_width="0dp"
         android:layout_height="@dimen/height_btn_google"
         android:background="@drawable/google_button_shape"
-        android:clickable="true"
-        android:focusable="true"
+        android:fontFamily="@font/ysabeau_semi_bold"
+        android:src="@drawable/google_logo"
+        android:text="@string/google_button"
+        android:textAllCaps="true"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="16sp"
+        app:customImageButton_image_width="@dimen/btn_img_width"
+        app:customImageButton_space_between="@dimen/margin_middle"
+        android:layout_marginEnd="@dimen/margin_default"
         app:layout_constraintBottom_toBottomOf="@+id/tvOr"
         app:layout_constraintEnd_toStartOf="@+id/tvOr"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvOr"
-        tools:ignore="TouchTargetSizeCheck">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginBottom="@dimen/margin_default"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivBtnGoogle"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginEnd="@dimen/margin_middle"
-                android:src="@drawable/google_logo"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/tvBtnGoogle"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvBtnGoogle"
-                style="@style/text_button_caps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/google_button"
-                android:textColor="@color/color_text_additional"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="@+id/tvOr" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvOr"
@@ -165,15 +138,17 @@
         android:layout_marginTop="@dimen/margin_big_land"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chkRemember" />
+        app:layout_constraintTop_toBottomOf="@+id/chkRemember"
+        app:layout_constraintBottom_toTopOf="@id/tvTerms"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegister"
         style="@style/text_button_caps"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="@dimen/height_btn_google"
         android:background="@drawable/register_button"
         android:text="@string/register_button"
+        android:layout_marginStart="@dimen/margin_default"
         app:layout_constraintBottom_toBottomOf="@+id/tvOr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvOr"
@@ -184,13 +159,13 @@
         android:id="@+id/tvTerms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_middle"
-        android:text="@string/terms_agreement_land"
+        android:text="@string/terms_agreement"
         android:textAlignment="center"
         style="@style/text_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
+        app:layout_constraintTop_toBottomOf="@+id/btnRegister"
+        app:layout_constraintBottom_toTopOf="@id/tvHaveAccQuestion"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvHaveAccQuestion"
@@ -199,10 +174,10 @@
         android:text="@string/have_acc_question"
         android:textColor="@color/color_text_secondary"
         style="@style/text_middle"
-        android:layout_marginTop="@dimen/margin_default"
         app:layout_constraintEnd_toStartOf="@+id/tvSignIn"
         app:layout_constraintStart_toStartOf="@+id/tvTerms"
-        app:layout_constraintTop_toBottomOf="@+id/tvTerms" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTerms"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvSignIn"

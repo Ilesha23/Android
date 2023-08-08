@@ -17,8 +17,7 @@
     <string name="remember_me_checkbox">Запам\'ятати мене</string>
     <string name="or">або</string>
     <string name="register_button">Зареєструватися</string>
-    <string name="terms_agreement">Натискаючи Зареєструватися ви погоджуєтесь з\nнашими умовами та положеннями</string>
-    <string name="terms_agreement_land">Натискаючи Зареєструватися ви погоджуєтесь знашими умовами та положеннями</string>
+    <string name="terms_agreement">Натискаючи Зареєструватися ви погоджуєтесь з нашими умовами та положеннями</string>
     <string name="have_acc_question">Вже є акаунт?</string>
     <string name="sign_in_button">Увійти</string>
     <string name="default_name">Ім\'я</string>

@@ -19,8 +19,7 @@
     <string name="google_button" translatable="false">Google</string>
     <string name="or">or</string>
     <string name="register_button">Register</string>
-    <string name="terms_agreement">By clicking Register you agree to our Terms\nand Conditions</string>
-    <string name="terms_agreement_land">By clicking Register you agree to our Terms and Conditions</string>
+    <string name="terms_agreement">By clicking Register you agree to our Terms and Conditions</string>
     <string name="have_acc_question">Already have an account?</string>
     <string name="sign_in_button">Sign in</string>
 
