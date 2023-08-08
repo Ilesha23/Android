@@ -9,7 +9,6 @@ import android.util.Patterns
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import com.iyakovlev.task_1.R
 import com.iyakovlev.task_1.common.Constants.APP_PREFERENCES
@@ -45,7 +44,10 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
                 val outRect = Rect()
                 v.getGlobalVisibleRect(outRect)
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
-                    isInputValid(binding.etEmail.text.toString(), binding.etPassword.text.toString())
+                    isInputValid(
+                        binding.etEmail.text.toString(),
+                        binding.etPassword.text.toString()
+                    )
                     v.clearFocus()
                     val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
@@ -55,11 +57,23 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
         return super.dispatchTouchEvent(event)
     }
 
+//    fun hideKeyboard() {
+//        hideKeyboard(currentFocus ?: View(this))
+//    }
+//
+//    fun Context.hideKeyboard(view: View) {
+//        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+//        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+//    }
+
     private fun setListeners() {
+//        binding.root.setOnClickListener {
+//            hideKeyboard()
+//        }
         binding.btnRegister.setOnClickListener {
             onRegisterClick()
         }
-        binding.btnGoogle?.setOnClickListener {
+        binding.btnGoogle.setOnClickListener {
 //            Toast.makeText(applicationContext, "click", Toast.LENGTH_LONG).show()
         }
     }
@@ -99,7 +113,7 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
 
 //        or
 //        startActivity(Intent(this@AuthActivity, MainActivity::class.java))
-//        overridePendingTransition(R.anim.slide_start, R.anim.slide_end)
+//        overridePendingTransition(R.anim.slide_start, R.anim.slide_end) // deprecated
 //        finish()
     }
 
@@ -109,18 +123,22 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
             goToMainActivity()
         }
     }
+
     private fun isEmailValid(email: String): Boolean {
         return (email.isNotEmpty()) and (Patterns.EMAIL_ADDRESS.matcher(email).matches())
     }
 
     private fun isPassValid(pass: String): Boolean {
-        if (!pass.matches(Regex( /* at least 1 lowercase, 1 uppercase, 1 number, length 8+ */
-                "^(?=.*[$PASSWORD_LOWERCASE_LETTERS])" +
-                    "(?=.*[$PASSWORD_UPPERCASE_LETTERS])" +
-                    "(?=.*[$PASSWORD_NUMBERS])" +
-                    "[$PASSWORD_LOWERCASE_LETTERS$PASSWORD_UPPERCASE_LETTERS$PASSWORD_NUMBERS]" +
-                    "{$PASSWORD_LENGTH,}$"
-            ))) {
+        if (!pass.matches(
+                Regex( /* at least 1 lowercase, 1 uppercase, 1 number, length 8+ */
+                    "^(?=.*[$PASSWORD_LOWERCASE_LETTERS])" +
+                            "(?=.*[$PASSWORD_UPPERCASE_LETTERS])" +
+                            "(?=.*[$PASSWORD_NUMBERS])" +
+                            "[$PASSWORD_LOWERCASE_LETTERS$PASSWORD_UPPERCASE_LETTERS$PASSWORD_NUMBERS]" +
+                            "{$PASSWORD_LENGTH,}$"
+                )
+            )
+        ) {
             return false
         }
         return true
@@ -153,7 +171,7 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
         var errorMessage = ""
 
         if (password.length < 8) {
-            errorMessage += "length $PASSWORD_LENGTH"
+            errorMessage += "${getString(R.string.password_length)} $PASSWORD_LENGTH"
         }
         if (!password.contains(Regex("[$PASSWORD_LOWERCASE_LETTERS]"))) {
             errorMessage = "${addComma(errorMessage)}$PASSWORD_LOWERCASE_LETTERS"
@@ -165,7 +183,7 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
             errorMessage = "${addComma(errorMessage)}$PASSWORD_NUMBERS"
         }
 
-        return "$errorMessage required"
+        return "$errorMessage ${getString(R.string.required_error)}"
     }
 
     /* adds comma to error message if there is some text before */

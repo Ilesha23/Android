@@ -23,6 +23,8 @@
     <string name="default_name">Ім\'я</string>
     <string name="default_lastname">Прізвищє</string>
     <string name="error_email">Пошта некоректна</string>
+    <string name="password_length">довжина</string>
+    <string name="required_error">потребується</string>
 
 
 </resources>
