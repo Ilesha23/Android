@@ -2,6 +2,11 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
 
+        <item name="colorPrimary">@color/color_primary</item> <!-- ??? -->
+        <item name="colorSecondary">@color/color_secondary</item> <!-- ??? -->
+        <item name="colorOnSecondary">@color/color_text_additional</item> <!-- ??? -->
+        <item name="colorTertiary">@color/color_additional</item>
+
         <item name="android:textColor">@color/color_text_primary</item>
 
         <item name="android:windowActivityTransitions">true</item>
