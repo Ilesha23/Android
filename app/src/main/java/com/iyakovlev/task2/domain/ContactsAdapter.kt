@@ -69,7 +69,6 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
                 } else {
                     Glide.with(ivAvatar.context).clear(ivAvatar)
                     ivAvatar.setImageResource(R.drawable.baseline_person_24)
-//                    ivAvatar.setColorFilter(android.R.color.white)
                 }
                 ivContactRemove.setOnClickListener {
                     onRemoveClickListener.invoke(contact)

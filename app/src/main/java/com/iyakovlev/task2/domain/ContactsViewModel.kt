@@ -32,7 +32,7 @@ class ContactsViewModel : ViewModel() {
             career = faker.company().name(),
             photo = IMAGES[it % IMAGES.size]
         ) }.sortedBy {
-            it.name//.lowercase()
+            it.name
         }
         Log.e(LOG_TAG, "default contacts created")
     }
