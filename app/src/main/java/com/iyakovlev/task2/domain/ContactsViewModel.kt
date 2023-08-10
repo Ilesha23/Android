@@ -9,11 +9,13 @@ import androidx.lifecycle.ViewModel
 import com.github.javafaker.Faker
 import com.iyakovlev.task2.utils.Constants.IMAGES
 import com.iyakovlev.task2.utils.Constants.LOG_TAG
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.util.UUID
 
 class ContactsViewModel : ViewModel() {
-    private val _contacts = MutableLiveData<List<Contact>>()
-    val contacts: LiveData<List<Contact>> get() = _contacts
+    private val _contacts = MutableStateFlow<List<Contact>>(emptyList())
+    val contacts: StateFlow<List<Contact>> get() = _contacts
 
     private var lastRemovedContact: Contact? = null
     private var lastRemovedContactIndex: Int? = null

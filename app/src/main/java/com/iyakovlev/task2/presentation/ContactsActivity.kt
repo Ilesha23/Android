@@ -15,6 +15,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +31,7 @@ import com.iyakovlev.task2.utils.Constants.LOG_TAG
 import com.iyakovlev.task2.utils.Constants.READ_CONTACTS_PERMISSION_REQUEST
 import com.iyakovlev.task2.utils.Constants.SNACK_BAR_LENGTH
 import com.iyakovlev.task2.utils.ItemSpacingDecoration
+import kotlinx.coroutines.launch
 
 
 class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsBinding::inflate) {
@@ -48,7 +51,9 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
         }
 
         setupRecyclerView()
-        observeContacts()
+        lifecycleScope.launch {
+            observeContacts()
+        }
         setupListeners()
         addSwipeToDelete()
 
@@ -108,8 +113,8 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
         }
     }
 
-    private fun observeContacts() {
-        vm.contacts.observe(this) { contacts ->
+    private suspend fun observeContacts() {
+        vm.contacts.collect { contacts ->
             contactAdapter.setContacts(contacts)
         }
     }
