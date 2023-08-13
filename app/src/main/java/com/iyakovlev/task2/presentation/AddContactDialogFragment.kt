@@ -26,7 +26,7 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
 
     private var _binding: AddContactDialogBinding? = null
     private val binding get() = requireNotNull(_binding)
-    private val viewModel: ContactsViewModel by viewModels({ requireActivity() })
+    private val viewModel: ContactsViewModel by viewModels({ requireParentFragment()})
 
     private lateinit var photoActivityResult: ActivityResultLauncher<Intent>
     private var contact = Contact(UUID.randomUUID(), null, "", "")
