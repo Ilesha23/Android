@@ -46,6 +46,16 @@ class ContactsViewModel : ViewModel() {
         lastRemovedContact = contact
     }
 
+    fun removeContact(position: Int) {
+        val currentContacts = _contacts.value
+        val updatedList = currentContacts.toMutableList()
+        lastRemovedContactIndex = position
+        val contact = currentContacts[position]
+        updatedList.removeAt(position)
+        _contacts.value = updatedList
+        lastRemovedContact = contact
+    }
+
     fun undoRemoveContact() {
         lastRemovedContact?.let {
             addContact(lastRemovedContactIndex!!, it)

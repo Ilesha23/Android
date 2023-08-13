@@ -127,9 +127,12 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     override fun setListeners() {
-        contactAdapter.setOnRemoveClickListener { contact ->
-            vm.removeContact(contact)
+        contactAdapter.setOnDeleteClickedListener { position ->
+            vm.removeContact(position)
             showUndoDeleteSnackBar()
+        }
+        contactAdapter.setOnItemClickedListener { position ->
+            Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()
         }
         binding.btnAddContact.setOnClickListener {
             openAddContactDialog()

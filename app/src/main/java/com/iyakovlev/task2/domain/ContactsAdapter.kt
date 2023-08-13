@@ -2,6 +2,7 @@ package com.iyakovlev.task2.domain
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -30,9 +31,14 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
 
     private var contacts: List<Contact> = emptyList()
 
-    private var onRemoveClickListener: ((Contact) -> Unit)? = null
-    fun setOnRemoveClickListener(listener: (Contact) -> Unit) {
-        onRemoveClickListener = listener
+    private var onItemClicked: ((position: Int) -> Unit)? = null
+    private var onDeleteClicked: ((position: Int) -> Unit)? = null
+    fun setOnItemClickedListener(listener: (position: Int) -> Unit) {
+        onItemClicked = listener
+    }
+
+    fun setOnDeleteClickedListener(listener: (position: Int) -> Unit) {
+        onDeleteClicked = listener
     }
 
     fun setContacts(contacts: List<Contact>) {
@@ -52,15 +58,16 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        holder.bind(contacts[position]) { clickedContact ->
-            onRemoveClickListener?.invoke(clickedContact)
-        }
+        holder.bind(contacts[position], onItemClicked, onDeleteClicked)
     }
 
     class ContactViewHolder(private val binding: ItemUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(contact: Contact, onRemoveClickListener: (Contact) -> Unit) {
+        fun bind(contact: Contact,
+                 onItemClicked: ((position: Int) -> Unit)?,
+                 onDeleteClicked: ((position: Int) -> Unit)?
+        ) {
             binding.apply {
                 tvContactName.text = contact.name
                 tvContactCareer.text = contact.career
@@ -71,7 +78,10 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
                     ivAvatar.setImageResource(R.drawable.baseline_person_24)
                 }
                 ivContactRemove.setOnClickListener {
-                    onRemoveClickListener.invoke(contact)
+                    onDeleteClicked?.invoke(bindingAdapterPosition)
+                }
+                clContactItem.setOnClickListener {
+                    onItemClicked?.invoke(bindingAdapterPosition)
                 }
             }
         }
