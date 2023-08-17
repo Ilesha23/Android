@@ -19,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -31,49 +32,33 @@ import com.iyakovlev.task2.domain.Contact
 import com.iyakovlev.task2.domain.ContactsAdapter
 import com.iyakovlev.task2.domain.ContactsViewModel
 import com.iyakovlev.task2.utils.Constants
+import com.iyakovlev.task2.utils.Constants.IS_LIST_CREATED
 import com.iyakovlev.task2.utils.Constants.IS_USER_ASKED_KEY
+import com.iyakovlev.task2.utils.Constants.LOG_TAG
 import com.iyakovlev.task2.utils.ItemSpacingDecoration
+import com.iyakovlev.task2.utils.TestingConstants.isUsingTransactions
 import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ContactsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate) {
-    // TODO: Rename and change types of parameters
-//    private var param1: String? = null
-//    private var param2: String? = null
 
-    private val vm: ContactsViewModel by viewModels()
+    private val vm: ContactsViewModel by viewModels({ requireActivity() })
     private val contactAdapter = ContactsAdapter()
     private var isUserAsked = false
+
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 vm.loadContactsFromStorage(requireActivity().contentResolver)
             } else {
-                vm.createDefaultContacts()
+                if (vm.contacts.value.isEmpty()) {
+                    vm.createDefaultContacts()
+                }
             }
         }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        isUserAsked = savedInstanceState?.getBoolean(IS_USER_ASKED_KEY) ?: false
         if (!isUserAsked) {
             requestContactsPermission()
         }
@@ -85,29 +70,17 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     }
 
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        return super.onCreateView(inflater, container, savedInstanceState)
-//    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(IS_USER_ASKED_KEY, isUserAsked)
-        super.onSaveInstanceState(outState)
-    }
-
     private fun requestContactsPermission() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.READ_CONTACTS
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            isUserAsked = true
             vm.loadContactsFromStorage(requireActivity().contentResolver)
         } else {
             requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
         }
+        isUserAsked = true
     }
 
     private fun setupRecyclerView() {
@@ -132,7 +105,19 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             showUndoDeleteSnackBar()
         }
         contactAdapter.setOnItemClickedListener { position ->
-            Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()
+            // TRANSACTION
+            if (isUsingTransactions) {
+                val fragment = ContactDetailViewFragment()
+                parentFragmentManager.commit {
+                    setCustomAnimations(R.anim.anim_in, R.anim.anim_out, R.anim.anim_in, R.anim.anim_out)
+                    replace(R.id.fragmentContainer, fragment)
+                    addToBackStack(null)
+                }
+            } else {
+                // NAVIGATION GRAPH todo
+
+            }
+
         }
         binding.btnAddContact.setOnClickListener {
             openAddContactDialog()
@@ -181,8 +166,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     private fun openAddContactDialog() {
         val dialogFragment = AddContactDialogFragment()
 
-        dialogFragment.show(childFragmentManager, "TAG") // TODO:
-        Log.e(Constants.LOG_TAG, "dialog showed")
+        dialogFragment.show(childFragmentManager, "TAG")
+        Log.e(LOG_TAG, "dialog showed")
     }
 
     private fun showUndoDeleteSnackBar() {

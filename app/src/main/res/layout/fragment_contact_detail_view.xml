@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/viewTop"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@id/glCenter"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glCenter"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_default"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSettings"
+        app:layout_constraintStart_toStartOf="@id/viewTop"
+        app:layout_constraintTop_toTopOf="@+id/tvSettings"
+        app:srcCompat="@drawable/baseline_arrow_back_24" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSettings"
+        style="@style/text_header"
+        android:textColor="?attr/colorOnPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_middle"
+        android:text="@string/profile"
+        app:layout_constraintEnd_toEndOf="@id/viewTop"
+        app:layout_constraintStart_toStartOf="@id/viewTop"
+        app:layout_constraintTop_toTopOf="@id/viewTop" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="@dimen/avatar_size"
+        android:layout_height="@dimen/avatar_size"
+        app:layout_constraintBottom_toTopOf="@id/tvFullName"
+        app:layout_constraintEnd_toEndOf="@id/viewTop"
+        app:layout_constraintStart_toStartOf="@id/viewTop"
+        app:layout_constraintTop_toBottomOf="@id/tvSettings"
+        app:srcCompat="@drawable/baseline_person_24" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvFullName"
+        style="@style/text_big"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_name"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toTopOf="@id/tvCareer"
+        app:layout_constraintEnd_toEndOf="@id/viewTop"
+        app:layout_constraintStart_toStartOf="@id/viewTop"
+        app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCareer"
+        style="@style/text_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_career"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toTopOf="@id/tvAddress"
+        app:layout_constraintEnd_toEndOf="@id/viewTop"
+        app:layout_constraintStart_toStartOf="@id/viewTop"
+        app:layout_constraintTop_toBottomOf="@+id/tvFullName" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAddress"
+        style="@style/text_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/address"
+        android:textColor="?attr/colorOnPrimary"
+        android:maxLines="2"
+        app:layout_constraintBottom_toBottomOf="@id/viewTop"
+        app:layout_constraintEnd_toEndOf="@id/viewTop"
+        app:layout_constraintStart_toStartOf="@id/viewTop"
+        app:layout_constraintTop_toBottomOf="@+id/tvCareer" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivFacebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/ic_links_margin"
+        app:layout_constraintEnd_toStartOf="@+id/ivLinkedin"
+        app:layout_constraintTop_toTopOf="@+id/ivLinkedin"
+        app:srcCompat="@drawable/ic_link_facebook" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivLinkedin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/btnMessage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/glCenter"
+        app:srcCompat="@drawable/ic_link_linkedin" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivInstagram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/ic_links_margin"
+        app:layout_constraintStart_toEndOf="@+id/ivLinkedin"
+        app:layout_constraintTop_toTopOf="@+id/ivLinkedin"
+        app:srcCompat="@drawable/ic_link_instagram" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnMessage"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_btn_register"
+        android:layout_margin="@dimen/margin_default"
+        android:background="@drawable/btn_message"
+        android:text="@string/message"
+        style="@style/text_big"
+        android:textColor="?attr/colorOnPrimary"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="VisualLintButtonSize" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -44,4 +44,17 @@
     <!-- Floating button -->
     <dimen name="floating_button_icon_size">60dp</dimen>
 
+    <!--  ImageView sizes  -->
+    <dimen name="avatar_size">113dp</dimen>
+
+    <!--  ImageView icons margins  -->
+    <dimen name="ic_links_margin">32dp</dimen>
+
+    <!--  Button margins and sizes  -->
+    <dimen name="height_btn_register">55dp</dimen>
+    <dimen name="btn_stroke_width">2dp</dimen>
+    <dimen name="btn_corner_radius">6dp</dimen>
+    <dimen name="btn_corner_radius_pressed">8dp</dimen>
+    <dimen name="btn_img_width">20dp</dimen>
+
 </resources>

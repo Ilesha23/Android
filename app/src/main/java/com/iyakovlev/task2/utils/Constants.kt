@@ -7,6 +7,7 @@ object Constants {
     const val SNACK_BAR_LENGTH = 5000
 
     const val IS_USER_ASKED_KEY = "IS_USER_ASKED_KEY"
+    const val IS_LIST_CREATED = "IS_LIST_CREATED"
     const val LOG_TAG = "LOG_TAG"
 
     val IMAGES = mutableListOf(

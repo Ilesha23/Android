@@ -14,4 +14,11 @@
     <string name="address">Адрес</string>
     <string name="date_of_birth">Дата рождения</string>
     <string name="save">сохранить</string>
+    <string name="default_lastname">Фамилия</string>
+    <string name="error_email">Почта некорректна</string>
+    <string name="password_length">длина</string>
+    <string name="required_error">требуется</string>
+    <string name="profile">Профиль</string>
+    <string name="default_name_main">Имя</string>
+    <string name="message">Сообщение</string>
 </resources>

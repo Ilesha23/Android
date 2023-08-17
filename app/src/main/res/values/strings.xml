@@ -17,7 +17,14 @@
     <string name="address">Address</string>
     <string name="date_of_birth">Date of birth</string>
     <string name="save">save</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--   Main activity   -->
+    <string name="default_name_main">Name</string>
+    <string name="default_lastname">Lastname</string>
+    <string name="error_email">Email is invalid</string>
+    <string name="password_length">length</string>
+    <string name="required_error">required</string>
+    <string name="profile">Profile</string>
+    <string name="message">message</string>
 
 </resources>
