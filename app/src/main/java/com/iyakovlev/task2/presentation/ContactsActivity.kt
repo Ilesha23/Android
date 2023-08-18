@@ -18,6 +18,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +35,8 @@ import com.iyakovlev.task2.utils.Constants.LOG_TAG
 import com.iyakovlev.task2.utils.Constants.READ_CONTACTS_PERMISSION_REQUEST
 import com.iyakovlev.task2.utils.Constants.SNACK_BAR_LENGTH
 import com.iyakovlev.task2.utils.ItemSpacingDecoration
+import com.iyakovlev.task2.utils.TestingConstants
+import com.iyakovlev.task2.utils.TestingConstants.isUsingTransactions
 import kotlinx.coroutines.launch
 
 
@@ -40,16 +45,27 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
 //    private val vm: ContactsViewModel by viewModels()
 //    private val contactAdapter = ContactsAdapter()
 //    private var isUserAsked = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         Log.e(LOG_TAG, "activity created")
 
         if (savedInstanceState == null) {
-            val fragment = ContactsFragment.newInstance()
-            supportFragmentManager.commit {
-                add(R.id.fragmentContainer, fragment)
+            if (isUsingTransactions) {
+                val fragment = ContactsFragment.newInstance()
+                supportFragmentManager.commit {
+                    add(R.id.nav_host_fragment, fragment)
+                }
+            } else {
+//                val navHostFragment =
+//                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+//                val navController = navHostFragment.navController
+
+//                val host: NavHostFragment = supportFragmentManager
+//                    .findFragmentById(R.id.nav_host_fragment) as NavHostFragment? ?: return
+
+
+//                findNavController(R.id.nav_host_fragment).navigate(R.id.contactsFragment)
             }
         }
 

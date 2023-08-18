@@ -22,6 +22,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,6 +48,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     private val vm: ContactsViewModel by viewModels({ requireActivity() })
     private val contactAdapter = ContactsAdapter()
     private var isUserAsked = false
+
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -110,17 +115,23 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 val fragment = ContactDetailViewFragment()
                 parentFragmentManager.commit {
                     setCustomAnimations(R.anim.anim_in, R.anim.anim_out, R.anim.anim_in, R.anim.anim_out)
-                    replace(R.id.fragmentContainer, fragment)
+                    replace(R.id.nav_host_fragment, fragment)
                     addToBackStack(null)
                 }
+                Log.e(LOG_TAG, "transaction")
             } else {
-                // NAVIGATION GRAPH todo
-
+                // NAVIGATION GRAPH
+                findNavController().navigate(R.id.action_contactsFragment_to_contactDetailViewFragment)
+                Log.e(LOG_TAG, "nav graph")
             }
 
         }
         binding.btnAddContact.setOnClickListener {
-            openAddContactDialog()
+            if (isUsingTransactions) {
+                openAddContactDialog()
+            } else {
+                findNavController().navigate(R.id.action_contactsFragment_to_addContactDialogFragment)
+            }
         }
         binding.rvContacts.viewTreeObserver.addOnScrollChangedListener {
             checkButtonUp()

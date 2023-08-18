@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/contactsFragment">
+
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.iyakovlev.task2.presentation.ContactsFragment"
+        android:label="ContactsFragment" >
+        <action
+            android:id="@+id/action_contactsFragment_to_addContactDialogFragment"
+            app:destination="@id/addContactDialogFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out"
+            app:popEnterAnim="@anim/anim_in"
+            app:popExitAnim="@anim/anim_out"/>
+        <action
+            android:id="@+id/action_contactsFragment_to_contactDetailViewFragment"
+            app:destination="@id/contactDetailViewFragment"
+            app:enterAnim="@anim/anim_in"
+            app:exitAnim="@anim/anim_out"
+            app:popEnterAnim="@anim/anim_in"
+            app:popExitAnim="@anim/anim_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDetailViewFragment"
+        android:name="com.iyakovlev.task2.presentation.ContactDetailViewFragment"
+        android:label="ContactDetailViewFragment" />
+    <dialog
+        android:id="@+id/addContactDialogFragment"
+        android:name="com.iyakovlev.task2.presentation.AddContactDialogFragment"
+        android:label="AddContactDialogFragment" />
+</navigation>
