@@ -1,43 +1,14 @@
-package com.iyakovlev.task2.presentation
+package com.iyakovlev.task2.presentation.activity
 
-import android.Manifest
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.content.pm.PackageManager
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.task2.R
-import com.iyakovlev.task2.domain.Contact
-import com.iyakovlev.task2.domain.ContactsViewModel
 import com.iyakovlev.task2.databinding.ActivityContactsBinding
-import com.iyakovlev.task2.domain.ContactsAdapter
-import com.iyakovlev.task2.utils.Constants.IS_USER_ASKED_KEY
+import com.iyakovlev.task2.presentation.common.BaseActivity
+import com.iyakovlev.task2.presentation.fragments.ContactsFragment
 import com.iyakovlev.task2.utils.Constants.LOG_TAG
-import com.iyakovlev.task2.utils.Constants.READ_CONTACTS_PERMISSION_REQUEST
-import com.iyakovlev.task2.utils.Constants.SNACK_BAR_LENGTH
-import com.iyakovlev.task2.utils.ItemSpacingDecoration
-import com.iyakovlev.task2.utils.TestingConstants
 import com.iyakovlev.task2.utils.TestingConstants.isUsingTransactions
-import kotlinx.coroutines.launch
 
 
 class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsBinding::inflate) {

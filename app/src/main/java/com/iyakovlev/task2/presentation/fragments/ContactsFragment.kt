@@ -1,8 +1,9 @@
-package com.iyakovlev.task2.presentation
+package com.iyakovlev.task2.presentation.fragments
 
 import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Canvas
 import android.graphics.Color
@@ -10,22 +11,13 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,10 +27,12 @@ import com.iyakovlev.task2.databinding.FragmentContactsBinding
 import com.iyakovlev.task2.domain.Contact
 import com.iyakovlev.task2.domain.ContactsAdapter
 import com.iyakovlev.task2.domain.ContactsViewModel
+import com.iyakovlev.task2.presentation.common.BaseFragment
 import com.iyakovlev.task2.utils.Constants
-import com.iyakovlev.task2.utils.Constants.IS_LIST_CREATED
-import com.iyakovlev.task2.utils.Constants.IS_USER_ASKED_KEY
+import com.iyakovlev.task2.utils.Constants.IS_FIRST_LAUNCH
 import com.iyakovlev.task2.utils.Constants.LOG_TAG
+import com.iyakovlev.task2.utils.Constants.PREFERENCES
+import com.iyakovlev.task2.utils.Constants.READ_CONTACTS_PERMISSION_KEY
 import com.iyakovlev.task2.utils.ItemSpacingDecoration
 import com.iyakovlev.task2.utils.TestingConstants.isUsingTransactions
 import kotlinx.coroutines.launch
@@ -47,26 +41,24 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     private val vm: ContactsViewModel by viewModels({ requireActivity() })
     private val contactAdapter = ContactsAdapter()
-    private var isUserAsked = false
-
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 vm.loadContactsFromStorage(requireActivity().contentResolver)
+                val prefs = requireContext().getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+                val editor = prefs.edit()
+                editor.putBoolean(READ_CONTACTS_PERMISSION_KEY, true)
+                editor.apply()
             } else {
-                if (vm.contacts.value.isEmpty()) {
-                    vm.createDefaultContacts()
-                }
+                createDefaultList()
             }
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (!isUserAsked) {
-            requestContactsPermission()
-        }
+        requestContactsPermission()
 
         setupRecyclerView()
         setObservers()
@@ -76,16 +68,26 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun requestContactsPermission() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_CONTACTS
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
+        val prefs = requireContext().getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+
+        if (prefs.getBoolean(READ_CONTACTS_PERMISSION_KEY, false)) {
             vm.loadContactsFromStorage(requireActivity().contentResolver)
         } else {
-            requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+            if (prefs.getBoolean(IS_FIRST_LAUNCH, true)) { // tracks apps permission request to store it forever
+                requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+                editor.putBoolean(IS_FIRST_LAUNCH, false)
+                editor.apply()
+            } else {
+                createDefaultList()
+            }
         }
-        isUserAsked = true
+    }
+
+    private fun createDefaultList() {
+        if (vm.contacts.value.isEmpty()) {
+            vm.createDefaultContacts()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -98,9 +100,11 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         }
     }
 
-    private suspend fun observeContacts() {
-        vm.contacts.collect { contacts ->
-            contactAdapter.setContacts(contacts)
+    override fun setObservers() {
+        lifecycleScope.launch {
+            vm.contacts.collect { contacts ->
+                contactAdapter.setContacts(contacts)
+            }
         }
     }
 
@@ -114,7 +118,12 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             if (isUsingTransactions) {
                 val fragment = ContactDetailViewFragment()
                 parentFragmentManager.commit {
-                    setCustomAnimations(R.anim.anim_in, R.anim.anim_out, R.anim.anim_in, R.anim.anim_out)
+                    setCustomAnimations(
+                        R.anim.anim_in,
+                        R.anim.anim_out,
+                        R.anim.anim_in,
+                        R.anim.anim_out
+                    )
                     replace(R.id.nav_host_fragment, fragment)
                     addToBackStack(null)
                 }
@@ -190,8 +199,10 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun addSwipeToDelete() {
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,
-            ItemTouchHelper.END or ItemTouchHelper.START) {
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.END or ItemTouchHelper.START
+        ) {
 
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -239,15 +250,17 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 }
                 c.drawRect(background, paint)
 
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                super.onChildDraw(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
             }
         }).attachToRecyclerView(binding.rvContacts)
-    }
-
-    override fun setObservers() {
-        lifecycleScope.launch {
-            observeContacts()
-        }
     }
 
     companion object {

@@ -1,15 +1,11 @@
-package com.iyakovlev.task2.presentation
+package com.iyakovlev.task2.presentation.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.iyakovlev.task2.R
 import com.iyakovlev.task2.databinding.FragmentContactDetailViewBinding
 import com.iyakovlev.task2.domain.Contact
-import com.iyakovlev.task2.utils.TestingConstants
+import com.iyakovlev.task2.presentation.common.BaseFragment
 import com.iyakovlev.task2.utils.TestingConstants.isUsingTransactions
 
 class ContactDetailViewFragment : BaseFragment<FragmentContactDetailViewBinding>(FragmentContactDetailViewBinding::inflate) {
