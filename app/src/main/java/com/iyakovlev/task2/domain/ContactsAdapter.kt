@@ -2,7 +2,9 @@ package com.iyakovlev.task2.domain
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -31,9 +33,9 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
 
     private var contacts: List<Contact> = emptyList()
 
-    private var onItemClicked: ((position: Int) -> Unit)? = null
+    private var onItemClicked: ((position: Int, imageView: ImageView) -> Unit)? = null
     private var onDeleteClicked: ((position: Int) -> Unit)? = null
-    fun setOnItemClickedListener(listener: (position: Int) -> Unit) {
+    fun setOnItemClickedListener(listener: (position: Int, imageView: ImageView) -> Unit) {
         onItemClicked = listener
     }
 
@@ -57,6 +59,8 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
         return contacts.size
     }
 
+    fun getContact(pos: Int): Contact = contacts[pos]
+
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
         holder.bind(contacts[position], onItemClicked, onDeleteClicked)
     }
@@ -65,13 +69,14 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(contact: Contact,
-                 onItemClicked: ((position: Int) -> Unit)?,
+                 onItemClicked: ((position: Int, imageView: ImageView) -> Unit)?,
                  onDeleteClicked: ((position: Int) -> Unit)?
         ) {
             binding.apply {
+//                ivAvatar.transitionName = "contactImageTransition_list_${contact.id.toString()}"
                 tvContactName.text = contact.name
                 tvContactCareer.text = contact.career
-                if (!contact.photo.isNullOrBlank()) {
+                if (contact.photo.isNotBlank()) {
                     binding.ivAvatar.loadImageWithGlide(contact.photo)
                 } else {
                     Glide.with(ivAvatar.context).clear(ivAvatar)
@@ -81,7 +86,7 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
                     onDeleteClicked?.invoke(bindingAdapterPosition)
                 }
                 clContactItem.setOnClickListener {
-                    onItemClicked?.invoke(bindingAdapterPosition)
+                    onItemClicked?.invoke(bindingAdapterPosition, binding.ivAvatar)
                 }
             }
         }

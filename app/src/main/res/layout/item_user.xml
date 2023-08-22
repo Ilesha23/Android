@@ -6,8 +6,9 @@
     android:background="@drawable/viewholder_shape"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/ivAvatar"
+        android:transitionName="contactImageTransition_list_${contact.id}"
         android:layout_width="@dimen/avatar_list_size"
         android:layout_height="@dimen/avatar_list_size"
         android:layout_marginStart="@dimen/margin_small"

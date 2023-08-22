@@ -10,23 +10,45 @@
         android:label="ContactsFragment" >
         <action
             android:id="@+id/action_contactsFragment_to_addContactDialogFragment"
-            app:destination="@id/addContactDialogFragment"
-            app:enterAnim="@anim/anim_in"
+            app:destination="@id/addContactDialogFragment" />
+            <!--app:enterAnim="@anim/anim_in"
             app:exitAnim="@anim/anim_out"
             app:popEnterAnim="@anim/anim_in"
-            app:popExitAnim="@anim/anim_out"/>
+            app:popExitAnim="@anim/anim_out"/>-->
         <action
             android:id="@+id/action_contactsFragment_to_contactDetailViewFragment"
-            app:destination="@id/contactDetailViewFragment"
-            app:enterAnim="@anim/anim_in"
+            app:destination="@id/contactDetailViewFragment" />
+            <!--app:enterAnim="@anim/anim_in"
             app:exitAnim="@anim/anim_out"
             app:popEnterAnim="@anim/anim_in"
-            app:popExitAnim="@anim/anim_out" />
+            app:popExitAnim="@anim/anim_out" />-->
     </fragment>
     <fragment
         android:id="@+id/contactDetailViewFragment"
         android:name="com.iyakovlev.task2.presentation.fragments.ContactDetailViewFragment"
-        android:label="ContactDetailViewFragment" />
+        android:label="ContactDetailViewFragment">
+        <argument
+            android:name="contactId"
+            app:argType="string" />
+        <argument
+            android:name="contactPhoto"
+            app:argType="string" />
+        <argument
+            android:name="contactName"
+            app:argType="string" />
+        <argument
+            android:name="contactCareer"
+            app:argType="string" />
+        <argument
+            android:name="contactAddress"
+            app:argType="string" />
+        <!--<argument
+            android:name="contact_id"
+            app:argType="string" />
+        <argument
+            android:name="transition_name"
+            app:argType="string" />-->
+    </fragment>
     <dialog
         android:id="@+id/addContactDialogFragment"
         android:name="com.iyakovlev.task2.presentation.fragments.AddContactDialogFragment"

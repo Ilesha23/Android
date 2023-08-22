@@ -14,9 +14,11 @@ import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -113,25 +115,49 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             vm.removeContact(position)
             showUndoDeleteSnackBar()
         }
-        contactAdapter.setOnItemClickedListener { position ->
+        contactAdapter.setOnItemClickedListener { position, imageView ->
             // TRANSACTION
             if (isUsingTransactions) {
                 val fragment = ContactDetailViewFragment()
+                val contact = contactAdapter.getContact(position)
+                val bundle = Bundle().apply {
+                    putString("contactPhoto", contact.photo)
+                    putString("contactName", contact.name)
+                    putString("contactCareer", contact.career)
+                    putString("contactAddress", contact.career) // TODO: address
+                }
+                fragment.arguments = bundle
                 parentFragmentManager.commit {
-                    setCustomAnimations(
-                        R.anim.anim_in,
-                        R.anim.anim_out,
-                        R.anim.anim_in,
-                        R.anim.anim_out
-                    )
+//                    setCustomAnimations(
+//                        R.anim.anim_in,
+//                        R.anim.anim_out,
+//                        R.anim.anim_in,
+//                        R.anim.anim_out
+//                    )
                     replace(R.id.nav_host_fragment, fragment)
                     addToBackStack(null)
                 }
                 Log.e(LOG_TAG, "transaction")
             } else {
                 // NAVIGATION GRAPH
-                findNavController().navigate(R.id.action_contactsFragment_to_contactDetailViewFragment)
-                Log.e(LOG_TAG, "nav graph")
+                val contact = contactAdapter.getContact(position)
+                val contactId = contact.id.toString()
+                val sharedTransitionNames = mutableMapOf<String, String>()
+                val transitionName = "contactImageTransition_list_$contactId"
+                sharedTransitionNames[contactId] = transitionName
+
+                val action = ContactsFragmentDirections.actionContactsFragmentToContactDetailViewFragment(
+                    contactId = contact.id.toString(),
+                    contactPhoto = contact.photo,
+                    contactName = contact.name,
+                    contactCareer = contact.career,
+                    contactAddress = contact.career, // TODO: address
+                )
+                val extras = FragmentNavigatorExtras(
+                    imageView to transitionName
+                )
+                findNavController().navigate(action, extras)
+//                Log.e(LOG_TAG, "nav graph")
             }
 
         }
