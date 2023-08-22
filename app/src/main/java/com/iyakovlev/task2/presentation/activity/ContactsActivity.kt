@@ -16,7 +16,7 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Log.d("LOG_TAG","work?")
         Log.e(LOG_TAG, "activity created")
 
         if (savedInstanceState == null) {

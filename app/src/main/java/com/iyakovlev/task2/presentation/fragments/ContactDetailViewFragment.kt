@@ -14,13 +14,16 @@ import com.iyakovlev.task2.presentation.common.BaseFragment
 import com.iyakovlev.task2.utils.TestingConstants.isUsingTransactions
 import com.iyakovlev.task2.utils.loadImageWithGlide
 
-class ContactDetailViewFragment : BaseFragment<FragmentContactDetailViewBinding>(FragmentContactDetailViewBinding::inflate) {
+class ContactDetailViewFragment :
+    BaseFragment<FragmentContactDetailViewBinding>(FragmentContactDetailViewBinding::inflate) {
 
     private lateinit var id: String
     private lateinit var photo: String
     private lateinit var name: String
     private lateinit var career: String
     private lateinit var address: String
+
+    private val args: ContactDetailViewFragmentArgs by navArgs()
 
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +38,7 @@ class ContactDetailViewFragment : BaseFragment<FragmentContactDetailViewBinding>
         super.onViewCreated(view, savedInstanceState)
 
         if (isUsingTransactions) {
-            arguments?.let {
+            arguments?.let { // TODO: change to navArgs
                 id = it.getString("contactId", "")
                 photo = it.getString("contactPhoto", "")
                 name = it.getString("contactName", "")
@@ -51,7 +54,17 @@ class ContactDetailViewFragment : BaseFragment<FragmentContactDetailViewBinding>
             address = args.contactAddress
         }
 
-        ViewCompat.setTransitionName(binding.ivAvatar, "contactImageTransition_detail_$id")
+        binding.ivAvatar.transitionName = "contactImageTransition_list_$id"
+        ViewCompat.setTransitionName(binding.ivAvatar, "contactImageTransition_detail_$id") //todo: ???
+
+        val animation = TransitionInflater.from(requireContext()).inflateTransition(
+            android.R.transition.move
+        )
+
+        sharedElementEnterTransition = animation
+        sharedElementReturnTransition = animation
+
+
 
         setData()
 

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.iyakovlev.task2.R
 import com.iyakovlev.task2.databinding.ItemUserBinding
+import com.iyakovlev.task2.presentation.fragments.interfaces.ClickListener
 import com.iyakovlev.task2.utils.loadImageWithGlide
 
 class ContactsDiffCallback(
@@ -29,7 +30,10 @@ class ContactsDiffCallback(
     }
 }
 
-class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>() {
+class ContactsAdapter(
+    val listener: ClickListener
+) :
+    RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>() {
 
     private var contacts: List<Contact> = emptyList()
 
@@ -62,15 +66,14 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
     fun getContact(pos: Int): Contact = contacts[pos]
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        holder.bind(contacts[position], onItemClicked, onDeleteClicked)
+        holder.bind(contacts[position])
     }
 
-    class ContactViewHolder(private val binding: ItemUserBinding) :
+    inner class ContactViewHolder(private val binding: ItemUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(contact: Contact,
-                 onItemClicked: ((position: Int, imageView: ImageView) -> Unit)?,
-                 onDeleteClicked: ((position: Int) -> Unit)?
+        fun bind(
+            contact: Contact,
         ) {
             binding.apply {
 //                ivAvatar.transitionName = "contactImageTransition_list_${contact.id.toString()}"
@@ -83,10 +86,11 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
                     ivAvatar.setImageResource(R.drawable.baseline_person_24)
                 }
                 ivContactRemove.setOnClickListener {
-                    onDeleteClicked?.invoke(bindingAdapterPosition)
+                    // onDeleteClicked?.invoke()
+                    listener.onItemDelete(bindingAdapterPosition)
                 }
                 clContactItem.setOnClickListener {
-                    onItemClicked?.invoke(bindingAdapterPosition, binding.ivAvatar)
+                    onItemClicked?.invoke(bindingAdapterPosition, binding.ivAvatar) // TODO: normal listener
                 }
             }
         }

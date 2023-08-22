@@ -12,6 +12,7 @@ import android.graphics.RectF
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -30,6 +31,7 @@ import com.iyakovlev.task2.domain.Contact
 import com.iyakovlev.task2.domain.ContactsAdapter
 import com.iyakovlev.task2.domain.ContactsViewModel
 import com.iyakovlev.task2.presentation.common.BaseFragment
+import com.iyakovlev.task2.presentation.fragments.interfaces.ClickListener
 import com.iyakovlev.task2.utils.Constants
 import com.iyakovlev.task2.utils.Constants.IS_FIRST_LAUNCH
 import com.iyakovlev.task2.utils.Constants.LOG_TAG
@@ -42,7 +44,16 @@ import kotlinx.coroutines.launch
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate) {
 
     private val vm: ContactsViewModel by viewModels({ requireActivity() })
-    private val contactAdapter = ContactsAdapter()
+    private val contactAdapter = ContactsAdapter(object: ClickListener{
+        override fun onItemClick(position: Int, imageView: ImageView) {
+
+        }
+
+        override fun onItemDelete(position: Int) {
+
+        }
+
+    })
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -142,9 +153,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 // NAVIGATION GRAPH
                 val contact = contactAdapter.getContact(position)
                 val contactId = contact.id.toString()
-                val sharedTransitionNames = mutableMapOf<String, String>()
+
                 val transitionName = "contactImageTransition_list_$contactId"
-                sharedTransitionNames[contactId] = transitionName
 
                 val action = ContactsFragmentDirections.actionContactsFragmentToContactDetailViewFragment(
                     contactId = contact.id.toString(),
@@ -153,10 +163,11 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                     contactCareer = contact.career,
                     contactAddress = contact.career, // TODO: address
                 )
+                imageView.transitionName = transitionName
                 val extras = FragmentNavigatorExtras(
                     imageView to transitionName
                 )
-                findNavController().navigate(action, extras)
+                navController.navigate(action, extras)
 //                Log.e(LOG_TAG, "nav graph")
             }
 
