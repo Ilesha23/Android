@@ -20,7 +20,8 @@ import com.iyakovlev.task2.utils.Constants.TRANSITION_NAME
 import com.iyakovlev.task2.utils.TestingConstants.isUsingTransactions
 import com.iyakovlev.task2.utils.loadImageWithGlide
 
-class ContactDetailViewFragment : BaseFragment<FragmentContactDetailViewBinding>(FragmentContactDetailViewBinding::inflate) {
+class ContactDetailViewFragment :
+    BaseFragment<FragmentContactDetailViewBinding>(FragmentContactDetailViewBinding::inflate) {
 
     private lateinit var id: String
     private lateinit var photo: String
@@ -28,7 +29,7 @@ class ContactDetailViewFragment : BaseFragment<FragmentContactDetailViewBinding>
     private lateinit var career: String
     private lateinit var address: String
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val args: ContactDetailViewFragmentArgs by navArgs()
@@ -42,6 +43,7 @@ class ContactDetailViewFragment : BaseFragment<FragmentContactDetailViewBinding>
                 address = it.getString(CONTACT_ADDRESS, "")
             }
         } else {
+            val args: ContactDetailViewFragmentArgs by navArgs()
             id = args.contactId
             photo = args.contactPhoto
             name = args.contactName
