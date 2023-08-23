@@ -10,38 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.iyakovlev.task2.R
 import com.iyakovlev.task2.databinding.ItemUserBinding
+import com.iyakovlev.task2.presentation.fragments.interfaces.ContactItemClickListener
 import com.iyakovlev.task2.utils.loadImageWithGlide
 
-class ContactsDiffCallback(
-    private val oldList: List<Contact>,
-    private val newList: List<Contact>
-) : DiffUtil.Callback() {
-    override fun getOldListSize(): Int = oldList.size
 
-    override fun getNewListSize(): Int = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].id == newList[newItemPosition].id
-    }
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] == newList[newItemPosition]
-    }
-}
-
-class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>() {
+class ContactsAdapter(val listener: ContactItemClickListener) : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>() {
 
     private var contacts: List<Contact> = emptyList()
-
-    private var onItemClicked: ((position: Int, imageView: ImageView) -> Unit)? = null
-    private var onDeleteClicked: ((position: Int) -> Unit)? = null
-    fun setOnItemClickedListener(listener: (position: Int, imageView: ImageView) -> Unit) {
-        onItemClicked = listener
-    }
-
-    fun setOnDeleteClickedListener(listener: (position: Int) -> Unit) {
-        onDeleteClicked = listener
-    }
 
     fun setContacts(contacts: List<Contact>) {
         val diffCallback = ContactsDiffCallback(this.contacts, contacts)
@@ -62,18 +37,14 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
     fun getContact(pos: Int): Contact = contacts[pos]
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        holder.bind(contacts[position], onItemClicked, onDeleteClicked)
+        holder.bind(contacts[position])
     }
 
-    class ContactViewHolder(private val binding: ItemUserBinding) :
+    inner class ContactViewHolder(private val binding: ItemUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(contact: Contact,
-                 onItemClicked: ((position: Int, imageView: ImageView) -> Unit)?,
-                 onDeleteClicked: ((position: Int) -> Unit)?
-        ) {
+        fun bind(contact: Contact) {
             binding.apply {
-//                ivAvatar.transitionName = "contactImageTransition_list_${contact.id.toString()}"
                 tvContactName.text = contact.name
                 tvContactCareer.text = contact.career
                 if (contact.photo.isNotBlank()) {
@@ -83,10 +54,10 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
                     ivAvatar.setImageResource(R.drawable.baseline_person_24)
                 }
                 ivContactRemove.setOnClickListener {
-                    onDeleteClicked?.invoke(bindingAdapterPosition)
+                    listener.onItemDeleteClick(bindingAdapterPosition)
                 }
                 clContactItem.setOnClickListener {
-                    onItemClicked?.invoke(bindingAdapterPosition, binding.ivAvatar)
+                    listener.onItemClick(bindingAdapterPosition, binding.ivAvatar)
                 }
             }
         }

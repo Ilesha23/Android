@@ -22,10 +22,14 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
 
     private var _binding: AddContactDialogBinding? = null
     private val binding get() = requireNotNull(_binding)
-    private val viewModel: ContactsViewModel by viewModels({ requireActivity() })
+    private var viewModel = ContactsViewModel()
 
     private lateinit var photoActivityResult: ActivityResultLauncher<Intent>
-    private var contact = Contact(UUID.randomUUID(), "", "", "")
+    private var contact = Contact(UUID.randomUUID(), "", "", "", "")
+
+    fun setViewModel(viewModel: ContactsViewModel) {
+        this.viewModel = viewModel
+    }
 
     override fun getTheme(): Int {
         return R.style.FullScreenDialog
@@ -48,7 +52,7 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
                 val photo = it.data?.data.toString()
-                contact = Contact(contact.id, photo, contact.name, contact.career)
+                contact = Contact(contact.id, photo, contact.name, contact.career, contact.address)
                 binding.ivAddContactAvatar.loadImageWithGlide(photo)
             }
         }
@@ -63,7 +67,8 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
             btnSave.setOnClickListener {
                 val name = etUsername.text.toString()
                 val career = etCareer.text.toString()
-                contact = Contact(contact.id, contact.photo, name, career)
+                val address = etAddress.text.toString()
+                contact = Contact(contact.id, contact.photo, name, career, address)
                 viewModel.addContact(contact)
                 dismiss()
             }

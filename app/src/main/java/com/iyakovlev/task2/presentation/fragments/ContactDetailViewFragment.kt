@@ -11,6 +11,12 @@ import com.iyakovlev.task2.R
 import com.iyakovlev.task2.databinding.FragmentContactDetailViewBinding
 import com.iyakovlev.task2.domain.Contact
 import com.iyakovlev.task2.presentation.common.BaseFragment
+import com.iyakovlev.task2.utils.Constants.CONTACT_ADDRESS
+import com.iyakovlev.task2.utils.Constants.CONTACT_CAREER
+import com.iyakovlev.task2.utils.Constants.CONTACT_ID
+import com.iyakovlev.task2.utils.Constants.CONTACT_NAME
+import com.iyakovlev.task2.utils.Constants.CONTACT_PHOTO
+import com.iyakovlev.task2.utils.Constants.TRANSITION_NAME
 import com.iyakovlev.task2.utils.TestingConstants.isUsingTransactions
 import com.iyakovlev.task2.utils.loadImageWithGlide
 
@@ -22,28 +28,20 @@ class ContactDetailViewFragment : BaseFragment<FragmentContactDetailViewBinding>
     private lateinit var career: String
     private lateinit var address: String
 
-
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//
-//        val animation = TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
-//        sharedElementEnterTransition = animation
-//        sharedElementReturnTransition = animation
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val args: ContactDetailViewFragmentArgs by navArgs()
+
         if (isUsingTransactions) {
             arguments?.let {
-                id = it.getString("contactId", "")
-                photo = it.getString("contactPhoto", "")
-                name = it.getString("contactName", "")
-                career = it.getString("contactCareer", "")
-                address = it.getString("contactAddress", "")
+                id = it.getString(CONTACT_ID, "")
+                photo = it.getString(CONTACT_PHOTO, "")
+                name = it.getString(CONTACT_NAME, "")
+                career = it.getString(CONTACT_CAREER, "")
+                address = it.getString(CONTACT_ADDRESS, "")
             }
         } else {
-            val args: ContactDetailViewFragmentArgs by navArgs()
             id = args.contactId
             photo = args.contactPhoto
             name = args.contactName
@@ -51,7 +49,12 @@ class ContactDetailViewFragment : BaseFragment<FragmentContactDetailViewBinding>
             address = args.contactAddress
         }
 
-        ViewCompat.setTransitionName(binding.ivAvatar, "contactImageTransition_detail_$id")
+        binding.ivAvatar.transitionName = "$TRANSITION_NAME$id"
+        val animation = TransitionInflater.from(requireContext()).inflateTransition(
+            R.transition.contact_image_transition
+        )
+        sharedElementEnterTransition = animation
+        sharedElementReturnTransition = animation
 
         setData()
 
@@ -75,14 +78,14 @@ class ContactDetailViewFragment : BaseFragment<FragmentContactDetailViewBinding>
             if (isUsingTransactions) {
                 parentFragmentManager.popBackStack()
             } else {
-                findNavController().popBackStack()
+                navController.popBackStack()
             }
         }
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(contact: Contact) =
+        fun newInstance() =
             ContactDetailViewFragment().apply {
 
             }

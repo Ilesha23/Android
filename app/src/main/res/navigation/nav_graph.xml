@@ -11,17 +11,9 @@
         <action
             android:id="@+id/action_contactsFragment_to_addContactDialogFragment"
             app:destination="@id/addContactDialogFragment" />
-            <!--app:enterAnim="@anim/anim_in"
-            app:exitAnim="@anim/anim_out"
-            app:popEnterAnim="@anim/anim_in"
-            app:popExitAnim="@anim/anim_out"/>-->
         <action
             android:id="@+id/action_contactsFragment_to_contactDetailViewFragment"
             app:destination="@id/contactDetailViewFragment" />
-            <!--app:enterAnim="@anim/anim_in"
-            app:exitAnim="@anim/anim_out"
-            app:popEnterAnim="@anim/anim_in"
-            app:popExitAnim="@anim/anim_out" />-->
     </fragment>
     <fragment
         android:id="@+id/contactDetailViewFragment"
@@ -42,12 +34,6 @@
         <argument
             android:name="contactAddress"
             app:argType="string" />
-        <!--<argument
-            android:name="contact_id"
-            app:argType="string" />
-        <argument
-            android:name="transition_name"
-            app:argType="string" />-->
     </fragment>
     <dialog
         android:id="@+id/addContactDialogFragment"
