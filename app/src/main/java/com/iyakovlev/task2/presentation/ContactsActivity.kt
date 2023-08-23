@@ -16,7 +16,6 @@ import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -54,7 +53,7 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
         lifecycleScope.launch {
             observeContacts()
         }
-        setupListeners()
+
         addSwipeToDelete()
 
     }
@@ -119,7 +118,7 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
         }
     }
 
-    private fun setupListeners() {
+    override fun setListeners() {
         contactAdapter.setOnRemoveClickListener { contact ->
             vm.removeContact(contact)
             showUndoDeleteSnackBar()
