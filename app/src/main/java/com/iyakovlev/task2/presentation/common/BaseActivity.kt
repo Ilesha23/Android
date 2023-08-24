@@ -15,7 +15,10 @@ abstract class BaseActivity<VBinding : ViewBinding>(private val inflaterMethod: 
         super.onCreate(savedInstanceState)
         _binding = inflaterMethod.invoke(layoutInflater)
         setContentView(binding.root)
+        setListeners()
     }
+
+    open fun setListeners() {}
 
     override fun onDestroy() {
         _binding = null
