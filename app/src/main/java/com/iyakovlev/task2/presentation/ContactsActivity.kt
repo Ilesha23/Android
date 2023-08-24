@@ -16,7 +16,6 @@ import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +35,7 @@ import kotlinx.coroutines.launch
 
 class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsBinding::inflate) {
 
-    private val vm: ContactsViewModel by viewModels()
+    private val viewModel: ContactsViewModel by viewModels()
     private val contactAdapter = ContactsAdapter()
     private var isUserAsked = false
 
@@ -54,7 +53,7 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
         lifecycleScope.launch {
             observeContacts()
         }
-        setupListeners()
+
         addSwipeToDelete()
 
     }
@@ -76,7 +75,7 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
             isUserAsked = true
             Log.e(LOG_TAG, "permission to read contacts asked")
         } else {
-            vm.loadContactsFromStorage(contentResolver)
+            viewModel.loadContactsFromStorage(contentResolver)
         }
     }
 
@@ -91,13 +90,13 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
                 Toast.makeText(this, "granted", Toast.LENGTH_SHORT).show() // TODO:
                 Log.e(LOG_TAG, "permission to read contacts granted")
 
-                vm.loadContactsFromStorage(contentResolver)
+                viewModel.loadContactsFromStorage(contentResolver)
 
             } else {
                 Toast.makeText(this, "not granted", Toast.LENGTH_SHORT).show() // TODO:
                 Log.e(LOG_TAG, "permission to read contacts not granted")
 
-                vm.createDefaultContacts()
+                viewModel.createFakeContacts()
 
             }
         }
@@ -114,14 +113,14 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
     }
 
     private suspend fun observeContacts() {
-        vm.contacts.collect { contacts ->
+        viewModel.contacts.collect { contacts ->
             contactAdapter.setContacts(contacts)
         }
     }
 
-    private fun setupListeners() {
+    override fun setListeners() {
         contactAdapter.setOnRemoveClickListener { contact ->
-            vm.removeContact(contact)
+            viewModel.removeContact(contact)
             showUndoDeleteSnackBar()
         }
         binding.btnAddContact.setOnClickListener {
@@ -170,6 +169,7 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
 
     private fun openAddContactDialog() {
         val dialogFragment = AddContactDialogFragment()
+        dialogFragment.setViewModel(viewModel)
 
         dialogFragment.show(supportFragmentManager, "TAG") // TODO:
         Log.e(LOG_TAG, "dialog showed")
@@ -178,7 +178,7 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
     private fun showUndoDeleteSnackBar() {
         Snackbar.make(binding.root, R.string.contact_deleted_snackbar, SNACK_BAR_LENGTH)
             .setAction(R.string.undo_remove_snackbar) {
-                vm.undoRemoveContact()
+                viewModel.undoRemoveContact()
             }
             .show()
     }
@@ -196,10 +196,10 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val index = viewHolder.bindingAdapterPosition
-                val contact: Contact? = vm.getContact(index)
+                val contact: Contact? = viewModel.getContact(index)
 
                 if (contact != null) {
-                    vm.removeContact(contact)
+                    viewModel.removeContact(contact)
                     showUndoDeleteSnackBar()
                 }
             }

@@ -17,6 +17,7 @@ import com.iyakovlev.task2.R
 import com.iyakovlev.task2.databinding.AddContactDialogBinding
 import com.iyakovlev.task2.domain.Contact
 import com.iyakovlev.task2.domain.ContactsViewModel
+import com.iyakovlev.task2.utils.Constants.CONTACT_KEY
 import com.iyakovlev.task2.utils.Constants.LOG_TAG
 import com.iyakovlev.task2.utils.loadImageWithGlide
 import java.util.UUID
@@ -26,10 +27,14 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
 
     private var _binding: AddContactDialogBinding? = null
     private val binding get() = requireNotNull(_binding)
-    private val viewModel: ContactsViewModel by viewModels({ requireActivity() })
+    private var viewModel = ContactsViewModel()
 
     private lateinit var photoActivityResult: ActivityResultLauncher<Intent>
     private var contact = Contact(UUID.randomUUID(), null, "", "")
+
+    fun setViewModel(vm: ContactsViewModel) {
+        viewModel = vm
+    }
 
     override fun getTheme(): Int {
         return R.style.FullScreenDialog
