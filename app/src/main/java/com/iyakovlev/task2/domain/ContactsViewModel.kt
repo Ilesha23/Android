@@ -84,7 +84,7 @@ class ContactsViewModel : ViewModel(), Parcelable {
 
     private fun findInsertionIndex(name: String): Int {
         val index = _contacts.value.indexOfFirst { it.name.lowercase() > name.lowercase() }
-        return if (index != -1) index else 0
+        return if (index != -1) index else _contacts.value.size
     }
 
     fun loadContactsFromStorage(contentResolver: ContentResolver) {
