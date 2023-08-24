@@ -38,11 +38,11 @@ class ContactRepositoryImpl : ContactRepository {
                 val id = it.getLong(idColIndex)
                 val name = it.getString(nameColIndex)
                 val photo = it.getString(photoColIndex) ?: ""
-                val career = getCareerByContactId(contentResolver, id) ?: ""
+                val career = getJobByContactId(contentResolver, id)
+                val address = getAddressByContactId(contentResolver, id)
 
-                val uniqueString = "$id:$photo:$name:$career"
-                val uuid = UUID.nameUUIDFromBytes(uniqueString.toByteArray())
-                val contact = Contact(uuid, photo, name, career)
+                val uuid = UUID.randomUUID()
+                val contact = Contact(uuid, photo, name, career, address)
                 contactsList.add(contact)
             }
         }
@@ -55,22 +55,23 @@ class ContactRepositoryImpl : ContactRepository {
             //id = it.toLong(),
             name = faker.name().name(),
             career = faker.company().name(),
-            photo = Constants.IMAGES[it % Constants.IMAGES.size]
+            photo = Constants.IMAGES[it % Constants.IMAGES.size],
+            address = faker.address().fullAddress()
         ) }.sortedBy {
             it.name
         }
     }
 
-    private fun getCareerByContactId(contentResolver: ContentResolver, contactId: Long): String? {
+    private fun getJobByContactId(contentResolver: ContentResolver, contactId: Long): String {
         val projection = arrayOf(
-            ContactsContract.CommonDataKinds.Organization.TITLE
+            ContactsContract.CommonDataKinds.Organization.TITLE,
         )
 
         val selection =
             "${ContactsContract.Data.CONTACT_ID} = ? AND ${ContactsContract.Data.MIMETYPE} = ?"
         val selectionArgs = arrayOf(
             contactId.toString(),
-            ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE
+            ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE,
         )
 
         contentResolver.query(
@@ -83,11 +84,40 @@ class ContactRepositoryImpl : ContactRepository {
             if (cursor.moveToFirst()) {
                 val careerColumnIndex =
                     cursor.getColumnIndex(ContactsContract.CommonDataKinds.Organization.TITLE)
-                return cursor.getString(careerColumnIndex)
+                return cursor.getString(careerColumnIndex) ?: ""
             }
         }
 
-        return null
+        return ""
+    }
+
+    private fun getAddressByContactId(contentResolver: ContentResolver, contactId: Long): String {
+        val projection = arrayOf(
+            ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS,
+        )
+
+        val selection =
+            "${ContactsContract.Data.CONTACT_ID} = ? AND ${ContactsContract.Data.MIMETYPE} = ?"
+        val selectionArgs = arrayOf(
+            contactId.toString(),
+            ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE,
+        )
+
+        contentResolver.query(
+            ContactsContract.Data.CONTENT_URI,
+            projection,
+            selection,
+            selectionArgs,
+            null
+        )?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val addressColumnIndex =
+                    cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS)
+                return cursor.getString(addressColumnIndex) ?: ""
+            }
+        }
+
+        return ""
     }
 
 }

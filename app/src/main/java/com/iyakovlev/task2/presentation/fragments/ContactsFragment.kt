@@ -107,7 +107,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     private fun createDefaultList() {
         if (viewModel.contacts.value.isEmpty()) {
-            viewModel.createDefaultContacts()
+            viewModel.createFakeContacts()
         }
     }
 
@@ -134,7 +134,9 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             if (isUsingTransactions) {
                 openAddContactDialog()
             } else {
-                navController.navigate(R.id.action_contactsFragment_to_addContactDialogFragment)
+                val action = ContactsFragmentDirections
+                    .actionContactsFragmentToAddContactDialogFragment(viewModel)
+                navController.navigate(action)
             }
         }
         binding.rvContacts.viewTreeObserver.addOnScrollChangedListener {

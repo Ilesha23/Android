@@ -1,23 +1,19 @@
-package com.iyakovlev.task2.presentation
+package com.iyakovlev.task2.presentation.fragments
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
+import androidx.navigation.fragment.navArgs
 import com.iyakovlev.task2.R
 import com.iyakovlev.task2.databinding.AddContactDialogBinding
 import com.iyakovlev.task2.domain.Contact
 import com.iyakovlev.task2.domain.ContactsViewModel
-import com.iyakovlev.task2.utils.Constants.LOG_TAG
 import com.iyakovlev.task2.utils.loadImageWithGlide
 import java.util.UUID
 
@@ -73,6 +69,9 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
                 val career = etCareer.text.toString()
                 val address = etAddress.text.toString()
                 contact = Contact(contact.id, contact.photo, name, career, address)
+
+                val args: AddContactDialogFragmentArgs by navArgs()
+                viewModel = args.viewModel
                 viewModel.addContact(contact)
                 dismiss()
             }

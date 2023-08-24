@@ -32,8 +32,6 @@ class ContactDetailViewFragment :
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val args: ContactDetailViewFragmentArgs by navArgs()
-
         if (isUsingTransactions) {
             arguments?.let {
                 id = it.getString(CONTACT_ID, "")

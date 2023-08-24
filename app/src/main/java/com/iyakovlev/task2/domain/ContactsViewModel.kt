@@ -1,6 +1,8 @@
 package com.iyakovlev.task2.domain
 
 import android.content.ContentResolver
+import android.os.Parcel
+import android.os.Parcelable
 import android.provider.ContactsContract
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -15,7 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.util.UUID
 
-class ContactsViewModel : ViewModel() {
+class ContactsViewModel : ViewModel(), Parcelable {
 
     private val contactRepository = ContactRepositoryImpl()
 
@@ -92,5 +94,13 @@ class ContactsViewModel : ViewModel() {
     override fun onCleared() {
         Log.e(LOG_TAG, "view model cleared")
         super.onCleared()
+    }
+
+    override fun describeContents(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override fun writeToParcel(p0: Parcel, p1: Int) {
+        TODO("Not yet implemented")
     }
 }

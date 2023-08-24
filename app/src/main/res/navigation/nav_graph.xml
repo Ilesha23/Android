@@ -38,5 +38,9 @@
     <dialog
         android:id="@+id/addContactDialogFragment"
         android:name="com.iyakovlev.task2.presentation.fragments.AddContactDialogFragment"
-        android:label="AddContactDialogFragment" />
+        android:label="AddContactDialogFragment">
+        <argument
+            android:name="viewModel"
+            app:argType="com.iyakovlev.task2.domain.ContactsViewModel" />
+    </dialog>
 </navigation>
