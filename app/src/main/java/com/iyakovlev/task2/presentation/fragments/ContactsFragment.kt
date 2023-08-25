@@ -68,7 +68,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 editor.putBoolean(READ_CONTACTS_PERMISSION_KEY, true)
                 editor.apply()
             } else {
-                createDefaultList()
+                viewModel.createFakeContacts()
             }
         }
 
@@ -100,14 +100,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 editor.putBoolean(IS_FIRST_LAUNCH, false)
                 editor.apply()
             } else {
-                createDefaultList()
+                viewModel.createFakeContacts()
             }
-        }
-    }
-
-    private fun createDefaultList() {
-        if (viewModel.contacts.value.isEmpty()) {
-            viewModel.createFakeContacts()
         }
     }
 

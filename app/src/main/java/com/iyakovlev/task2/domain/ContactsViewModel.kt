@@ -32,7 +32,9 @@ class ContactsViewModel : ViewModel(), Parcelable {
     }
 
     fun createFakeContacts() {
-        _contacts.value = contactRepository.createFakeContacts()
+        if (contacts.value.isEmpty()) {
+            _contacts.value = contactRepository.createFakeContacts()
+        }
         Log.e(LOG_TAG, "default contacts created")
     }
 
@@ -88,7 +90,9 @@ class ContactsViewModel : ViewModel(), Parcelable {
     }
 
     fun loadContactsFromStorage(contentResolver: ContentResolver) {
-        _contacts.value = contactRepository.loadContactsFromStorage(contentResolver)
+        if (_contacts.value.isEmpty()) {
+            _contacts.value = contactRepository.loadContactsFromStorage(contentResolver)
+        }
     }
 
     override fun onCleared() {
@@ -97,10 +101,10 @@ class ContactsViewModel : ViewModel(), Parcelable {
     }
 
     override fun describeContents(): Int {
-        TODO("Not yet implemented")
+        return 0
     }
 
     override fun writeToParcel(p0: Parcel, p1: Int) {
-        TODO("Not yet implemented")
+
     }
 }
