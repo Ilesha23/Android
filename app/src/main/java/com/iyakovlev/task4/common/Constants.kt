@@ -1,4 +1,4 @@
-package com.iyakovlev.task_1.common
+package com.iyakovlev.task4.common
 
 object Constants {
     const val APP_PREFERENCES = "APP_PREFERENCES"

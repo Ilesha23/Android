@@ -1,4 +1,4 @@
-package com.iyakovlev.task_1.ui
+package com.iyakovlev.task4.utils
 
 import android.content.Context
 import android.graphics.Canvas
@@ -10,7 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import com.iyakovlev.task_1.R
+import com.iyakovlev.task4.R
 
 class CustomImageButton @JvmOverloads constructor(
     context: Context,

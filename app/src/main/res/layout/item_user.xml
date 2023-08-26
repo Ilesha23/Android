@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/clContactItem"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/contacts_item_height"
+    android:background="@drawable/viewholder_shape"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/ivAvatar"
+        android:transitionName="contactImageTransition_list_${contact.id}"
+        android:layout_width="@dimen/avatar_list_size"
+        android:layout_height="@dimen/avatar_list_size"
+        android:layout_marginStart="@dimen/margin_small"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvContactName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:fontFamily="@font/ysabeau_semi_bold"
+        android:text="@string/default_name"
+        android:textColor="?attr/colorOnPrimaryContainer"
+        android:textSize="@dimen/text_header"
+        android:layout_marginStart="@dimen/margin_default"
+        app:layout_constraintStart_toEndOf="@+id/ivAvatar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvContactCareer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ysabeau_regular"
+        android:text="@string/default_career"
+        android:textColor="?attr/colorOnSecondaryContainer"
+        app:layout_constraintStart_toStartOf="@+id/tvContactName"
+        app:layout_constraintTop_toBottomOf="@+id/tvContactName" />
+
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivContactRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_delete"
+        android:layout_marginEnd="@dimen/margin_additional_middle"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

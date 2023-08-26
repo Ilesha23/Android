@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.iyakovlev.task4.presentation.fragments.MainFragment"
+        android:label="fragment_main" >
+        <!--<action
+            android:id="@+id/action_mainFragment_to_contactsFragment"
+            app:destination="@id/contactsFragment" />-->
+    </fragment>
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.iyakovlev.task4.presentation.fragments.ContactsFragment"
+        android:label="ContactsFragment" >
+        <action
+            android:id="@+id/action_contactsFragment_to_addContactDialogFragment"
+            app:destination="@id/addContactDialogFragment" />
+        <action
+            android:id="@+id/action_contactsFragment_to_contactDetailViewFragment"
+            app:destination="@id/contactDetailViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDetailViewFragment"
+        android:name="com.iyakovlev.task4.presentation.fragments.ContactDetailViewFragment"
+        android:label="ContactDetailViewFragment">
+        <argument
+            android:name="contactId"
+            app:argType="string" />
+        <argument
+            android:name="contactPhoto"
+            app:argType="string" />
+        <argument
+            android:name="contactName"
+            app:argType="string" />
+        <argument
+            android:name="contactCareer"
+            app:argType="string" />
+        <argument
+            android:name="contactAddress"
+            app:argType="string" />
+    </fragment>
+    <dialog
+        android:id="@+id/addContactDialogFragment"
+        android:name="com.iyakovlev.task4.presentation.fragments.AddContactDialogFragment"
+        android:label="AddContactDialogFragment">
+        <argument
+            android:name="viewModel"
+            app:argType="com.iyakovlev.task4.domain.ContactsViewModel" />
+    </dialog>
+</navigation>

@@ -1,4 +1,4 @@
-package com.iyakovlev.task_1.ui
+package com.iyakovlev.task4.presentation.common
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +15,10 @@ abstract class BaseActivity<VBinding : ViewBinding>(private val inflaterMethod: 
         super.onCreate(savedInstanceState)
         _binding = inflaterMethod.invoke(layoutInflater)
         setContentView(binding.root)
+        setListeners()
     }
+
+    open fun setListeners() {}
 
     override fun onDestroy() {
         _binding = null

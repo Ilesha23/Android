@@ -1,4 +1,4 @@
-package com.iyakovlev.task_1
+package com.iyakovlev.task4
 
 import org.junit.Test
 

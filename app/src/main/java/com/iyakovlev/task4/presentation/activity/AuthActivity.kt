@@ -1,4 +1,4 @@
-package com.iyakovlev.task_1.ui
+package com.iyakovlev.task4.presentation.activity
 
 import android.content.Context
 import android.content.Intent
@@ -10,15 +10,16 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.app.ActivityOptionsCompat
-import com.iyakovlev.task_1.R
-import com.iyakovlev.task_1.common.Constants.APP_PREFERENCES
-import com.iyakovlev.task_1.common.Constants.EMAIL
-import com.iyakovlev.task_1.common.Constants.ISLOGINED
-import com.iyakovlev.task_1.common.Constants.PASSWORD_LENGTH
-import com.iyakovlev.task_1.common.Constants.PASSWORD_LOWERCASE_LETTERS
-import com.iyakovlev.task_1.common.Constants.PASSWORD_NUMBERS
-import com.iyakovlev.task_1.common.Constants.PASSWORD_UPPERCASE_LETTERS
-import com.iyakovlev.task_1.databinding.AuthLayoutBinding
+import com.iyakovlev.task4.R
+import com.iyakovlev.task4.common.Constants.APP_PREFERENCES
+import com.iyakovlev.task4.common.Constants.EMAIL
+import com.iyakovlev.task4.common.Constants.ISLOGINED
+import com.iyakovlev.task4.common.Constants.PASSWORD_LENGTH
+import com.iyakovlev.task4.common.Constants.PASSWORD_LOWERCASE_LETTERS
+import com.iyakovlev.task4.common.Constants.PASSWORD_NUMBERS
+import com.iyakovlev.task4.common.Constants.PASSWORD_UPPERCASE_LETTERS
+import com.iyakovlev.task4.databinding.AuthLayoutBinding
+import com.iyakovlev.task4.presentation.common.BaseActivity
 
 
 class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate) {
@@ -66,7 +67,7 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
 //        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 //    }
 
-    private fun setListeners() {
+    override fun setListeners() {
 //        binding.root.setOnClickListener {
 //            hideKeyboard()
 //        }

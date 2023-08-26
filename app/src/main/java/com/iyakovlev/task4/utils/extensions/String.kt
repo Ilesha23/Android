@@ -1,3 +1,3 @@
-package com.iyakovlev.task_1.utils.extensions
+package com.iyakovlev.task4.utils.extensions
 
 fun String.capitalizeFirstChar(): String = this.replaceFirstChar { it.uppercaseChar() }

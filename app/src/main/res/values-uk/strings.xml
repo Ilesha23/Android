@@ -27,4 +27,24 @@
     <string name="required_error">потребується</string>
 
 
+
+
+    <string name="title">Контакти</string>
+    <string name="add_contacts">Додати контакти</string>
+    <string name="default_career">Посада</string>
+    <string name="undo_remove_snackbar">Відмінити</string>
+    <string name="contact_deleted_snackbar">Контакт був видалений</string>
+    <string name="add_contact">Додати контакт</string>
+    <string name="username">Ім\'я користувача</string>
+    <string name="career">Посада</string>
+    <string name="email">Пошта</string>
+    <string name="phone">Телефон</string>
+    <string name="address">Адреса</string>
+    <string name="date_of_birth">Дата нарождення</string>
+    <string name="save">Зберегти</string>
+    <string name="profile">Профіль</string>
+    <string name="default_name_main">Ім\'я</string>
+    <string name="message">Повідомлення</string>
+
+
 </resources>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.fragments.ContactsFragment">
+
+    <View
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/dark_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_additional_small"
+        android:fontFamily="@font/ysabeau_semi_bold"
+        android:text="@string/title"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="@dimen/text_header_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/ibBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_default"
+        android:background="@android:color/transparent"
+        android:src="@drawable/baseline_arrow_back_24"
+        app:layout_constraintBottom_toBottomOf="@+id/tvHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvHeader"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_default"
+        android:background="@android:color/transparent"
+        android:src="@drawable/baseline_search_24"
+        app:layout_constraintBottom_toBottomOf="@+id/tvHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvHeader"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btnAddContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_add_contacts"
+        android:fontFamily="@font/ysabeau_semi_bold"
+        android:text="@string/add_contacts"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_middle"
+        app:layout_constraintStart_toStartOf="@+id/ibBack"
+        app:layout_constraintTop_toTopOf="@id/toolbar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvContacts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/arrow_up"
+        app:iconTint="?attr/colorOnPrimary"
+        app:iconSize="@dimen/floating_button_icon_size"
+        android:backgroundTint="?attr/colorSecondary"
+        app:shapeAppearance="@style/MyFloatingActionButton"
+        android:layout_marginEnd="@dimen/margin_default"
+        android:layout_marginBottom="@dimen/margin_default"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

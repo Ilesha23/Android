@@ -1,140 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/clTopHalf"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="?attr/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/clBottomHalf" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSettings"
-            style="@style/text_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings"
-            android:layout_marginStart="@dimen/margin_middle"
-            android:layout_marginTop="@dimen/margin_middle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivAvatar"
-            android:layout_width="@dimen/avatar_size"
-            android:layout_height="@dimen/avatar_size"
-            app:layout_constraintEnd_toEndOf="@id/clTopHalf"
-            app:layout_constraintStart_toStartOf="@id/clTopHalf"
-            app:layout_constraintTop_toBottomOf="@id/tvSettings"
-            app:layout_constraintBottom_toTopOf="@id/tvFullName"
-            app:shapeAppearanceOverlay="@style/circleImageView"
-            app:srcCompat="@drawable/avatar" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvFullName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name_lastname_placeholder"
-            style="@style/text_big"
-            app:layout_constraintEnd_toEndOf="@id/clTopHalf"
-            app:layout_constraintStart_toStartOf="@id/clTopHalf"
-            app:layout_constraintTop_toBottomOf="@+id/ivAvatar"
-            app:layout_constraintBottom_toTopOf="@id/tvCareer"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvCareer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/career_placeholder"
-            android:textColor="@color/color_text_secondary"
-            style="@style/text_middle"
-            app:layout_constraintEnd_toEndOf="@id/clTopHalf"
-            app:layout_constraintStart_toStartOf="@id/clTopHalf"
-            app:layout_constraintTop_toBottomOf="@+id/tvFullName"
-            app:layout_constraintBottom_toTopOf="@id/tvAddress"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvAddress"
-            style="@style/text_middle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/home_address_placeholder"
-            android:textColor="@color/color_text_secondary"
-            app:layout_constraintEnd_toEndOf="@id/clTopHalf"
-            app:layout_constraintStart_toStartOf="@id/clTopHalf"
-            app:layout_constraintTop_toBottomOf="@+id/tvCareer"
-            app:layout_constraintBottom_toBottomOf="@id/clTopHalf"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clBottomHalf"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/color_secondary"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clTopHalf">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivFacebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/ic_links_margin"
-            app:layout_constraintEnd_toStartOf="@+id/ivLinkedin"
-            app:layout_constraintTop_toTopOf="@+id/ivLinkedin"
-            app:srcCompat="@drawable/ic_link_facebook" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivLinkedin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/btnEditProfile"
-            app:srcCompat="@drawable/ic_link_linkedin" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivInstagram"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ic_links_margin"
-            app:layout_constraintStart_toEndOf="@+id/ivLinkedin"
-            app:layout_constraintTop_toTopOf="@+id/ivLinkedin"
-            app:srcCompat="@drawable/ic_link_instagram" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnEditProfile"
-            style="@style/text_middle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_btn_register"
-            android:layout_margin="@dimen/margin_default"
-            android:background="@drawable/btn_edit_profile"
-            android:text="@string/edit_profile_button"
-            android:textAllCaps="false"
-            android:textColor="@color/color_text_additional"
-            app:layout_constraintBottom_toTopOf="@+id/btnViewContacts"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="VisualLintButtonSize" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnViewContacts"
-            style="@style/text_button"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_btn_register"
-            android:layout_margin="@dimen/margin_default"
-            android:background="@drawable/btn_view_contacts"
-            android:text="@string/view_contacts_button"
-            android:textAllCaps="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="VisualLintButtonSize" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
