@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_auth"
@@ -21,7 +20,7 @@
         android:layout_marginBottom="@dimen/margin_default"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tvFillFormProposal"/>
+        app:layout_constraintBottom_toTopOf="@id/tvFillFormProposal" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvFillFormProposal"
@@ -150,7 +149,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnGoogle"
-        app:layout_constraintBottom_toTopOf="@id/btnRegister"/>
+        app:layout_constraintBottom_toTopOf="@id/btnRegister" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegister"
@@ -179,7 +178,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRegister"
-        app:layout_constraintBottom_toTopOf="@+id/tvHaveAccQuestion"/>
+        app:layout_constraintBottom_toTopOf="@+id/tvHaveAccQuestion" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvHaveAccQuestion"

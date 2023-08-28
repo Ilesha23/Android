@@ -59,11 +59,4 @@ class ContactDetailViewFragment :
         }
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            ContactDetailViewFragment().apply {
-
-            }
-    }
 }

@@ -51,13 +51,15 @@ class ContactRepositoryImpl : ContactRepository {
 
     override fun createFakeContacts(): List<Contact> {
         val faker = Faker.instance()
-        return (1..20).map { Contact(
-            //id = it.toLong(),
-            name = faker.name().name(),
-            career = faker.company().name(),
-            photo = Constants.IMAGES[it % Constants.IMAGES.size],
-            address = faker.address().fullAddress()
-        ) }.sortedBy {
+        return (1..20).map {
+            Contact(
+                //id = it.toLong(),
+                name = faker.name().name(),
+                career = faker.company().name(),
+                photo = Constants.IMAGES[it % Constants.IMAGES.size],
+                address = faker.address().fullAddress()
+            )
+        }.sortedBy {
             it.name
         }
     }

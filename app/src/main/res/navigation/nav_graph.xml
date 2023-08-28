@@ -3,53 +3,53 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/viewPagerFragment">
 
-    <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.iyakovlev.task4.presentation.fragments.MainFragment"
-        android:label="fragment_main" >
-        <!--<action
-            android:id="@+id/action_mainFragment_to_contactsFragment"
-            app:destination="@id/contactsFragment" />-->
-    </fragment>
-    <fragment
-        android:id="@+id/contactsFragment"
-        android:name="com.iyakovlev.task4.presentation.fragments.ContactsFragment"
-        android:label="ContactsFragment" >
-        <action
-            android:id="@+id/action_contactsFragment_to_addContactDialogFragment"
-            app:destination="@id/addContactDialogFragment" />
-        <action
-            android:id="@+id/action_contactsFragment_to_contactDetailViewFragment"
-            app:destination="@id/contactDetailViewFragment" />
-    </fragment>
     <fragment
         android:id="@+id/contactDetailViewFragment"
         android:name="com.iyakovlev.task4.presentation.fragments.ContactDetailViewFragment"
-        android:label="ContactDetailViewFragment">
+        android:label="ContactDetailViewFragment"
+        tools:layout="@layout/fragment_contact_detail_view">
         <argument
             android:name="contactId"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue="1" />
         <argument
             android:name="contactPhoto"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue="" />
         <argument
             android:name="contactName"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue="" />
         <argument
             android:name="contactCareer"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue="" />
         <argument
             android:name="contactAddress"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue="" />
     </fragment>
     <dialog
         android:id="@+id/addContactDialogFragment"
         android:name="com.iyakovlev.task4.presentation.fragments.AddContactDialogFragment"
-        android:label="AddContactDialogFragment">
+        android:label="AddContactDialogFragment"
+        tools:layout="@layout/add_contact_dialog">
         <argument
             android:name="viewModel"
             app:argType="com.iyakovlev.task4.domain.ContactsViewModel" />
     </dialog>
+    <fragment
+        android:id="@+id/viewPagerFragment"
+        android:name="com.iyakovlev.task4.presentation.fragments.ViewPagerFragment"
+        android:label="fragment_view_pager"
+        tools:layout="@layout/fragment_view_pager">
+        <action
+            android:id="@+id/action_viewPagerFragment_to_contactDetailViewFragment"
+            app:destination="@id/contactDetailViewFragment" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_addContactDialogFragment"
+            app:destination="@id/addContactDialogFragment" />
+    </fragment>
 </navigation>

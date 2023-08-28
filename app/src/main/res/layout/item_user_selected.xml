@@ -3,18 +3,31 @@
     android:id="@+id/clContactItem"
     android:layout_width="match_parent"
     android:layout_height="@dimen/contacts_item_height"
-    android:background="@drawable/viewholder_shape"
+    android:background="@drawable/viewholder_shape_selected"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+    <CheckBox
+        android:id="@+id/chkSelect"
+        android:layout_width="@dimen/checkbox_contact_selector_size"
+        android:layout_height="@dimen/checkbox_contact_selector_size"
+        android:layout_marginStart="@dimen/margin_default"
+        android:button="@null"
+        android:background="@drawable/checkbox_contact_selector"
+        android:checked="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivAvatar"
         android:transitionName="contactImageTransition_list_${contact.id}"
         android:layout_width="@dimen/avatar_list_size"
         android:layout_height="@dimen/avatar_list_size"
-        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_default"
         android:src="@drawable/baseline_person_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/chkSelect"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -39,18 +52,6 @@
         android:textColor="?attr/colorOnSecondaryContainer"
         app:layout_constraintStart_toStartOf="@+id/tvContactName"
         app:layout_constraintTop_toBottomOf="@+id/tvContactName" />
-
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivContactRemove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_delete"
-        android:layout_marginEnd="@dimen/margin_additional_middle"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

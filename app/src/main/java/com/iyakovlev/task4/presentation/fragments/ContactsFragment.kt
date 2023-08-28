@@ -12,7 +12,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -20,13 +22,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.iyakovlev.task4.R
+import com.iyakovlev.task4.databinding.FragmentContactsBinding
 import com.iyakovlev.task4.domain.Contact
-import com.iyakovlev.task4.domain.ContactsAdapter
+import com.iyakovlev.task4.presentation.adapters.ContactsAdapter
 import com.iyakovlev.task4.domain.ContactsViewModel
 import com.iyakovlev.task4.presentation.common.BaseFragment
 import com.iyakovlev.task4.presentation.fragments.interfaces.ContactItemClickListener
-import com.iyakovlev.task4.R
-import com.iyakovlev.task4.databinding.FragmentContactsBinding
 import com.iyakovlev.task4.utils.Constants
 import com.iyakovlev.task4.utils.Constants.IS_FIRST_LAUNCH
 import com.iyakovlev.task4.utils.Constants.LOG_TAG
@@ -50,7 +52,22 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             showUndoDeleteSnackBar()
         }
 
+        override fun onItemLongClick(position: Int) {
+//            enterSelectionMode()
+            Toast.makeText(context, "$position", Toast.LENGTH_SHORT).show()
+            Log.e(LOG_TAG, "$position")
+        }
+
+        override fun onItemAddToSelection(position: Int) {
+            viewModel.toggleSelection(position)
+        }
+
     })
+
+//    private fun enterSelectionMode() {
+//        contactAdapter.toggleSelectionMode()
+//        contactAdapter.submitList(viewModel.contacts.value.toMutableList())
+//    }
 
 
     private val requestPermissionLauncher =
@@ -113,21 +130,31 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         lifecycleScope.launch {
             viewModel.contacts.collect { contacts ->
                 contactAdapter.setContacts(contacts)
+//                contactAdapter.submitList(contacts.toMutableList())
             }
         }
     }
 
     override fun setListeners() {
         binding.btnAddContact.setOnClickListener {
-            val action = ContactsFragmentDirections
-                .actionContactsFragmentToAddContactDialogFragment(viewModel)
+            val action = ViewPagerFragmentDirections
+                .actionViewPagerFragmentToAddContactDialogFragment(viewModel)
             navController.navigate(action)
         }
         binding.rvContacts.viewTreeObserver.addOnScrollChangedListener {
-            checkButtonUp()
+            if (!viewModel.isSelectionMode()) {
+                checkButtonUp()
+            }
         }
         binding.fabUp.setOnClickListener {
-            binding.rvContacts.smoothScrollToPosition(0)
+            if (viewModel.isSelectionMode()) {
+                binding.fabUp.visibility = View.VISIBLE
+                binding.fabUp.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)
+                viewModel.removeSelectedContacts()
+            } else {
+                binding.fabUp.visibility = View.INVISIBLE
+                binding.rvContacts.smoothScrollToPosition(0)
+            }
         }
     }
 
@@ -136,7 +163,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         val contactId = contact.id.toString()
         val transitionName = "$TRANSITION_NAME$contactId"
 
-        val action = ContactsFragmentDirections.actionContactsFragmentToContactDetailViewFragment(
+        val action = ViewPagerFragmentDirections.actionViewPagerFragmentToContactDetailViewFragment(
             contactId = contact.id.toString(),
             contactPhoto = contact.photo,
             contactName = contact.name,
@@ -257,22 +284,4 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         }).attachToRecyclerView(binding.rvContacts)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ContactsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance() =
-            ContactsFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
-    }
 }

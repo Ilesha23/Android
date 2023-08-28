@@ -13,62 +13,62 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/clBottomHalf" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSettings"
-            style="@style/text_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings"
-            android:layout_marginStart="@dimen/margin_middle"
-            android:layout_marginTop="@dimen/margin_middle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSettings"
+        style="@style/text_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings"
+        android:layout_marginStart="@dimen/margin_middle"
+        android:layout_marginTop="@dimen/margin_middle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivAvatar"
-            android:layout_width="113dp"
-            android:layout_height="113dp"
-            app:layout_constraintStart_toEndOf="@id/tvSettings"
-            app:layout_constraintTop_toBottomOf="@id/tvSettings"
-            app:layout_constraintBottom_toBottomOf="@id/clTopHalf"
-            app:layout_constraintEnd_toStartOf="@id/tvFullName"
-            app:shapeAppearanceOverlay="@style/circleImageView"
-            app:srcCompat="@drawable/avatar" />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="113dp"
+        android:layout_height="113dp"
+        app:layout_constraintStart_toEndOf="@id/tvSettings"
+        app:layout_constraintTop_toBottomOf="@id/tvSettings"
+        app:layout_constraintBottom_toBottomOf="@id/clTopHalf"
+        app:layout_constraintEnd_toStartOf="@id/tvFullName"
+        app:shapeAppearanceOverlay="@style/circleImageView"
+        app:srcCompat="@drawable/avatar" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvFullName"
-            style="@style/text_big"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name_lastname_placeholder"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ivAvatar"
-            app:layout_constraintBottom_toTopOf="@id/tvCareer"
-            app:layout_constraintStart_toEndOf="@id/ivAvatar"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvFullName"
+        style="@style/text_big"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/name_lastname_placeholder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivAvatar"
+        app:layout_constraintBottom_toTopOf="@id/tvCareer"
+        app:layout_constraintStart_toEndOf="@id/ivAvatar" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvCareer"
-            style="@style/text_middle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/career_placeholder"
-            android:textColor="@color/color_text_secondary"
-            app:layout_constraintEnd_toEndOf="@+id/tvFullName"
-            app:layout_constraintStart_toStartOf="@+id/tvFullName"
-            app:layout_constraintTop_toBottomOf="@+id/tvFullName"
-            app:layout_constraintBottom_toTopOf="@id/tvAddress"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCareer"
+        style="@style/text_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/career_placeholder"
+        android:textColor="@color/color_text_secondary"
+        app:layout_constraintEnd_toEndOf="@+id/tvFullName"
+        app:layout_constraintStart_toStartOf="@+id/tvFullName"
+        app:layout_constraintTop_toBottomOf="@+id/tvFullName"
+        app:layout_constraintBottom_toTopOf="@id/tvAddress" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvAddress"
-            style="@style/text_middle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/home_address_placeholder"
-            android:textColor="@color/color_text_secondary"
-            app:layout_constraintEnd_toEndOf="@+id/tvFullName"
-            app:layout_constraintStart_toStartOf="@+id/tvFullName"
-            app:layout_constraintTop_toBottomOf="@+id/tvCareer"
-            app:layout_constraintBottom_toBottomOf="@id/ivAvatar"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAddress"
+        style="@style/text_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/home_address_placeholder"
+        android:textColor="@color/color_text_secondary"
+        app:layout_constraintEnd_toEndOf="@+id/tvFullName"
+        app:layout_constraintStart_toStartOf="@+id/tvFullName"
+        app:layout_constraintTop_toBottomOf="@+id/tvCareer"
+        app:layout_constraintBottom_toBottomOf="@id/ivAvatar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clBottomHalf"

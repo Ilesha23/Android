@@ -27,10 +27,6 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
     private lateinit var photoActivityResult: ActivityResultLauncher<Intent>
     private var contact = Contact(UUID.randomUUID(), "", "", "", "")
 
-//    fun setViewModel(viewModel: ContactsViewModel) {
-//        this.viewModel = viewModel
-//    }
-
     override fun getTheme(): Int {
         return R.style.FullScreenDialog
     }

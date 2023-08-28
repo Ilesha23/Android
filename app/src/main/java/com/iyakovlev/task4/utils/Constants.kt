@@ -31,10 +31,6 @@ object Constants {
         "https://images.unsplash.com/photo-1645830166230-187caf791b90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
     )
 
-    /* ViewPager2 */
-    const val ARG_OBJECT = "ARG_OBJECT"
-
-
     // TODO: one common preferences
     const val APP_PREFERENCES = "APP_PREFERENCES"
     const val EMAIL = "EMAIL"

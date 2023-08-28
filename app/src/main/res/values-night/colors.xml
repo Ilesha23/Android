@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!--  Colors background  -->
     <color name="color_primary">#242235</color>
     <color name="color_secondary">#4A55A2</color>
     <color name="color_additional">#FB5E06</color>
-    
+
     <!--  Colors text  -->
     <color name="color_text_primary">#FAFAFA</color>
     <color name="color_text_secondary">#B2B2B3</color>

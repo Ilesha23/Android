@@ -17,6 +17,9 @@ class ContactsViewModel : ViewModel(), Parcelable {
     private val _contacts = MutableStateFlow<List<Contact>>(emptyList())
     val contacts = _contacts.asStateFlow()
 
+    private val _selectedContacts = MutableStateFlow<List<Contact>>(emptyList())
+    val selectedContacts = _selectedContacts.asStateFlow()
+
     private var lastRemovedContact: Contact? = null
     private var lastRemovedContactIndex: Int? = null
 
@@ -64,6 +67,46 @@ class ContactsViewModel : ViewModel(), Parcelable {
         updatedContacts.add(index, contact)
         _contacts.value = updatedContacts
         Log.e(LOG_TAG, "$contact added")
+    }
+
+//    private fun addToSelectedContacts(contact: Contact) {
+//        val updatedSelectionList = _selectedContacts.value.toMutableList()
+//        updatedSelectionList.add(contact)
+//        _selectedContacts.value = updatedSelectionList
+//        Log.e(LOG_TAG, "added to selection: $contact")
+//    }
+//
+//    fun addToSelectedContacts(position: Int) {
+//        val contact = _contacts.value[position]
+//        addToSelectedContacts(contact)
+//    }
+
+    fun isSelectionMode(): Boolean {
+        return _selectedContacts.value.isNotEmpty()
+    }
+
+    fun toggleSelection(position: Int) {
+        val contact = _contacts.value[position]
+        val updatedSelectionList = _selectedContacts.value.toMutableList()
+        if (_selectedContacts.value.contains(contact)) {
+            updatedSelectionList.remove(contact)
+            Log.e(LOG_TAG, "removed from selection: $contact")
+        } else {
+            updatedSelectionList.add(contact)
+            Log.e(LOG_TAG, "added to selection: $contact")
+        }
+        _selectedContacts.value = updatedSelectionList
+    }
+
+    fun removeSelectedContacts() {
+        val updatedSelectionList = _selectedContacts.value.toMutableList()
+        val updatedContactsList = _contacts.value.toMutableList()
+        for (c in updatedSelectionList) {
+            updatedContactsList.remove(c)
+        }
+        _contacts.value = updatedContactsList
+        _selectedContacts.value = updatedSelectionList
+        Log.e(LOG_TAG, "removed from selection")
     }
 
     fun addContact(contact: Contact) {

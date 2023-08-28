@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 class ItemSpacingDecoration(
     private var spacing: Int,
     private var lastSpacing: Int
-    ) : RecyclerView.ItemDecoration() {
+) : RecyclerView.ItemDecoration() {
     init {
         spacing /= 2
     }
+
     override fun getItemOffsets(
         outRect: Rect,
         view: View,

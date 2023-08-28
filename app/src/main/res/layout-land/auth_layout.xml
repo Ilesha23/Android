@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/cl_auth"
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/cl_auth"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -18,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tvFillFormProposal"/>
+        app:layout_constraintBottom_toTopOf="@id/tvFillFormProposal" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvFillFormProposal"
@@ -29,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvGreeting"
-        app:layout_constraintBottom_toTopOf="@id/tilEmail"/>
+        app:layout_constraintBottom_toTopOf="@id/tilEmail" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvEmail"
@@ -139,7 +138,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chkRemember"
-        app:layout_constraintBottom_toTopOf="@id/tvTerms"/>
+        app:layout_constraintBottom_toTopOf="@id/tvTerms" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegister"
@@ -165,7 +164,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRegister"
-        app:layout_constraintBottom_toTopOf="@id/tvHaveAccQuestion"/>
+        app:layout_constraintBottom_toTopOf="@id/tvHaveAccQuestion" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvHaveAccQuestion"
@@ -177,7 +176,7 @@
         app:layout_constraintEnd_toStartOf="@+id/tvSignIn"
         app:layout_constraintStart_toStartOf="@+id/tvTerms"
         app:layout_constraintTop_toBottomOf="@+id/tvTerms"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvSignIn"
@@ -187,7 +186,6 @@
         style="@style/text_middle"
         app:layout_constraintEnd_toEndOf="@+id/tvTerms"
         app:layout_constraintTop_toTopOf="@+id/tvHaveAccQuestion" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

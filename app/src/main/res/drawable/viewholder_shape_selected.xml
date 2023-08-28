@@ -6,6 +6,7 @@
         android:width="1dp"
         android:color="@color/light_grey" />
     <corners android:radius="5dp" />
+    <solid android:color="?attr/colorOnSecondaryContainer" />
 
 
 </shape>

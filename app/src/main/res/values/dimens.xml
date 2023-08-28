@@ -41,8 +41,6 @@
     <dimen name="padding_middle">16dp</dimen>
 
 
-
-
     <!-- Margins -->
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_additional_small">10dp</dimen>
@@ -84,6 +82,9 @@
 
     <!-- Floating button -->
     <dimen name="floating_button_icon_size">60dp</dimen>
+
+    <!-- Checkbox contacts selector -->
+    <dimen name="checkbox_contact_selector_size">20dp</dimen>
 
 
 </resources>
