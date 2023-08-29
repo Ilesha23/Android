@@ -3,48 +3,36 @@ package com.iyakovlev.task4.presentation.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.iyakovlev.task4.R
 import com.iyakovlev.task4.databinding.ItemUserBinding
 import com.iyakovlev.task4.databinding.ItemUserSelectedBinding
 import com.iyakovlev.task4.domain.Contact
-import com.iyakovlev.task4.domain.ContactsDiffCallback
+import com.iyakovlev.task4.domain.ContactDiffItemCallback
 import com.iyakovlev.task4.presentation.fragments.interfaces.ContactItemClickListener
 import com.iyakovlev.task4.utils.extensions.loadImageWithGlide
 
 
 class ContactsAdapter(val listener: ContactItemClickListener) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder/*ContactViewHolder*//*ContactsAdapter.ContactViewHolder*/>() {
+ListAdapter<Contact, ContactsAdapter.ContactViewHolder>(ContactDiffItemCallback()) {
 
-    private var contacts: List<Contact> = emptyList()
     var isSelectionMode = false
 
-//    fun isSelectionMode(): Boolean {
-//        return isSelectionMode
-//    }
-
-//    fun toggleSelectionMode() {
-//        isSelectionMode = !isSelectionMode
-//        notifyDataSetChanged() // Refresh the adapter to reflect the new mode
-//    }
-
-    fun setContacts(contacts: List<Contact>) {
-        val diffCallback = ContactsDiffCallback(this.contacts, contacts)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        this.contacts = contacts
-        diffResult.dispatchUpdatesTo(this)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return if (isSelectionMode) {
-            val binding = ItemUserSelectedBinding.inflate(inflater, parent, false)
-            SelectedContactViewHolder(binding)
-        } else {
-            val binding = ItemUserBinding.inflate(inflater, parent, false)
-            ContactViewHolder(binding)
-        }
+//        return if (isSelectionMode) {
+//            val binding = ItemUserSelectedBinding.inflate(inflater, parent, false)
+//            SelectedContactViewHolder(binding)
+//        } else {
+//            val binding = ItemUserBinding.inflate(inflater, parent, false)
+//            ContactViewHolder(binding)
+//        }
+
+        val binding = ItemUserBinding.inflate(inflater, parent, false)
+        return ContactViewHolder(binding)
+
 //        if (selectionMode) {
 //            val binding = ItemUserSelectedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 //            return ContactViewHolder(binding)
@@ -53,20 +41,24 @@ class ContactsAdapter(val listener: ContactItemClickListener) :
 //        return ContactViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return contacts.size
+    override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    fun getContact(pos: Int): Contact = contacts[pos]
+//    override fun getItemCount(): Int {
+//        return contacts.size
+//    }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-//        holder.bind(contacts[position])
-        if (holder is ContactViewHolder) {
-            holder.bind(contacts[position])
-        } else if (holder is SelectedContactViewHolder) {
-            holder.bind(contacts[position])
-        }
-    }
+    fun getContact(pos: Int): Contact = getItem(pos)
+
+//    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+////        holder.bind(contacts[position])
+//        if (holder is ContactViewHolder) {
+//            holder.bind(contacts[position])
+//        } else if (holder is SelectedContactViewHolder) {
+//            holder.bind(contacts[position])
+//        }
+//    }
 
     inner class ContactViewHolder(private val binding: ItemUserBinding) :
         RecyclerView.ViewHolder(binding.root) {

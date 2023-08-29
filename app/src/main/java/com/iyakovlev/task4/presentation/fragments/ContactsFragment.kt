@@ -129,8 +129,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     override fun setObservers() {
         lifecycleScope.launch {
             viewModel.contacts.collect { contacts ->
-                contactAdapter.setContacts(contacts)
-//                contactAdapter.submitList(contacts.toMutableList())
+//                contactAdapter.setContacts(contacts)
+                contactAdapter.submitList(contacts.toMutableList())
             }
         }
     }
