@@ -40,6 +40,7 @@ import com.iyakovlev.task2.utils.Constants.READ_CONTACTS_PERMISSION_KEY
 import com.iyakovlev.task2.utils.Constants.TRANSITION_NAME
 import com.iyakovlev.task2.utils.ItemSpacingDecoration
 import com.iyakovlev.task2.utils.TestingConstants.isUsingTransactions
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate) {
@@ -118,7 +119,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     override fun setObservers() {
         lifecycleScope.launch {
             viewModel.contacts.collect { contacts ->
-                contactAdapter.setContacts(contacts)
+//                contactAdapter.setContacts(contacts)
+                contactAdapter.submitList(viewModel.contacts.value.toMutableList())
             }
         }
     }

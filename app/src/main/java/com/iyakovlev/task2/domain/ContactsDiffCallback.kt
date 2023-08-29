@@ -2,19 +2,13 @@ package com.iyakovlev.task2.domain
 
 import androidx.recyclerview.widget.DiffUtil
 
-class ContactsDiffCallback(
-    private val oldList: List<Contact>,
-    private val newList: List<Contact>
-) : DiffUtil.Callback() {
-    override fun getOldListSize(): Int = oldList.size
+class ContactsDiffCallback() : DiffUtil.ItemCallback<Contact>() {
 
-    override fun getNewListSize(): Int = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].id == newList[newItemPosition].id
+    override fun areItemsTheSame(oldItem: Contact, newItem: Contact): Boolean {
+        return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] == newList[newItemPosition]
+    override fun areContentsTheSame(oldItem: Contact, newItem: Contact): Boolean {
+        return oldItem == newItem
     }
 }
