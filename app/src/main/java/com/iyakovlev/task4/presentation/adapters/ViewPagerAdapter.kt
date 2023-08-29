@@ -10,8 +10,8 @@ class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> MainFragment()
-            1 -> ContactsFragment()
+            1 -> MainFragment()
+            0 -> ContactsFragment()
             else -> throw IllegalArgumentException("Invalid position: $position")
         }
     }

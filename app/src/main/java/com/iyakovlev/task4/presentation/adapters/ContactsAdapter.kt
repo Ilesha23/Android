@@ -2,7 +2,6 @@ package com.iyakovlev.task4.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,49 +15,37 @@ import com.iyakovlev.task4.utils.extensions.loadImageWithGlide
 
 
 class ContactsAdapter(val listener: ContactItemClickListener) :
-ListAdapter<Contact, ContactsAdapter.ContactViewHolder>(ContactDiffItemCallback()) {
+    ListAdapter<Contact, RecyclerView.ViewHolder>(ContactDiffItemCallback()) {
 
     var isSelectionMode = false
+    var selectedIndexesList = mutableListOf<Int>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-//        return if (isSelectionMode) {
-//            val binding = ItemUserSelectedBinding.inflate(inflater, parent, false)
-//            SelectedContactViewHolder(binding)
-//        } else {
-//            val binding = ItemUserBinding.inflate(inflater, parent, false)
-//            ContactViewHolder(binding)
-//        }
-
-        val binding = ItemUserBinding.inflate(inflater, parent, false)
-        return ContactViewHolder(binding)
-
-//        if (selectionMode) {
-//            val binding = ItemUserSelectedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//            return ContactViewHolder(binding)
-//        }
-//        val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//        return ContactViewHolder(binding)
+        return if (isSelectionMode) {
+            val binding = ItemUserSelectedBinding.inflate(inflater, parent, false)
+            SelectedContactViewHolder(binding)
+        } else {
+            val binding = ItemUserBinding.inflate(inflater, parent, false)
+            ContactViewHolder(binding)
+        }
     }
-
-    override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        holder.bind(getItem(position))
-    }
-
-//    override fun getItemCount(): Int {
-//        return contacts.size
-//    }
 
     fun getContact(pos: Int): Contact = getItem(pos)
 
-//    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-////        holder.bind(contacts[position])
-//        if (holder is ContactViewHolder) {
-//            holder.bind(contacts[position])
-//        } else if (holder is SelectedContactViewHolder) {
-//            holder.bind(contacts[position])
-//        }
-//    }
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int
+    ) {
+        if (holder is ContactViewHolder) {
+            holder.bind(getItem(position))
+        } else if (holder is SelectedContactViewHolder) {
+            holder.bind(getItem(position))
+        }
+    }
 
     inner class ContactViewHolder(private val binding: ItemUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -68,7 +55,7 @@ ListAdapter<Contact, ContactsAdapter.ContactViewHolder>(ContactDiffItemCallback(
                 tvContactName.text = contact.name
                 tvContactCareer.text = contact.career
                 if (contact.photo.isNotBlank()) {
-                    binding.ivAvatar.loadImageWithGlide(contact.photo)
+                    ivAvatar.loadImageWithGlide(contact.photo)
                 } else {
                     Glide.with(ivAvatar.context).clear(ivAvatar)
                     ivAvatar.setImageResource(R.drawable.baseline_person_24)
@@ -77,7 +64,7 @@ ListAdapter<Contact, ContactsAdapter.ContactViewHolder>(ContactDiffItemCallback(
                     listener.onItemDeleteClick(adapterPosition)
                 }
                 clContactItem.setOnClickListener {
-                    listener.onItemClick(adapterPosition, binding.ivAvatar)
+                    listener.onItemClick(adapterPosition, ivAvatar)
                 }
                 clContactItem.setOnLongClickListener {
                     listener.onItemLongClick(adapterPosition)
@@ -92,16 +79,23 @@ ListAdapter<Contact, ContactsAdapter.ContactViewHolder>(ContactDiffItemCallback(
 
         fun bind(contact: Contact) {
             binding.apply {
+                chkSelect.isChecked = selectedIndexesList.contains(adapterPosition)
                 tvContactName.text = contact.name
                 tvContactCareer.text = contact.career
                 if (contact.photo.isNotBlank()) {
-                    binding.ivAvatar.loadImageWithGlide(contact.photo)
+                    ivAvatar.loadImageWithGlide(contact.photo)
                 } else {
                     Glide.with(ivAvatar.context).clear(ivAvatar)
                     ivAvatar.setImageResource(R.drawable.baseline_person_24)
                 }
                 clContactItem.setOnClickListener {
-                    listener.onItemAddToSelection(adapterPosition)
+                    listener.onItemClick(adapterPosition, ivAvatar)
+                    if (chkSelect.isChecked) {
+                        selectedIndexesList.remove(adapterPosition)
+                    } else {
+                        selectedIndexesList.add(adapterPosition)
+                    }
+                    chkSelect.toggle()
                 }
             }
         }

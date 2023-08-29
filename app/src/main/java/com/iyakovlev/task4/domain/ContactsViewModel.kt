@@ -17,6 +17,9 @@ class ContactsViewModel : ViewModel(), Parcelable {
     private val _contacts = MutableStateFlow<List<Contact>>(emptyList())
     val contacts = _contacts.asStateFlow()
 
+//    private val _isSelectionMode = MutableStateFlow<Boolean>(false)
+//    val isSelectionMode = _isSelectionMode.asStateFlow()
+
     private val _selectedContacts = MutableStateFlow<List<Contact>>(emptyList())
     val selectedContacts = _selectedContacts.asStateFlow()
 
@@ -69,43 +72,41 @@ class ContactsViewModel : ViewModel(), Parcelable {
         Log.e(LOG_TAG, "$contact added")
     }
 
-//    private fun addToSelectedContacts(contact: Contact) {
-//        val updatedSelectionList = _selectedContacts.value.toMutableList()
-//        updatedSelectionList.add(contact)
-//        _selectedContacts.value = updatedSelectionList
-//        Log.e(LOG_TAG, "added to selection: $contact")
-//    }
-//
-//    fun addToSelectedContacts(position: Int) {
-//        val contact = _contacts.value[position]
-//        addToSelectedContacts(contact)
-//    }
-
-    fun isSelectionMode(): Boolean {
-        return _selectedContacts.value.isNotEmpty()
-    }
-
-    fun toggleSelection(position: Int) {
-        val contact = _contacts.value[position]
+    fun toggleContactSelection(contact: Contact) {
         val updatedSelectionList = _selectedContacts.value.toMutableList()
         if (_selectedContacts.value.contains(contact)) {
             updatedSelectionList.remove(contact)
-            Log.e(LOG_TAG, "removed from selection: $contact")
         } else {
             updatedSelectionList.add(contact)
-            Log.e(LOG_TAG, "added to selection: $contact")
         }
         _selectedContacts.value = updatedSelectionList
+        Log.e(LOG_TAG, "changed selection selection of: $contact")
     }
 
+//    fun toggleSelection(isSelectionMode: Boolean) {
+//        _isSelectionMode.value = isSelectionMode
+//    }
+
+//    fun toggleSelection(position: Int) {
+//        val contact = _contacts.value[position]
+//        val updatedSelectionList = _selectedContacts.value.toMutableList()
+//        if (_selectedContacts.value.contains(contact)) {
+//            updatedSelectionList.remove(contact)
+//            Log.e(LOG_TAG, "removed from selection: $contact")
+//        } else {
+//            updatedSelectionList.add(contact)
+//            Log.e(LOG_TAG, "added to selection: $contact")
+//        }
+//        _selectedContacts.value = updatedSelectionList
+//    }
+
     fun removeSelectedContacts() {
-        val updatedSelectionList = _selectedContacts.value.toMutableList()
         val updatedContactsList = _contacts.value.toMutableList()
-        for (c in updatedSelectionList) {
+        for (c in _selectedContacts.value) {
             updatedContactsList.remove(c)
         }
         _contacts.value = updatedContactsList
-        _selectedContacts.value = updatedSelectionList
+        _selectedContacts.value = emptyList()
         Log.e(LOG_TAG, "removed from selection")
     }
 
@@ -116,7 +117,7 @@ class ContactsViewModel : ViewModel(), Parcelable {
         }
     }
 
-    fun getContact(index: Int): Contact? {
+    fun getContact(index: Int): Contact {
         return _contacts.value[index]
     }
 

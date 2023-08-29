@@ -7,5 +7,6 @@ data class Contact(
     val photo: String,
     val name: String,
     val career: String,
-    val address: String
+    val address: String,
+//    val isSelected: Boolean,
 )

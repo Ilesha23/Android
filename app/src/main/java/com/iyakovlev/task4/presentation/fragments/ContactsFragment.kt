@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -25,8 +24,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.task4.R
 import com.iyakovlev.task4.databinding.FragmentContactsBinding
 import com.iyakovlev.task4.domain.Contact
-import com.iyakovlev.task4.presentation.adapters.ContactsAdapter
 import com.iyakovlev.task4.domain.ContactsViewModel
+import com.iyakovlev.task4.presentation.adapters.ContactsAdapter
 import com.iyakovlev.task4.presentation.common.BaseFragment
 import com.iyakovlev.task4.presentation.fragments.interfaces.ContactItemClickListener
 import com.iyakovlev.task4.utils.Constants
@@ -44,7 +43,14 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     private val contactAdapter = ContactsAdapter(object : ContactItemClickListener {
 
         override fun onItemClick(position: Int, imageView: ImageView) {
-            navigateToDetailView(position, imageView)
+            if (isSelectionMode()) {
+                viewModel.toggleContactSelection(viewModel.getContact(position)) // TODO:
+                if (viewModel.selectedContacts.value.isEmpty()) {
+                    toggleSelectionMode()
+                }
+            } else {
+                navigateToDetailView(position, imageView)
+            }
         }
 
         override fun onItemDeleteClick(position: Int) {
@@ -53,22 +59,50 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         }
 
         override fun onItemLongClick(position: Int) {
-//            enterSelectionMode()
-            Toast.makeText(context, "$position", Toast.LENGTH_SHORT).show()
-            Log.e(LOG_TAG, "$position")
-        }
+            viewModel.toggleContactSelection(viewModel.getContact(position)) // TODO:
+            checkFirstClickedItem(position)
 
-        override fun onItemAddToSelection(position: Int) {
-            viewModel.toggleSelection(position)
+            val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
+            layoutManager.findFirstVisibleItemPosition()
+            val v: View? = layoutManager.getChildAt(0)
+            val top = if (v == null) 0 else v.top - layoutManager.paddingTop
+
+//            val state =
+
+            Log.e(LOG_TAG, "$top")
+
+            toggleSelectionMode()
+
+            layoutManager.scrollToPosition(top)
+//            binding.rvContacts.scrollToPosition(top)
+
+//            val firstItem = layoutManager.findFirstVisibleItemPosition()
+//            layoutManager.scroll
+//            binding.rvContacts.scrollToPosition(position)
+            checkButtonUp()
+
+            Log.e(LOG_TAG, "long clicked at position: $position")
         }
 
     })
 
-//    private fun enterSelectionMode() {
-//        contactAdapter.toggleSelectionMode()
-//        contactAdapter.submitList(viewModel.contacts.value.toMutableList())
-//    }
+    private fun isSelectionMode(): Boolean {
+        return contactAdapter.isSelectionMode
+    }
 
+    private fun toggleSelectionMode() {
+        if (contactAdapter.isSelectionMode) {
+            contactAdapter.isSelectionMode = false
+            setupRecyclerView()
+        } else {
+            contactAdapter.isSelectionMode = true
+            setupRecyclerView()
+        }
+    }
+
+    private fun checkFirstClickedItem(position: Int) {
+        contactAdapter.selectedIndexesList = mutableListOf(position)
+    }
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -122,14 +156,15 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             adapter = contactAdapter
             val spacing = resources.getDimensionPixelSize(R.dimen.contacts_item_spacing)
             val lastSpacing = resources.getDimensionPixelSize(R.dimen.last_item_bottom_spacing)
-            addItemDecoration(ItemSpacingDecoration(spacing, lastSpacing))
+            if (itemDecorationCount == 0) {
+                addItemDecoration(ItemSpacingDecoration(spacing, lastSpacing))
+            }
         }
     }
 
     override fun setObservers() {
         lifecycleScope.launch {
             viewModel.contacts.collect { contacts ->
-//                contactAdapter.setContacts(contacts)
                 contactAdapter.submitList(contacts.toMutableList())
             }
         }
@@ -142,19 +177,20 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             navController.navigate(action)
         }
         binding.rvContacts.viewTreeObserver.addOnScrollChangedListener {
-            if (!viewModel.isSelectionMode()) {
+            if (!isSelectionMode()) {
                 checkButtonUp()
             }
         }
         binding.fabUp.setOnClickListener {
-            if (viewModel.isSelectionMode()) {
-                binding.fabUp.visibility = View.VISIBLE
-                binding.fabUp.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)
+            if (isSelectionMode()) {
                 viewModel.removeSelectedContacts()
+                toggleSelectionMode()
             } else {
                 binding.fabUp.visibility = View.INVISIBLE
                 binding.rvContacts.smoothScrollToPosition(0)
             }
+            binding.fabUp.visibility = View.INVISIBLE
+            binding.rvContacts.smoothScrollToPosition(0)
         }
     }
 
@@ -179,13 +215,24 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun checkButtonUp() {
-        val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
-        val firstItem = layoutManager.findFirstVisibleItemPosition()
-        if (firstItem > 0) {
+        if (isSelectionMode()) {
             toggleFabVisibility(binding.fabUp, true)
+            binding.fabUp.visibility = View.VISIBLE
+            binding.fabUp.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)
         } else {
-            toggleFabVisibility(binding.fabUp, false)
+            val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
+            val firstItem = layoutManager.findFirstVisibleItemPosition()
+            if (firstItem > 0) {
+                toggleFabVisibility(binding.fabUp, true)
+            } else {
+                toggleFabVisibility(binding.fabUp, false)
+            }
         }
+//        if (firstItem > 0) {
+//            toggleFabVisibility(binding.fabUp, true)
+//        } else {
+//            toggleFabVisibility(binding.fabUp, false)
+//        }
     }
 
     private fun toggleFabVisibility(view: View, show: Boolean) {
