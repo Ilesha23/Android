@@ -11,6 +11,7 @@ import android.graphics.RectF
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
@@ -24,7 +25,7 @@ import com.iyakovlev.task2.R
 import com.iyakovlev.task2.domain.Contact
 import com.iyakovlev.task2.domain.ContactsViewModel
 import com.iyakovlev.task2.databinding.ActivityContactsBinding
-import com.iyakovlev.task2.domain.ContactsAdapter
+import com.iyakovlev.task2.presentation.fragments.interfaces.ContactItemClickListener
 import com.iyakovlev.task2.utils.Constants.IS_USER_ASKED_KEY
 import com.iyakovlev.task2.utils.Constants.LOG_TAG
 import com.iyakovlev.task2.utils.Constants.READ_CONTACTS_PERMISSION_REQUEST
@@ -36,8 +37,20 @@ import kotlinx.coroutines.launch
 class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsBinding::inflate) {
 
     private val viewModel: ContactsViewModel by viewModels()
-    private val contactAdapter = ContactsAdapter()
     private var isUserAsked = false
+
+    private val contactAdapter = ContactsAdapter(object : ContactItemClickListener {
+
+        override fun onItemClick(position: Int, imageView: ImageView) {
+
+        }
+
+        override fun onItemDeleteClick(position: Int) {
+            viewModel.removeContact(position)
+            showUndoDeleteSnackBar()
+        }
+
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,16 +126,12 @@ class ContactsActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsB
     }
 
     private suspend fun observeContacts() {
-        viewModel.contacts.collect { contacts ->
-            contactAdapter.setContacts(contacts)
+        viewModel.contacts.collect {
+            contactAdapter.submitList(viewModel.contacts.value)
         }
     }
 
     override fun setListeners() {
-        contactAdapter.setOnRemoveClickListener { contact ->
-            viewModel.removeContact(contact)
-            showUndoDeleteSnackBar()
-        }
         binding.btnAddContact.setOnClickListener {
             openAddContactDialog()
         }

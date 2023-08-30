@@ -43,6 +43,10 @@ class ContactsViewModel : ViewModel() {
         lastRemovedContact = contact
     }
 
+    fun removeContact(position: Int) {
+        removeContact(_contacts.value[position])
+    }
+
     fun undoRemoveContact() {
         lastRemovedContact?.let {
             addContact(lastRemovedContactIndex!!, it)

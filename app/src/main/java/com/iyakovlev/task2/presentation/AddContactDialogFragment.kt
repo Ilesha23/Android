@@ -30,7 +30,7 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
     private var viewModel = ContactsViewModel()
 
     private lateinit var photoActivityResult: ActivityResultLauncher<Intent>
-    private var contact = Contact(UUID.randomUUID(), null, "", "")
+    private var contact = Contact(UUID.randomUUID(), "", "", "")
 
     fun setViewModel(vm: ContactsViewModel) {
         viewModel = vm
