@@ -24,7 +24,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.task2.R
 import com.iyakovlev.task2.databinding.FragmentContactsBinding
 import com.iyakovlev.task2.domain.Contact
-import com.iyakovlev.task2.domain.ContactsAdapter
+import com.iyakovlev.task2.presentation.adapters.ContactsAdapter
 import com.iyakovlev.task2.domain.ContactsViewModel
 import com.iyakovlev.task2.presentation.common.BaseFragment
 import com.iyakovlev.task2.presentation.fragments.interfaces.ContactItemClickListener
@@ -40,7 +40,6 @@ import com.iyakovlev.task2.utils.Constants.READ_CONTACTS_PERMISSION_KEY
 import com.iyakovlev.task2.utils.Constants.TRANSITION_NAME
 import com.iyakovlev.task2.utils.ItemSpacingDecoration
 import com.iyakovlev.task2.utils.TestingConstants.isUsingTransactions
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate) {
