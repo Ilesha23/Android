@@ -91,13 +91,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun toggleSelectionMode() {
-        if (contactAdapter.isSelectionMode) {
-            contactAdapter.isSelectionMode = false
-            setupRecyclerView()
-        } else {
-            contactAdapter.isSelectionMode = true
-            setupRecyclerView()
-        }
+        contactAdapter.isSelectionMode = !contactAdapter.isSelectionMode
+        binding.rvContacts.adapter = contactAdapter
     }
 
     private fun checkFirstClickedItem(position: Int) {
