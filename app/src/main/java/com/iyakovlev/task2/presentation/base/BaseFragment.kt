@@ -1,4 +1,4 @@
-package com.iyakovlev.task2.presentation.common
+package com.iyakovlev.task2.presentation.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,6 +33,4 @@ abstract class BaseFragment<VBinding : ViewBinding>(
         super.onDestroyView()
     }
 
-    abstract fun setObservers()
-    abstract fun setListeners()
 }

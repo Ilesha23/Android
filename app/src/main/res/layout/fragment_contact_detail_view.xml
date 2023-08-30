@@ -43,6 +43,7 @@
         app:layout_constraintStart_toStartOf="@id/viewTop"
         app:layout_constraintTop_toTopOf="@id/viewTop" />
 
+    <!-- todo: design! -->
     <ImageView
         android:id="@+id/ivAvatar"
         android:transitionName="contactImageTransition_detail_${contact.id}"
@@ -52,6 +53,7 @@
         app:layout_constraintEnd_toEndOf="@id/viewTop"
         app:layout_constraintStart_toStartOf="@id/viewTop"
         app:layout_constraintTop_toBottomOf="@id/tvSettings"
+        app:layout_constraintVertical_chainStyle="packed"
         app:srcCompat="@drawable/baseline_person_24" />
 
     <androidx.appcompat.widget.AppCompatTextView

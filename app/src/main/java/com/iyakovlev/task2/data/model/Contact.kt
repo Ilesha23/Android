@@ -1,4 +1,4 @@
-package com.iyakovlev.task2.domain
+package com.iyakovlev.task2.data.model
 
 import java.util.UUID
 

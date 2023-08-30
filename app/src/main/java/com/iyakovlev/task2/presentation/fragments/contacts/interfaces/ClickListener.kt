@@ -1,4 +1,4 @@
-package com.iyakovlev.task2.presentation.fragments.interfaces
+package com.iyakovlev.task2.presentation.fragments.contacts.interfaces
 
 import android.widget.ImageView
 

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/contactsFragment"
-        android:name="com.iyakovlev.task2.presentation.fragments.ContactsFragment"
+        android:name="com.iyakovlev.task2.presentation.fragments.contacts.ContactsFragment"
         android:label="ContactsFragment" >
         <action
             android:id="@+id/action_contactsFragment_to_addContactDialogFragment"
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/contactDetailViewFragment"
-        android:name="com.iyakovlev.task2.presentation.fragments.ContactDetailViewFragment"
+        android:name="com.iyakovlev.task2.presentation.fragments.detail_view.ContactDetailViewFragment"
         android:label="ContactDetailViewFragment">
         <argument
             android:name="contactId"
@@ -37,10 +37,10 @@
     </fragment>
     <dialog
         android:id="@+id/addContactDialogFragment"
-        android:name="com.iyakovlev.task2.presentation.fragments.AddContactDialogFragment"
+        android:name="com.iyakovlev.task2.presentation.fragments.add_contact.AddContactDialogFragment"
         android:label="AddContactDialogFragment">
         <argument
             android:name="viewModel"
-            app:argType="com.iyakovlev.task2.domain.ContactsViewModel" />
+            app:argType="com.iyakovlev.task2.presentation.fragments.contacts.ContactsViewModel" />
     </dialog>
 </navigation>

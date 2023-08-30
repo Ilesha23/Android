@@ -1,9 +1,8 @@
-package com.iyakovlev.task2.utils
+package com.iyakovlev.task2.presentation.utils
 
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.iyakovlev.task2.R
 
 class ItemSpacingDecoration(
     private var spacing: Int,

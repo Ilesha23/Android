@@ -1,17 +1,20 @@
-package com.iyakovlev.task2.data
+package com.iyakovlev.task2.data.repositories.contact
 
 import android.content.ContentResolver
 import android.provider.ContactsContract
 import android.util.Log
 import com.github.javafaker.Faker
-import com.iyakovlev.task2.domain.Contact
-import com.iyakovlev.task2.domain.ContactRepository
-import com.iyakovlev.task2.utils.Constants
+import com.iyakovlev.task2.data.model.Contact
+import com.iyakovlev.task2.common.constants.Constants
+import com.iyakovlev.task2.utils.log
 import java.util.UUID
 
+//todo hilt!
 class ContactRepositoryImpl : ContactRepository {
 
-    override fun loadContactsFromStorage(contentResolver: ContentResolver): List<Contact> {
+    private val isDebug = false
+
+    override fun loadContactsFromStorage(contentResolver: ContentResolver): List<Contact> {     //todo move to separated
         val projection = arrayOf(
             ContactsContract.Contacts._ID,
             ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
@@ -33,7 +36,7 @@ class ContactRepositoryImpl : ContactRepository {
             val idColIndex = it.getColumnIndex(ContactsContract.Contacts._ID)
             val nameColIndex = it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)
             val photoColIndex = it.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI)
-
+            log("asdasdasd", isDebug)
             while (it.moveToNext()) {
                 val id = it.getLong(idColIndex)
                 val name = it.getString(nameColIndex)
@@ -41,8 +44,12 @@ class ContactRepositoryImpl : ContactRepository {
                 val career = getJobByContactId(contentResolver, id)
                 val address = getAddressByContactId(contentResolver, id)
 
-                val uuid = UUID.randomUUID()
-                val contact = Contact(uuid, photo, name, career, address)
+                val contact = Contact(
+                    photo = photo,
+                    name = name,
+                    career = career,
+                    address = address
+                )
                 contactsList.add(contact)
             }
         }
@@ -51,7 +58,7 @@ class ContactRepositoryImpl : ContactRepository {
 
     override fun createFakeContacts(): List<Contact> {
         val faker = Faker.instance()
-        return (1..20).map { Contact(
+        return (1..20).map { Contact(   //todo const
             //id = it.toLong(),
             name = faker.name().name(),
             career = faker.company().name(),

@@ -1,4 +1,4 @@
-package com.iyakovlev.task2.presentation.fragments
+package com.iyakovlev.task2.presentation.fragments.add_contact
 
 import android.app.Activity
 import android.content.Intent
@@ -11,18 +11,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.navigation.fragment.navArgs
 import com.iyakovlev.task2.R
+import com.iyakovlev.task2.data.model.Contact
 import com.iyakovlev.task2.databinding.AddContactDialogBinding
-import com.iyakovlev.task2.domain.Contact
-import com.iyakovlev.task2.domain.ContactsViewModel
-import com.iyakovlev.task2.utils.loadImageWithGlide
+import com.iyakovlev.task2.presentation.fragments.contacts.ContactsViewModel
+import com.iyakovlev.task2.presentation.utils.extentions.loadImageWithGlide
 import java.util.UUID
 
 
-class AddContactDialogFragment : AppCompatDialogFragment() {
+class AddContactDialogFragment : AppCompatDialogFragment() {    //todo return new contact via interface (but hilt is better)
 
     private var _binding: AddContactDialogBinding? = null
     private val binding get() = requireNotNull(_binding)
-    private var viewModel = ContactsViewModel()
+    private var viewModel = ContactsViewModel()     //todo BAD!
 
     private lateinit var photoActivityResult: ActivityResultLauncher<Intent>
     private var contact = Contact(UUID.randomUUID(), "", "", "", "")
@@ -35,7 +35,7 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
         return R.style.FullScreenDialog
     }
 
-    override fun onCreateView(
+    override fun onCreateView(  //todo onCreateDialog
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?

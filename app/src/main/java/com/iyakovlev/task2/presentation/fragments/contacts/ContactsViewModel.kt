@@ -1,22 +1,18 @@
-package com.iyakovlev.task2.domain
+package com.iyakovlev.task2.presentation.fragments.contacts
 
 import android.content.ContentResolver
 import android.os.Parcel
 import android.os.Parcelable
-import android.provider.ContactsContract
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.javafaker.Faker
-import com.iyakovlev.task2.data.ContactRepositoryImpl
-import com.iyakovlev.task2.utils.Constants.IMAGES
-import com.iyakovlev.task2.utils.Constants.LOG_TAG
+import com.iyakovlev.task2.data.repositories.contact.ContactRepositoryImpl
+import com.iyakovlev.task2.data.model.Contact
+import com.iyakovlev.task2.utils.LOG_TAG
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.util.UUID
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 class ContactsViewModel : ViewModel(), Parcelable {
 
     private val contactRepository = ContactRepositoryImpl()
@@ -48,13 +44,11 @@ class ContactsViewModel : ViewModel(), Parcelable {
     }
 
     fun removeContact(position: Int) {
-        val currentContacts = _contacts.value
-        val updatedList = currentContacts.toMutableList()
-        lastRemovedContactIndex = position
-        val contact = currentContacts[position]
-        updatedList.removeAt(position)
-        _contacts.value = updatedList
-        lastRemovedContact = contact
+        _contacts.value = _contacts.value.toMutableList().apply {
+            lastRemovedContact = this[position]
+            lastRemovedContactIndex = position
+            lastRemovedContactIndex?.let { removeAt(it) }
+        }
     }
 
     fun undoRemoveContact() {
@@ -65,7 +59,7 @@ class ContactsViewModel : ViewModel(), Parcelable {
         lastRemovedContactIndex = null
     }
 
-    private fun addContact(index: Int, contact: Contact) {
+    private fun addContact(index: Int, contact: Contact) {  //todo refract
         val currentContacts = _contacts.value
         val updatedContacts = currentContacts.toMutableList()
         updatedContacts.add(index, contact)
@@ -75,9 +69,7 @@ class ContactsViewModel : ViewModel(), Parcelable {
 
     fun addContact(contact: Contact) {
         val index = findInsertionIndex(contact.name)
-        if (index != -1) {
-            addContact(index, contact)
-        }
+        addContact(index, contact)
     }
 
     fun getContact(index: Int): Contact? {
@@ -100,11 +92,5 @@ class ContactsViewModel : ViewModel(), Parcelable {
         super.onCleared()
     }
 
-    override fun describeContents(): Int {
-        return 0
-    }
 
-    override fun writeToParcel(p0: Parcel, p1: Int) {
-
-    }
 }

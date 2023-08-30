@@ -1,24 +1,20 @@
-package com.iyakovlev.task2.presentation.fragments
+package com.iyakovlev.task2.presentation.fragments.detail_view
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import androidx.core.view.ViewCompat
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.iyakovlev.task2.R
 import com.iyakovlev.task2.databinding.FragmentContactDetailViewBinding
-import com.iyakovlev.task2.domain.Contact
-import com.iyakovlev.task2.presentation.common.BaseFragment
-import com.iyakovlev.task2.utils.Constants.CONTACT_ADDRESS
-import com.iyakovlev.task2.utils.Constants.CONTACT_CAREER
-import com.iyakovlev.task2.utils.Constants.CONTACT_ID
-import com.iyakovlev.task2.utils.Constants.CONTACT_NAME
-import com.iyakovlev.task2.utils.Constants.CONTACT_PHOTO
-import com.iyakovlev.task2.utils.Constants.TRANSITION_NAME
-import com.iyakovlev.task2.utils.TestingConstants.isUsingTransactions
-import com.iyakovlev.task2.utils.loadImageWithGlide
+import com.iyakovlev.task2.presentation.base.BaseFragment
+import com.iyakovlev.task2.common.constants.Constants.CONTACT_ADDRESS
+import com.iyakovlev.task2.common.constants.Constants.CONTACT_CAREER
+import com.iyakovlev.task2.common.constants.Constants.CONTACT_ID
+import com.iyakovlev.task2.common.constants.Constants.CONTACT_NAME
+import com.iyakovlev.task2.common.constants.Constants.CONTACT_PHOTO
+import com.iyakovlev.task2.common.constants.Constants.TRANSITION_NAME
+import com.iyakovlev.task2.common.constants.TestingConstants.isUsingTransactions
+import com.iyakovlev.task2.presentation.utils.extentions.loadImageWithGlide
 
 class ContactDetailViewFragment :
     BaseFragment<FragmentContactDetailViewBinding>(FragmentContactDetailViewBinding::inflate) {
@@ -59,7 +55,6 @@ class ContactDetailViewFragment :
         setData()
 
         setListeners()
-//        setObservers()
     }
 
     private fun setData() {
@@ -69,25 +64,14 @@ class ContactDetailViewFragment :
         binding.tvAddress.text = address
     }
 
-    override fun setObservers() {
-        TODO("Not yet implemented")
-    }
-
-    override fun setListeners() {
+    private fun setListeners() {
         binding.btnBack.setOnClickListener {
             if (isUsingTransactions) {
-                parentFragmentManager.popBackStack()
+                parentFragmentManager.popBackStack()    //todo navigateUp
             } else {
                 navController.popBackStack()
             }
         }
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            ContactDetailViewFragment().apply {
-
-            }
-    }
 }
