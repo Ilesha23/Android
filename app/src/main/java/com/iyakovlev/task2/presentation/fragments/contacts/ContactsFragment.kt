@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -22,7 +23,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.iyakovlev.task2.App
 import com.iyakovlev.task2.R
 import com.iyakovlev.task2.common.constants.Constants
 import com.iyakovlev.task2.common.constants.Constants.CONTACT_ADDRESS
@@ -42,21 +42,14 @@ import com.iyakovlev.task2.presentation.utils.ItemSpacingDecoration
 import com.iyakovlev.task2.utils.log
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate) {
 
     private val isDebug = false
 
-    //    private lateinit var contentResolver: ContentResolver
-    private val contentResolver = App.contentResolver
+    private val viewModel: ContactsViewModel by viewModels()
 
-    @Inject
-    lateinit var viewModel: ContactsViewModel
-
-    //    private val viewModel: ContactsViewModel by viewModels()
-//    private val viewModel: ContactsViewModel by activityViewModels()
     private val contactAdapter = ContactsAdapter(object : ContactItemClickListener {
 
         override fun onItemClick(position: Int, imageView: ImageView) {
@@ -97,7 +90,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun setPhoneContactsList() {
-        viewModel.loadContactsFromStorage(contentResolver)
+        viewModel.loadContactsFromStorage(/*contentResolver*/)
         val prefs = requireContext().getSharedPreferences(
             PREFERENCES,
             Context.MODE_PRIVATE
@@ -116,7 +109,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         val editor = prefs.edit()
 
         if (prefs.getBoolean(READ_CONTACTS_PERMISSION_KEY, false)) {
-            viewModel.loadContactsFromStorage(contentResolver)
+            viewModel.loadContactsFromStorage(/*contentResolver*/)
         } else {
             if (prefs.getBoolean(
                     IS_FIRST_LAUNCH,
@@ -289,7 +282,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val index = viewHolder.bindingAdapterPosition
-                val contact: Contact? = viewModel.getContact(index)
+                val contact: Contact = viewModel.getContact(index)
 
                 if (contact != null) {
                     viewModel.removeContact(contact)

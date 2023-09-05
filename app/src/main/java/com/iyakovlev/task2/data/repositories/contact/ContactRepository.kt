@@ -1,12 +1,21 @@
 package com.iyakovlev.task2.data.repositories.contact
 
-import android.content.ContentResolver
 import com.iyakovlev.task2.data.model.Contact
+import kotlinx.coroutines.flow.StateFlow
 
 interface ContactRepository {
 
-    fun loadContactsFromStorage(contentResolver: ContentResolver): List<Contact>
+    val contacts: StateFlow<List<Contact>>
 
-    fun createFakeContacts(): List<Contact>
+    fun loadContactsFromStorage(): List<Contact>
+
+    fun createFakeContacts()
+
+    fun removeContact(contact: Contact)
+    fun removeContact(position: Int)
+
+    fun addContact(contact: Contact)
+
+    fun undoRemoveContact()
 
 }

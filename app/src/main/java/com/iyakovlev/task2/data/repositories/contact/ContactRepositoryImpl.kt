@@ -6,13 +6,22 @@ import com.github.javafaker.Faker
 import com.iyakovlev.task2.common.constants.Constants
 import com.iyakovlev.task2.data.model.Contact
 import com.iyakovlev.task2.utils.log
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.util.UUID
+import javax.inject.Inject
 
-class ContactRepositoryImpl : ContactRepository {
+class ContactRepositoryImpl @Inject constructor(private val contentResolver: ContentResolver) :
+    ContactRepository {
 
     private val isDebug = false
 
-    override fun loadContactsFromStorage(contentResolver: ContentResolver): List<Contact> {
+    private val _contacts = MutableStateFlow(listOf<Contact>())
+    override val contacts: StateFlow<List<Contact>> = _contacts.asStateFlow()
+
+    private var lastRemovedContact: Contact? = null
+    override fun loadContactsFromStorage(): List<Contact> {
         val projection = arrayOf(
             ContactsContract.Contacts._ID,
             ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
@@ -47,12 +56,14 @@ class ContactRepositoryImpl : ContactRepository {
                 contactsList.add(contact)
             }
         }
+
+        _contacts.tryEmit(contactsList)
         return contactsList
     }
 
-    override fun createFakeContacts(): List<Contact> {
+    override fun createFakeContacts() {
         val faker = Faker.instance()
-        return (1..20).map {
+        _contacts.value = (1..20).map {
             Contact(
                 //id = it.toLong(),
                 name = faker.name().name(),
@@ -63,6 +74,32 @@ class ContactRepositoryImpl : ContactRepository {
         }.sortedBy {
             it.name
         }
+    }
+
+    override fun removeContact(contact: Contact) {
+        _contacts.value = _contacts.value.filter { it != contact }
+    }
+
+    override fun removeContact(position: Int) {
+        _contacts.value = _contacts.value.filterIndexed { index, _ -> index != position }
+    }
+
+    override fun addContact(contact: Contact) {
+        _contacts.value = _contacts.value.toMutableList().apply {
+            add(findInsertionIndex(contact.name), contact)
+        }
+    }
+
+    override fun undoRemoveContact() {
+        lastRemovedContact?.let {
+            addContact(it)
+        }
+        lastRemovedContact = null
+    }
+
+    private fun findInsertionIndex(name: String): Int {
+        val index = contacts.value.indexOfFirst { it.name.lowercase() > name.lowercase() }
+        return if (index != -1) index else contacts.value.size
     }
 
     private fun getJobByContactId(contentResolver: ContentResolver, contactId: Long): String {
