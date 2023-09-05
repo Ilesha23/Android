@@ -3,7 +3,6 @@ package com.iyakovlev.task2.presentation.fragments.contacts
 import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -14,9 +13,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -44,7 +41,6 @@ import com.iyakovlev.task2.presentation.fragments.detail_view.ContactDetailViewF
 import com.iyakovlev.task2.presentation.utils.ItemSpacingDecoration
 import com.iyakovlev.task2.utils.log
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -52,11 +48,14 @@ import javax.inject.Inject
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate) {
 
     private val isDebug = false
-//    private lateinit var contentResolver: ContentResolver
+
+    //    private lateinit var contentResolver: ContentResolver
     private val contentResolver = App.contentResolver
 
-    @Inject lateinit var viewModel: ContactsViewModel
-//    private val viewModel: ContactsViewModel by viewModels()
+    @Inject
+    lateinit var viewModel: ContactsViewModel
+
+    //    private val viewModel: ContactsViewModel by viewModels()
 //    private val viewModel: ContactsViewModel by activityViewModels()
     private val contactAdapter = ContactsAdapter(object : ContactItemClickListener {
 
