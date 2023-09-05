@@ -1,15 +1,16 @@
-package com.iyakovlev.task2.data
+package com.iyakovlev.task2.data.repositories.contact
 
 import android.content.ContentResolver
 import android.provider.ContactsContract
-import android.util.Log
 import com.github.javafaker.Faker
-import com.iyakovlev.task2.domain.Contact
-import com.iyakovlev.task2.domain.ContactRepository
-import com.iyakovlev.task2.utils.Constants
+import com.iyakovlev.task2.common.constants.Constants
+import com.iyakovlev.task2.data.model.Contact
+import com.iyakovlev.task2.utils.log
 import java.util.UUID
 
 class ContactRepositoryImpl : ContactRepository {
+
+    private val isDebug = false
 
     override fun loadContactsFromStorage(contentResolver: ContentResolver): List<Contact> {
         val projection = arrayOf(
@@ -18,7 +19,7 @@ class ContactRepositoryImpl : ContactRepository {
             ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
         )
 
-        Log.e("AAA", "before cursor")
+        log("before cursor", isDebug)
         val cursor = contentResolver.query(
             ContactsContract.Contacts.CONTENT_URI,
             projection,
@@ -26,7 +27,7 @@ class ContactRepositoryImpl : ContactRepository {
             null,
             ContactsContract.Contacts.DISPLAY_NAME_PRIMARY
         )
-        Log.e("AAA", "after cursor")
+        log("after cursor", isDebug)
 
         val contactsList = mutableListOf<Contact>()
         cursor?.use {
@@ -51,13 +52,15 @@ class ContactRepositoryImpl : ContactRepository {
 
     override fun createFakeContacts(): List<Contact> {
         val faker = Faker.instance()
-        return (1..20).map { Contact(
-            //id = it.toLong(),
-            name = faker.name().name(),
-            career = faker.company().name(),
-            photo = Constants.IMAGES[it % Constants.IMAGES.size],
-            address = faker.address().fullAddress()
-        ) }.sortedBy {
+        return (1..20).map {
+            Contact(
+                //id = it.toLong(),
+                name = faker.name().name(),
+                career = faker.company().name(),
+                photo = Constants.IMAGES[it % Constants.IMAGES.size],
+                address = faker.address().fullAddress()
+            )
+        }.sortedBy {
             it.name
         }
     }

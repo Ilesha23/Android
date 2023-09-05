@@ -1,23 +1,22 @@
-package com.iyakovlev.task2.domain
+package com.iyakovlev.task2.presentation.fragments.contacts
 
 import android.content.ContentResolver
 import android.os.Parcel
 import android.os.Parcelable
-import android.provider.ContactsContract
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.javafaker.Faker
-import com.iyakovlev.task2.data.ContactRepositoryImpl
-import com.iyakovlev.task2.utils.Constants.IMAGES
-import com.iyakovlev.task2.utils.Constants.LOG_TAG
+import com.iyakovlev.task2.data.repositories.contact.ContactRepositoryImpl
+import com.iyakovlev.task2.data.model.Contact
+import com.iyakovlev.task2.utils.log
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.util.UUID
+import javax.inject.Inject
 
-class ContactsViewModel : ViewModel(), Parcelable {
+/*@HiltViewModel*/
+class ContactsViewModel /*@Inject constructor()*/ : ViewModel()/*, Parcelable*/ {
+
+    private val isDebug = false
 
     private val contactRepository = ContactRepositoryImpl()
 
@@ -28,14 +27,14 @@ class ContactsViewModel : ViewModel(), Parcelable {
     private var lastRemovedContactIndex: Int? = null
 
     init {
-        Log.e(LOG_TAG, "view model created")
+        log("view model created", isDebug)
     }
 
     fun createFakeContacts() {
         if (contacts.value.isEmpty()) {
             _contacts.value = contactRepository.createFakeContacts()
         }
-        Log.e(LOG_TAG, "default contacts created")
+        log("default contacts created", isDebug)
     }
 
     fun removeContact(contact: Contact) {
@@ -70,7 +69,7 @@ class ContactsViewModel : ViewModel(), Parcelable {
         val updatedContacts = currentContacts.toMutableList()
         updatedContacts.add(index, contact)
         _contacts.value = updatedContacts
-        Log.e(LOG_TAG, "$contact added")
+        log("$contact added", isDebug)
     }
 
     fun addContact(contact: Contact) {
@@ -96,15 +95,15 @@ class ContactsViewModel : ViewModel(), Parcelable {
     }
 
     override fun onCleared() {
-        Log.e(LOG_TAG, "view model cleared")
+        log("view model cleared", isDebug)
         super.onCleared()
     }
 
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    override fun writeToParcel(p0: Parcel, p1: Int) {
-
-    }
+//    override fun describeContents(): Int {
+//        return 0
+//    }
+//
+//    override fun writeToParcel(p0: Parcel, p1: Int) {
+//
+//    }
 }

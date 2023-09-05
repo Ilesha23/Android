@@ -1,4 +1,4 @@
-package com.iyakovlev.task2.utils
+package com.iyakovlev.task2.presentation.utils.extensions
 
 import android.widget.ImageView
 import coil.load

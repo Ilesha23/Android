@@ -1,8 +1,9 @@
-package com.iyakovlev.task2.presentation.fragments
+package com.iyakovlev.task2.presentation.fragments.contacts
 
 import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -13,39 +14,50 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.iyakovlev.task2.App
 import com.iyakovlev.task2.R
+import com.iyakovlev.task2.common.constants.Constants
+import com.iyakovlev.task2.common.constants.Constants.CONTACT_ADDRESS
+import com.iyakovlev.task2.common.constants.Constants.CONTACT_CAREER
+import com.iyakovlev.task2.common.constants.Constants.CONTACT_NAME
+import com.iyakovlev.task2.common.constants.Constants.CONTACT_PHOTO
+import com.iyakovlev.task2.common.constants.Constants.TRANSITION_NAME
+import com.iyakovlev.task2.common.constants.TestingConstants.isUsingTransactions
+import com.iyakovlev.task2.data.model.Contact
 import com.iyakovlev.task2.databinding.FragmentContactsBinding
-import com.iyakovlev.task2.domain.Contact
-import com.iyakovlev.task2.domain.ContactsAdapter
-import com.iyakovlev.task2.domain.ContactsViewModel
-import com.iyakovlev.task2.presentation.common.BaseFragment
-import com.iyakovlev.task2.presentation.fragments.interfaces.ContactItemClickListener
-import com.iyakovlev.task2.utils.Constants
-import com.iyakovlev.task2.utils.Constants.CONTACT_ADDRESS
-import com.iyakovlev.task2.utils.Constants.CONTACT_CAREER
-import com.iyakovlev.task2.utils.Constants.CONTACT_NAME
-import com.iyakovlev.task2.utils.Constants.CONTACT_PHOTO
-import com.iyakovlev.task2.utils.Constants.IS_FIRST_LAUNCH
-import com.iyakovlev.task2.utils.Constants.LOG_TAG
-import com.iyakovlev.task2.utils.Constants.PREFERENCES
-import com.iyakovlev.task2.utils.Constants.READ_CONTACTS_PERMISSION_KEY
-import com.iyakovlev.task2.utils.Constants.TRANSITION_NAME
-import com.iyakovlev.task2.utils.ItemSpacingDecoration
-import com.iyakovlev.task2.utils.TestingConstants.isUsingTransactions
-import kotlinx.coroutines.flow.toList
+import com.iyakovlev.task2.presentation.base.BaseFragment
+import com.iyakovlev.task2.presentation.fragments.add_contact.AddContactDialogFragment
+import com.iyakovlev.task2.presentation.fragments.contacts.adapters.ContactsAdapter
+import com.iyakovlev.task2.presentation.fragments.contacts.interfaces.ContactItemClickListener
+import com.iyakovlev.task2.presentation.fragments.detail_view.ContactDetailViewFragment
+import com.iyakovlev.task2.presentation.utils.ItemSpacingDecoration
+import com.iyakovlev.task2.utils.log
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate) {
 
-    private val viewModel: ContactsViewModel by viewModels()
+    private val isDebug = false
+//    private lateinit var contentResolver: ContentResolver
+    private val contentResolver = App.contentResolver
+
+    @Inject lateinit var viewModel: ContactsViewModel
+//    private val viewModel: ContactsViewModel by viewModels()
+//    private val viewModel: ContactsViewModel by activityViewModels()
     private val contactAdapter = ContactsAdapter(object : ContactItemClickListener {
 
         override fun onItemClick(position: Int, imageView: ImageView) {
@@ -53,23 +65,23 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         }
 
         override fun onItemDeleteClick(position: Int) {
-            viewModel.removeContact(position)
-            showUndoDeleteSnackBar()
+            deleteContactWithUndo(position)
         }
 
     })
+
+    private fun deleteContactWithUndo(position: Int) {
+        viewModel.removeContact(position)
+        showUndoDeleteSnackBar()
+    }
 
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                viewModel.loadContactsFromStorage(requireActivity().contentResolver)
-                val prefs = requireContext().getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-                val editor = prefs.edit()
-                editor.putBoolean(READ_CONTACTS_PERMISSION_KEY, true)
-                editor.apply()
+                setPhoneContactsList()
             } else {
-                viewModel.createFakeContacts()
+                setFakeContactsList()
             }
         }
 
@@ -79,10 +91,25 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         requestContactsPermission()
 
         setupRecyclerView()
-        setObservers()
         setListeners()
-        addSwipeToDelete()
+        setObservers()
+        addSwipeToDelete() // TODO:
 
+    }
+
+    private fun setPhoneContactsList() {
+        viewModel.loadContactsFromStorage(contentResolver)
+        val prefs = requireContext().getSharedPreferences(
+            PREFERENCES,
+            Context.MODE_PRIVATE
+        )
+        val editor = prefs.edit()
+        editor.putBoolean(READ_CONTACTS_PERMISSION_KEY, true)
+        editor.apply()
+    }
+
+    private fun setFakeContactsList() {
+        viewModel.createFakeContacts()
     }
 
     private fun requestContactsPermission() {
@@ -90,7 +117,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         val editor = prefs.edit()
 
         if (prefs.getBoolean(READ_CONTACTS_PERMISSION_KEY, false)) {
-            viewModel.loadContactsFromStorage(requireActivity().contentResolver)
+            viewModel.loadContactsFromStorage(contentResolver)
         } else {
             if (prefs.getBoolean(
                     IS_FIRST_LAUNCH,
@@ -117,29 +144,37 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     override fun setObservers() {
-        lifecycleScope.launch {
-            viewModel.contacts.collect { contacts ->
-//                contactAdapter.setContacts(contacts)
-                contactAdapter.submitList(viewModel.contacts.value.toMutableList())
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.contacts.collect { newContactsList ->
+                    contactAdapter.submitList(newContactsList)
+                }
             }
         }
     }
 
     override fun setListeners() {
-        binding.btnAddContact.setOnClickListener {
-            if (isUsingTransactions) {
-                openAddContactDialog()
-            } else {
-                val action = ContactsFragmentDirections
-                    .actionContactsFragmentToAddContactDialogFragment(viewModel)
-                navController.navigate(action)
+        with(binding) {
+            btnAddContact.setOnClickListener {
+                navigateToAddContactDialog()
+            }
+            rvContacts.viewTreeObserver.addOnScrollChangedListener {
+                checkButtonUp()
+            }
+            fabUp.setOnClickListener {
+                rvContacts.smoothScrollToPosition(0)
             }
         }
-        binding.rvContacts.viewTreeObserver.addOnScrollChangedListener {
-            checkButtonUp()
-        }
-        binding.fabUp.setOnClickListener {
-            binding.rvContacts.smoothScrollToPosition(0)
+    }
+
+    private fun navigateToAddContactDialog() {
+        if (isUsingTransactions) {
+            openAddContactDialog()
+        } else {
+            Log.e("TAG", viewModel.toString())
+            val action = ContactsFragmentDirections
+                .actionContactsFragmentToAddContactDialogFragment(/*viewModel*/)
+            navController.navigate(action)
         }
     }
 
@@ -154,7 +189,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun navigateToDetailViewWithTransaction(position: Int) {
-        val fragment = ContactDetailViewFragment.newInstance()
+        val fragment = ContactDetailViewFragment()
         val contact = contactAdapter.getContact(position)
         val bundle = Bundle().apply {
             putString(CONTACT_PHOTO, contact.photo)
@@ -167,7 +202,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             replace(R.id.nav_host_fragment, fragment)
             addToBackStack(null)
         }
-        Log.e(LOG_TAG, "transaction")
+        log("transaction", isDebug)
     }
 
     private fun navigateToDetailViewWithNavigation(position: Int, imageView: ImageView) {
@@ -187,7 +222,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             imageView to transitionName
         )
         navController.navigate(action, extras)
-        Log.e(LOG_TAG, "navigated to $action")
+        log("navigated to $action", isDebug)
     }
 
     private fun checkButtonUp() {
@@ -225,10 +260,11 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     private fun openAddContactDialog() {
         val dialogFragment = AddContactDialogFragment()
-        dialogFragment.setViewModel(viewModel)
+//        dialogFragment.setViewModel(viewModel)
+        Log.e("TAG", viewModel.toString())
 
         dialogFragment.show(childFragmentManager, "TAG")
-        Log.e(LOG_TAG, "dialog showed")
+        log("dialog showed", isDebug)
     }
 
     private fun showUndoDeleteSnackBar() {
@@ -305,21 +341,10 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ContactsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance() =
-            ContactsFragment().apply {
-                arguments = Bundle().apply {
 
-                }
-            }
+        const val PREFERENCES = "PREFERENCES"
+        const val READ_CONTACTS_PERMISSION_KEY = "READ_CONTACTS_PERMISSION_KEY"
+        const val IS_FIRST_LAUNCH = "IS_FIRST_LAUNCH"
+
     }
 }
