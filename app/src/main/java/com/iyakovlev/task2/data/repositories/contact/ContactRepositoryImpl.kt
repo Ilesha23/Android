@@ -81,10 +81,12 @@ class ContactRepositoryImpl @Inject constructor(private val contentResolver: Con
     }
 
     override fun removeContact(position: Int) {
+        lastRemovedContact = _contacts.value[position]
         _contacts.value = _contacts.value.filterIndexed { index, _ -> index != position }
     }
 
     override fun addContact(contact: Contact) {
+        lastRemovedContact = contact
         _contacts.value = _contacts.value.toMutableList().apply {
             add(findInsertionIndex(contact.name), contact)
         }
@@ -95,6 +97,7 @@ class ContactRepositoryImpl @Inject constructor(private val contentResolver: Con
             addContact(it)
         }
         lastRemovedContact = null
+        log("${_contacts.value.size}")
     }
 
     private fun findInsertionIndex(name: String): Int {
