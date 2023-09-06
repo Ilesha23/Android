@@ -19,8 +19,6 @@ class ContactsAdapter(val listener: ContactItemClickListener) :
         return ContactViewHolder(binding)
     }
 
-    fun getContact(pos: Int): Contact = getItem(pos)
-
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
@@ -29,15 +27,15 @@ class ContactsAdapter(val listener: ContactItemClickListener) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(contact: Contact) {
-            binding.apply {
+            with(binding) {
                 tvContactName.text = contact.name
                 tvContactCareer.text = contact.career
-                binding.ivAvatar.loadImageWithGlide(contact.photo)
+                ivAvatar.loadImageWithGlide(contact.photo)
                 ivContactRemove.setOnClickListener {
                     listener.onItemDeleteClick(bindingAdapterPosition)
                 }
                 clContactItem.setOnClickListener {
-                    listener.onItemClick(bindingAdapterPosition, binding.ivAvatar)
+                    listener.onItemClick(bindingAdapterPosition, ivAvatar)
                 }
             }
         }

@@ -44,6 +44,7 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
         return binding.root
     }
 
+    // TODO: onCreateDialog
 //    @SuppressLint("InflateParams")
 //    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 //        val builder = AlertDialog.Builder(activity)
@@ -63,7 +64,6 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
                 contact = Contact(contact.id, photo, contact.name, contact.career, contact.address)
                 binding.ivAddContactAvatar.loadImageWithGlide(photo)
             }
-            print(lifecycle)
         }
     }
 

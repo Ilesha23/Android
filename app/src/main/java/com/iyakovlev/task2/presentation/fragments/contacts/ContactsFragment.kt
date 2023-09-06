@@ -1,13 +1,7 @@
 package com.iyakovlev.task2.presentation.fragments.contacts
 
 import android.Manifest
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -19,9 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.task2.R
 import com.iyakovlev.task2.common.constants.Constants
@@ -38,6 +30,9 @@ import com.iyakovlev.task2.presentation.fragments.contacts.adapters.ContactsAdap
 import com.iyakovlev.task2.presentation.fragments.contacts.interfaces.ContactItemClickListener
 import com.iyakovlev.task2.presentation.fragments.detail_view.ContactDetailViewFragment
 import com.iyakovlev.task2.presentation.utils.ItemSpacingDecoration
+import com.iyakovlev.task2.presentation.utils.extensions.addSwipeToDelete
+import com.iyakovlev.task2.presentation.utils.extensions.setButtonScrollListener
+import com.iyakovlev.task2.presentation.utils.extensions.toggleFabVisibility
 import com.iyakovlev.task2.utils.log
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -84,7 +79,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         setupRecyclerView()
         setListeners()
         setObservers()
-        addSwipeToDelete() // TODO:
 
     }
 
@@ -131,6 +125,14 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             val spacing = resources.getDimensionPixelSize(R.dimen.contacts_item_spacing)
             val lastSpacing = resources.getDimensionPixelSize(R.dimen.last_item_bottom_spacing)
             addItemDecoration(ItemSpacingDecoration(spacing, lastSpacing))
+
+            setButtonScrollListener { isButtonVisible ->
+                binding.fabUp.toggleFabVisibility(FAB_ANIMATION_TIME, isButtonVisible)
+            }
+
+            addSwipeToDelete { position ->
+                deleteContactWithUndo(position)
+            }
         }
     }
 
@@ -148,9 +150,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         with(binding) {
             btnAddContact.setOnClickListener {
                 navigateToAddContactDialog()
-            }
-            rvContacts.viewTreeObserver.addOnScrollChangedListener {
-                checkButtonUp()
             }
             fabUp.setOnClickListener {
                 rvContacts.smoothScrollToPosition(0)
@@ -181,7 +180,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     private fun navigateToDetailViewWithTransaction(position: Int) {
         val fragment = ContactDetailViewFragment()
-        val contact = contactAdapter.getContact(position)
+        val contact = viewModel.getContact(position)
         val bundle = Bundle().apply {
             putString(CONTACT_PHOTO, contact.photo)
             putString(CONTACT_NAME, contact.name)
@@ -197,7 +196,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun navigateToDetailViewWithNavigation(position: Int, imageView: ImageView) {
-        val contact = contactAdapter.getContact(position)
+        val contact = viewModel.getContact(position)
         val contactId = contact.id.toString()
         val transitionName = "$TRANSITION_NAME$contactId"
 
@@ -216,43 +215,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         log("navigated to $action", isDebug)
     }
 
-    private fun checkButtonUp() {
-        val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
-        val firstItem = layoutManager.findFirstVisibleItemPosition()
-        if (firstItem > 0) {
-            toggleFabVisibility(binding.fabUp, true)
-        } else {
-            toggleFabVisibility(binding.fabUp, false)
-        }
-    }
-
-    private fun toggleFabVisibility(view: View, show: Boolean) {
-        val duration = 200L
-
-        if (show) {
-            view.visibility = View.VISIBLE
-            view.animate()
-                .alpha(1f)
-                .setDuration(duration)
-                .setListener(null)
-                .start()
-        } else {
-            view.animate()
-                .alpha(0f)
-                .setDuration(duration)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        view.visibility = View.INVISIBLE
-                    }
-                })
-                .start()
-        }
-    }
-
     private fun openAddContactDialog() {
         val dialogFragment = AddContactDialogFragment()
-        Log.e("TAG", viewModel.toString())
-
         dialogFragment.show(childFragmentManager, "TAG")
         log("dialog showed", isDebug)
     }
@@ -265,72 +229,13 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             .show()
     }
 
-    private fun addSwipeToDelete() {
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-            0,
-            ItemTouchHelper.END or ItemTouchHelper.START
-        ) {
-
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            )
-                    : Boolean = false
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val index = viewHolder.bindingAdapterPosition
-                viewModel.removeContact(index)
-                showUndoDeleteSnackBar()
-            }
-
-            override fun onChildDraw(
-                c: Canvas,
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                dX: Float,
-                dY: Float,
-                actionState: Int,
-                isCurrentlyActive: Boolean
-            ) {
-                val paint = Paint()
-                paint.color = Color.RED
-
-                val background: RectF = if (dX > 0) {
-                    RectF(
-                        viewHolder.itemView.left.toFloat(),
-                        viewHolder.itemView.top.toFloat(),
-                        viewHolder.itemView.left.toFloat() + dX,
-                        viewHolder.itemView.bottom.toFloat()
-                    )
-                } else {
-                    RectF(
-                        viewHolder.itemView.right.toFloat() + dX,
-                        viewHolder.itemView.top.toFloat(),
-                        viewHolder.itemView.right.toFloat(),
-                        viewHolder.itemView.bottom.toFloat()
-                    )
-                }
-                c.drawRect(background, paint)
-
-                super.onChildDraw(
-                    c,
-                    recyclerView,
-                    viewHolder,
-                    dX,
-                    dY,
-                    actionState,
-                    isCurrentlyActive
-                )
-            }
-        }).attachToRecyclerView(binding.rvContacts)
-    }
-
     companion object {
 
         const val PREFERENCES = "PREFERENCES"
         const val READ_CONTACTS_PERMISSION_KEY = "READ_CONTACTS_PERMISSION_KEY"
         const val IS_FIRST_LAUNCH = "IS_FIRST_LAUNCH"
+
+        const val FAB_ANIMATION_TIME = 200L
 
     }
 }

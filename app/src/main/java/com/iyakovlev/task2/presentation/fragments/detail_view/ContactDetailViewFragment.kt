@@ -70,7 +70,7 @@ class ContactDetailViewFragment :
             if (isUsingTransactions) {
                 parentFragmentManager.popBackStack()
             } else {
-                navController.popBackStack()
+                navController.navigateUp()
             }
         }
     }

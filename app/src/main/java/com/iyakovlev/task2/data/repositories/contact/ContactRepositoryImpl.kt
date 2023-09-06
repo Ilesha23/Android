@@ -3,7 +3,6 @@ package com.iyakovlev.task2.data.repositories.contact
 import android.content.ContentResolver
 import android.provider.ContactsContract
 import com.github.javafaker.Faker
-import com.iyakovlev.task2.common.constants.Constants
 import com.iyakovlev.task2.data.model.Contact
 import com.iyakovlev.task2.utils.log
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,6 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.util.UUID
 import javax.inject.Inject
 
+// TODO: try one fun for db
 class ContactRepositoryImpl @Inject constructor(private val contentResolver: ContentResolver) :
     ContactRepository {
 
@@ -63,12 +63,12 @@ class ContactRepositoryImpl @Inject constructor(private val contentResolver: Con
 
     override fun createFakeContacts() {
         val faker = Faker.instance()
-        _contacts.value = (1..20).map {
+        _contacts.value = (1..CONTACTS_NUMBER).map {
             Contact(
                 //id = it.toLong(),
                 name = faker.name().name(),
                 career = faker.company().name(),
-                photo = Constants.IMAGES[it % Constants.IMAGES.size],
+                photo = IMAGES[it % IMAGES.size],
                 address = faker.address().fullAddress()
             )
         }.sortedBy {
@@ -78,12 +78,16 @@ class ContactRepositoryImpl @Inject constructor(private val contentResolver: Con
 
     override fun removeContact(contact: Contact) {
         lastRemovedContact = contact
-        _contacts.value = _contacts.value.filter { it != contact }
+        _contacts.value = _contacts.value.toMutableList().apply {
+            remove(contact)
+        }
     }
 
     override fun removeContact(position: Int) {
-        lastRemovedContact = _contacts.value[position]
-        _contacts.value = _contacts.value.filterIndexed { index, _ -> index != position }
+        _contacts.value = _contacts.value.toMutableList().apply {
+            lastRemovedContact = this[position]
+            removeAt(position)
+        }
     }
 
     override fun addContact(contact: Contact) {
@@ -97,7 +101,7 @@ class ContactRepositoryImpl @Inject constructor(private val contentResolver: Con
             addContact(it)
         }
         lastRemovedContact = null
-        log("${_contacts.value.size}")
+        log("${_contacts.value.size}", isDebug)
     }
 
     private fun findInsertionIndex(name: String): Int {
@@ -161,6 +165,18 @@ class ContactRepositoryImpl @Inject constructor(private val contentResolver: Con
         }
 
         return ""
+    }
+    
+    companion object {
+        const val CONTACTS_NUMBER = 20
+
+        val IMAGES = listOf(
+            "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80",
+            "https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80",
+            "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1361&q=80",
+            "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+            "https://images.unsplash.com/photo-1645830166230-187caf791b90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+        )
     }
 
 }
