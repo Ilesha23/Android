@@ -15,7 +15,7 @@ import javax.inject.Inject
 class ContactRepositoryImpl @Inject constructor(private val contentResolver: ContentResolver) :
     ContactRepository {
 
-    private val isDebug = false
+    private val isDebug = true
 
     private val _contacts = MutableStateFlow(listOf<Contact>())
     override val contacts: StateFlow<List<Contact>> = _contacts.asStateFlow()

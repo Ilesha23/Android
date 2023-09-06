@@ -31,7 +31,6 @@ import com.iyakovlev.task2.common.constants.Constants.CONTACT_NAME
 import com.iyakovlev.task2.common.constants.Constants.CONTACT_PHOTO
 import com.iyakovlev.task2.common.constants.Constants.TRANSITION_NAME
 import com.iyakovlev.task2.common.constants.TestingConstants.isUsingTransactions
-import com.iyakovlev.task2.data.model.Contact
 import com.iyakovlev.task2.databinding.FragmentContactsBinding
 import com.iyakovlev.task2.presentation.base.BaseFragment
 import com.iyakovlev.task2.presentation.fragments.add_contact.AddContactDialogFragment
@@ -165,7 +164,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         } else {
             Log.e("TAG", viewModel.toString())
             val action = ContactsFragmentDirections
-                .actionContactsFragmentToAddContactDialogFragment(/*viewModel*/)
+                .actionContactsFragmentToAddContactDialogFragment()
             navController.navigate(action)
         }
     }
@@ -252,7 +251,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     private fun openAddContactDialog() {
         val dialogFragment = AddContactDialogFragment()
-//        dialogFragment.setViewModel(viewModel)
         Log.e("TAG", viewModel.toString())
 
         dialogFragment.show(childFragmentManager, "TAG")
@@ -282,12 +280,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val index = viewHolder.bindingAdapterPosition
-                val contact: Contact = viewModel.getContact(index)
-
-                if (contact != null) {
-                    viewModel.removeContact(contact)
-                    showUndoDeleteSnackBar()
-                }
+                viewModel.removeContact(index)
+                showUndoDeleteSnackBar()
             }
 
             override fun onChildDraw(

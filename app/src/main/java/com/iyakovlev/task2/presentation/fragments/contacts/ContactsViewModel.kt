@@ -12,7 +12,7 @@ class ContactsViewModel @Inject constructor(
     private val repository: ContactRepository
 ) : ViewModel() {
 
-    private val isDebug = false
+    private val isDebug = true
 
     val contacts = repository.contacts
 
