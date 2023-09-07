@@ -7,6 +7,8 @@ import android.graphics.RectF
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.lang.Float.max
+import java.lang.Float.min
 
 fun RecyclerView.setButtonScrollListener(
     checkPosition: (Boolean) -> Unit
@@ -51,22 +53,27 @@ fun RecyclerView.addSwipeToDelete(
             val paint = Paint()
             paint.color = Color.RED
 
+            val itemWidth = viewHolder.itemView.width.toFloat()
+            val maxDX = if (dX > 0) min(dX, itemWidth) else max(dX, -itemWidth)
+
+            val cornerRadius = 20f // TODO: dimens
+
             val background: RectF = if (dX > 0) {
                 RectF(
                     viewHolder.itemView.left.toFloat(),
                     viewHolder.itemView.top.toFloat(),
-                    viewHolder.itemView.left.toFloat() + dX,
+                    viewHolder.itemView.left.toFloat() + maxDX,
                     viewHolder.itemView.bottom.toFloat()
                 )
             } else {
                 RectF(
-                    viewHolder.itemView.right.toFloat() + dX,
+                    viewHolder.itemView.right.toFloat() + maxDX,
                     viewHolder.itemView.top.toFloat(),
                     viewHolder.itemView.right.toFloat(),
                     viewHolder.itemView.bottom.toFloat()
                 )
             }
-            c.drawRect(background, paint)
+            c.drawRoundRect(background, cornerRadius, cornerRadius, paint)
 
             super.onChildDraw(
                 c,
