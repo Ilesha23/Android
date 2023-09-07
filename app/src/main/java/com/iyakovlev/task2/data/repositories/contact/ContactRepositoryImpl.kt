@@ -166,7 +166,7 @@ class ContactRepositoryImpl @Inject constructor(private val contentResolver: Con
 
         return ""
     }
-    
+
     companion object {
         const val CONTACTS_NUMBER = 20
 
