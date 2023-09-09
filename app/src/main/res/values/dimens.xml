@@ -57,4 +57,7 @@
     <dimen name="btn_corner_radius_pressed">8dp</dimen>
     <dimen name="btn_img_width">20dp</dimen>
 
+    <!-- View holder corner radius -->
+    <dimen name="vh_corner_radius">5dp</dimen>
+
 </resources>

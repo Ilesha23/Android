@@ -9,24 +9,26 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.iyakovlev.task2.R
 import com.iyakovlev.task2.data.model.Contact
-import com.iyakovlev.task2.data.repositories.contact.ContactRepository
 import com.iyakovlev.task2.databinding.AddContactDialogBinding
 import com.iyakovlev.task2.presentation.utils.extensions.loadImageWithGlide
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.UUID
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class AddContactDialogFragment : AppCompatDialogFragment() {
 
+    private val viewModel: AddContactViewModel by viewModels()
+
     private var _binding: AddContactDialogBinding? = null
     private val binding get() = requireNotNull(_binding)
-
-    @Inject
-    lateinit var repository: ContactRepository
 
     private lateinit var photoActivityResult: ActivityResultLauncher<Intent>
     private var contact = Contact(UUID.randomUUID(), "", "", "", "")
@@ -44,31 +46,26 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
         return binding.root
     }
 
-    // TODO: onCreateDialog
-//    @SuppressLint("InflateParams")
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        val builder = AlertDialog.Builder(activity)
-//        val inflater = requireActivity().layoutInflater
-//        builder.setView(inflater.inflate(R.layout.add_contact_dialog, null))
-//        return builder.create()
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupListeners()
+
+        setListeners()
+        setObservers()
+
         photoActivityResult = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
-                val photo = it.data?.data.toString()
+                val photo = viewModel.photo.value.ifBlank { it.data?.data.toString() }
+                viewModel.setPhoto(photo)
                 contact = Contact(contact.id, photo, contact.name, contact.career, contact.address)
                 binding.ivAddContactAvatar.loadImageWithGlide(photo)
             }
         }
+
     }
 
-
-    private fun setupListeners() {
+    private fun setListeners() {
         with(binding) {
             btnLoadImage.setOnClickListener {
                 openGallery()
@@ -77,13 +74,23 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
                 val name = etUsername.text.toString()
                 val career = etCareer.text.toString()
                 val address = etAddress.text.toString()
-                contact = Contact(contact.id, contact.photo, name, career, address)
+                contact = Contact(contact.id, viewModel.photo.value, name, career, address)
 
-                repository.addContact(contact)
+                viewModel.addContact(contact)
                 dismiss()
             }
             ibBack.setOnClickListener {
                 dismiss()
+            }
+        }
+    }
+
+    private fun setObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.photo.collect { photo ->
+                    binding.ivAddContactAvatar.loadImageWithGlide(photo)
+                }
             }
         }
     }

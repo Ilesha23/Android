@@ -1,5 +1,6 @@
 package com.iyakovlev.task2.data.repositories.contact
 
+import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.provider.ContactsContract
 import com.github.javafaker.Faker
@@ -11,7 +12,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.util.UUID
 import javax.inject.Inject
 
-// TODO: try one fun for db
 class ContactRepositoryImpl @Inject constructor(private val contentResolver: ContentResolver) :
     ContactRepository {
 
@@ -48,8 +48,18 @@ class ContactRepositoryImpl @Inject constructor(private val contentResolver: Con
                 val id = it.getLong(idColIndex)
                 val name = it.getString(nameColIndex)
                 val photo = it.getString(photoColIndex) ?: ""
-                val career = getJobByContactId(contentResolver, id)
-                val address = getAddressByContactId(contentResolver, id)
+                val career = getAdditionalInfoByContactId(
+                    contentResolver,
+                    id,
+                    ContactsContract.CommonDataKinds.Organization.COMPANY,
+                    ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE
+                )
+                val address = getAdditionalInfoByContactId(
+                    contentResolver, id,
+                    ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS,
+                    ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE
+                )
+
 
                 val uuid = UUID.randomUUID()
                 val contact = Contact(uuid, photo, name, career, address)
@@ -109,17 +119,18 @@ class ContactRepositoryImpl @Inject constructor(private val contentResolver: Con
         return if (index != -1) index else contacts.value.size
     }
 
-    private fun getJobByContactId(contentResolver: ContentResolver, contactId: Long): String {
-        val projection = arrayOf(
-            ContactsContract.CommonDataKinds.Organization.TITLE,
-        )
+    @SuppressLint("Range")
+    private fun getAdditionalInfoByContactId(
+        contentResolver: ContentResolver,
+        contactId: Long,
+        column: String,
+        contentType: String
+    ): String {
+        val projection = arrayOf(column)
 
         val selection =
-            "${ContactsContract.Data.CONTACT_ID} = ? AND ${ContactsContract.Data.MIMETYPE} = ?"
-        val selectionArgs = arrayOf(
-            contactId.toString(),
-            ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE,
-        )
+            "${ContactsContract.Data.CONTACT_ID} = ? AND ${ContactsContract.Data.MIMETYPE} = '$contentType'"
+        val selectionArgs = arrayOf(contactId.toString())
 
         contentResolver.query(
             ContactsContract.Data.CONTENT_URI,
@@ -129,38 +140,7 @@ class ContactRepositoryImpl @Inject constructor(private val contentResolver: Con
             null
         )?.use { cursor ->
             if (cursor.moveToFirst()) {
-                val careerColumnIndex =
-                    cursor.getColumnIndex(ContactsContract.CommonDataKinds.Organization.TITLE)
-                return cursor.getString(careerColumnIndex) ?: ""
-            }
-        }
-
-        return ""
-    }
-
-    private fun getAddressByContactId(contentResolver: ContentResolver, contactId: Long): String {
-        val projection = arrayOf(
-            ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS,
-        )
-
-        val selection =
-            "${ContactsContract.Data.CONTACT_ID} = ? AND ${ContactsContract.Data.MIMETYPE} = ?"
-        val selectionArgs = arrayOf(
-            contactId.toString(),
-            ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE,
-        )
-
-        contentResolver.query(
-            ContactsContract.Data.CONTENT_URI,
-            projection,
-            selection,
-            selectionArgs,
-            null
-        )?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val addressColumnIndex =
-                    cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS)
-                return cursor.getString(addressColumnIndex) ?: ""
+                return cursor.getString(cursor.getColumnIndex(column))
             }
         }
 

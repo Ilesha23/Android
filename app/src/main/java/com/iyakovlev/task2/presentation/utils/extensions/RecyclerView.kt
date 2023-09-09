@@ -7,6 +7,7 @@ import android.graphics.RectF
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.iyakovlev.task2.R
 import java.lang.Float.max
 import java.lang.Float.min
 
@@ -56,7 +57,7 @@ fun RecyclerView.addSwipeToDelete(
             val itemWidth = viewHolder.itemView.width.toFloat()
             val maxDX = if (dX > 0) min(dX, itemWidth) else max(dX, -itemWidth)
 
-            val cornerRadius = 20f // TODO: dimens
+            val cornerRadius = context.resources.getDimension(R.dimen.vh_corner_radius)
 
             val background: RectF = if (dX > 0) {
                 RectF(

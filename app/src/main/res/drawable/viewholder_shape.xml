@@ -7,7 +7,7 @@
         android:width="1dp"
         android:color="@color/light_grey"
         />
-    <corners android:radius="5dp" /> <!-- todo: dimens-->
+    <corners android:radius="@dimen/vh_corner_radius" />
 
 
 </shape>

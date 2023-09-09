@@ -83,7 +83,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun setPhoneContactsList() {
-        viewModel.loadContactsFromStorage(/*contentResolver*/)
+        viewModel.loadContactsFromStorage()
         val prefs = requireContext().getSharedPreferences(
             PREFERENCES,
             Context.MODE_PRIVATE
