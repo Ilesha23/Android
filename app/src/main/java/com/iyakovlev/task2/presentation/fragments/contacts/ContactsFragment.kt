@@ -97,12 +97,13 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         viewModel.createFakeContacts()
     }
 
+    // bad function to make program not ask permission twice
     private fun requestContactsPermission() {
         val prefs = requireContext().getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
         val editor = prefs.edit()
 
         if (prefs.getBoolean(READ_CONTACTS_PERMISSION_KEY, false)) {
-            viewModel.loadContactsFromStorage(/*contentResolver*/)
+            viewModel.loadContactsFromStorage()
         } else {
             if (prefs.getBoolean(
                     IS_FIRST_LAUNCH,

@@ -51,11 +51,12 @@ class ContactRepositoryImpl @Inject constructor(private val contentResolver: Con
                 val career = getAdditionalInfoByContactId(
                     contentResolver,
                     id,
-                    ContactsContract.CommonDataKinds.Organization.COMPANY,
+                    ContactsContract.CommonDataKinds.Organization.TITLE,
                     ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE
                 )
                 val address = getAdditionalInfoByContactId(
-                    contentResolver, id,
+                    contentResolver,
+                    id,
                     ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS,
                     ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE
                 )
