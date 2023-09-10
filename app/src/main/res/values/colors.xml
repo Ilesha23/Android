@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--  Colors background  -->
+    <color name="color_primary">#242235</color>
+    <color name="color_secondary">#FAFAFA</color>
+    <color name="color_additional">#FB5E06</color>
+
+    <!--  Colors text  -->
+    <color name="color_text_primary">#FAFAFA</color>
+    <color name="color_text_secondary">#B2B2B3</color>
+    <color name="color_text_additional">#18181F</color>
+    <color name="color_error">#F93E3E</color>
+
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="dark_blue">#242235</color>
     <color name="orange">#FB5E06</color>
     <color name="grey">#828282</color>
     <color name="light_grey">#B2B2B3</color>
+
 </resources>

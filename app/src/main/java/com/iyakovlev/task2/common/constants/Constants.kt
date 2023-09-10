@@ -2,6 +2,12 @@ package com.iyakovlev.task2.common.constants
 
 object Constants {
 
+    const val PREFERENCES = "PREFERENCES"
+    const val EMAIL = "EMAIL"
+    const val NAME = "NAME"
+    const val SURNAME = "SURNAME"
+    const val ISLOGINED = "ISLOGINED"
+
     /* SafeArgs keys */
     const val CONTACT_ID = "contactId"
     const val CONTACT_PHOTO = "contactPhoto"

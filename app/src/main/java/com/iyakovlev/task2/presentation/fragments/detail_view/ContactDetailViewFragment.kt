@@ -11,7 +11,6 @@ import com.iyakovlev.task2.common.constants.Constants.CONTACT_ID
 import com.iyakovlev.task2.common.constants.Constants.CONTACT_NAME
 import com.iyakovlev.task2.common.constants.Constants.CONTACT_PHOTO
 import com.iyakovlev.task2.common.constants.Constants.TRANSITION_NAME
-import com.iyakovlev.task2.common.constants.TestingConstants.isUsingTransactions
 import com.iyakovlev.task2.databinding.FragmentContactDetailViewBinding
 import com.iyakovlev.task2.presentation.base.BaseFragment
 import com.iyakovlev.task2.presentation.utils.extensions.loadImageWithGlide
@@ -28,22 +27,12 @@ class ContactDetailViewFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (isUsingTransactions) {
-            arguments?.let {
-                id = it.getString(CONTACT_ID, "")
-                photo = it.getString(CONTACT_PHOTO, "")
-                name = it.getString(CONTACT_NAME, "")
-                career = it.getString(CONTACT_CAREER, "")
-                address = it.getString(CONTACT_ADDRESS, "")
-            }
-        } else {
-            val args: ContactDetailViewFragmentArgs by navArgs()
-            id = args.contactId
-            photo = args.contactPhoto
-            name = args.contactName
-            career = args.contactCareer
-            address = args.contactAddress
-        }
+        val args: ContactDetailViewFragmentArgs by navArgs()
+        id = args.contactId
+        photo = args.contactPhoto
+        name = args.contactName
+        career = args.contactCareer
+        address = args.contactAddress
 
         binding.ivAvatar.transitionName = "$TRANSITION_NAME$id"
         val animation = TransitionInflater.from(requireContext()).inflateTransition(
@@ -65,13 +54,9 @@ class ContactDetailViewFragment :
     }
 
 
-    override fun setListeners() {
+    private fun setListeners() {
         binding.btnBack.setOnClickListener {
-            if (isUsingTransactions) {
-                parentFragmentManager.popBackStack()
-            } else {
-                navController.navigateUp()
-            }
+            navController.navigateUp()
         }
     }
 
