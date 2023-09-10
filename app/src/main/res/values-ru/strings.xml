@@ -1,34 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!--    Main screen -->
-    <string name="settings">Настройки</string>
-    <string name="name_lastname_placeholder">Имя Фамилия</string>
-    <string name="career_placeholder">Должность</string>
-    <string name="home_address_placeholder">Домашний адрес</string>
-    <string name="fill_profile_proposal">Зайдите в настройки и заполните профиль</string>
-    <string name="edit_profile_button">Изменить профиль</string>
-    <string name="view_contacts_button">Мои контакты</string>
-
-    <!--    Auth screen-->
-    <string name="greeting">Давайте познакомимся</string>
-    <string name="fill_form_proposal">Заполните профиль и зайдите в приложение</string>
-    <string name="email_placeholder">Почта</string>
-    <string name="password_placeholder">Пароль</string>
-    <string name="remember_me_checkbox">Запомнить меня</string>
-    <string name="or">или</string>
-    <string name="register_button">Зарегистрироваться</string>
-    <string name="terms_agreement">Нажимая зарегистрироваться вы соглашаетесь с нашими условиями и положениями</string>
-    <string name="have_acc_question">Уже есть аккаунт?</string>
-    <string name="sign_in_button">Войти</string>
-    <string name="default_name">Имя</string>
-    <string name="default_lastname">Фамилия</string>
-    <string name="error_email">Почта некорректная</string>
-    <string name="password_length">длинна</string>
-    <string name="required_error">требуется</string>
-
-
     <string name="title">Контакты</string>
     <string name="add_contacts">Добавить контакты</string>
+    <string name="default_name">Имя Фамилия</string>
     <string name="default_career">Должность</string>
     <string name="undo_remove_snackbar">Отменить</string>
     <string name="contact_deleted_snackbar">Контакт был удален</string>
@@ -40,8 +14,11 @@
     <string name="address">Адрес</string>
     <string name="date_of_birth">Дата рождения</string>
     <string name="save">сохранить</string>
+    <string name="default_lastname">Фамилия</string>
+    <string name="error_email">Почта некорректна</string>
+    <string name="password_length">длина</string>
+    <string name="required_error">требуется</string>
     <string name="profile">Профиль</string>
     <string name="default_name_main">Имя</string>
     <string name="message">Сообщение</string>
-
 </resources>

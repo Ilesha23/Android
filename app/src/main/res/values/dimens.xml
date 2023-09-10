@@ -1,54 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!--  text sizes  -->
-    <dimen name="text_header_size">24sp</dimen>
-    <dimen name="text_big_size">18sp</dimen>
-    <dimen name="text_button_size">16sp</dimen>
-    <dimen name="text_middle_size">14sp</dimen>
-    <dimen name="text_small_size">12sp</dimen>
-
-    <!--  Margins  -->
-    <dimen name="margin_big">24dp</dimen>
-    <dimen name="margin_middle">16dp</dimen>
-    <dimen name="margin_default">8dp</dimen>
-
-    <!--  Margins land  -->
-    <dimen name="margin_top_main_land">8dp</dimen>
-    <dimen name="margin_big_land">12dp</dimen>
-    <dimen name="margin_middle_land">8dp</dimen>
-    <dimen name="margin_default_land">4dp</dimen>
-
-    <!--  Button margins and sizes  -->
-    <dimen name="margin_btn_google">67dp</dimen>
-    <dimen name="margin_btn_google_land">30dp</dimen>
-    <dimen name="height_btn_google">40dp</dimen>
-    <dimen name="height_btn_register">55dp</dimen>
-    <dimen name="btn_stroke_width">2dp</dimen>
-    <dimen name="btn_corner_radius">6dp</dimen>
-    <dimen name="btn_corner_radius_pressed">8dp</dimen>
-    <dimen name="btn_img_width">20dp</dimen>
-
-    <!--  ImageView icons margins  -->
-    <dimen name="ic_links_margin_top">62dp</dimen>
-    <dimen name="ic_links_margin">32dp</dimen>
-
-    <!--  ImageView sizes  -->
-    <dimen name="avatar_size">113dp</dimen>
-
-    <!--  Paddings  -->
-    <dimen name="padding_default">8dp</dimen>
-    <dimen name="padding_middle">16dp</dimen>
-
 
     <!-- Margins -->
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_additional_small">10dp</dimen>
     <dimen name="margin_additional_middle">12dp</dimen>
     <dimen name="margin_additional_big">20dp</dimen>
-    <!--<dimen name="margin_default">16dp</dimen>
+    <dimen name="margin_default">16dp</dimen>
     <dimen name="margin_middle">24dp</dimen>
-    <dimen name="margin_big">32dp</dimen>-->
+    <dimen name="margin_big">32dp</dimen>
 
     <dimen name="margin_add_contacts">73dp</dimen>
     <dimen name="margin_add_contact_avatar">28dp</dimen>
@@ -56,6 +15,8 @@
 
     <dimen name="last_item_bottom_spacing">100dp</dimen>
 
+    <!-- Paddings -->
+    <dimen name="padding_default">16dp</dimen>
 
     <!-- Text sizes -->
     <dimen name="text_header_main">24sp</dimen>
@@ -83,8 +44,20 @@
     <!-- Floating button -->
     <dimen name="floating_button_icon_size">60dp</dimen>
 
-    <!-- Checkbox contacts selector -->
-    <dimen name="checkbox_contact_selector_size">20dp</dimen>
+    <!--  ImageView sizes  -->
+    <dimen name="avatar_size">113dp</dimen>
 
+    <!--  ImageView icons margins  -->
+    <dimen name="ic_links_margin">32dp</dimen>
+
+    <!--  Button margins and sizes  -->
+    <dimen name="height_btn_register">55dp</dimen>
+    <dimen name="btn_stroke_width">2dp</dimen>
+    <dimen name="btn_corner_radius">6dp</dimen>
+    <dimen name="btn_corner_radius_pressed">8dp</dimen>
+    <dimen name="btn_img_width">20dp</dimen>
+
+    <!-- View holder corner radius -->
+    <dimen name="vh_corner_radius">5dp</dimen>
 
 </resources>
