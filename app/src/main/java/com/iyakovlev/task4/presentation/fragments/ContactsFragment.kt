@@ -63,17 +63,21 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             checkFirstClickedItem(position)
 
             val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
-            layoutManager.findFirstVisibleItemPosition()
-            val v: View? = layoutManager.getChildAt(0)
-            val top = if (v == null) 0 else v.top - layoutManager.paddingTop
+            val currentPosition = layoutManager.findFirstVisibleItemPosition()
+            Log.e(LOG_TAG, "$currentPosition")
 
-//            val state =
-
-            Log.e(LOG_TAG, "$top")
-
-            toggleSelectionMode()
-
-            layoutManager.scrollToPosition(top)
+//            val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
+//            layoutManager.findFirstVisibleItemPosition()
+//            val v: View? = layoutManager.getChildAt(0)
+//            val top = if (v == null) 0 else v.top - layoutManager.paddingTop
+//
+////            val state =
+//
+//            Log.e(LOG_TAG, "$top")
+//
+//            toggleSelectionMode()
+//
+//            layoutManager.scrollToPosition(top)
 //            binding.rvContacts.scrollToPosition(top)
 
 //            val firstItem = layoutManager.findFirstVisibleItemPosition()
