@@ -24,8 +24,11 @@ fun RecyclerView.setButtonScrollListener(
 
 fun RecyclerView.addSwipeToDelete(
     onSwiped: (Int) -> Unit
-) {
-    ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+): ItemTouchHelper {
+
+    var itemTouchHelper: ItemTouchHelper? = null
+
+    itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
         0,
         ItemTouchHelper.END or ItemTouchHelper.START
     ) {
@@ -86,5 +89,9 @@ fun RecyclerView.addSwipeToDelete(
                 isCurrentlyActive
             )
         }
-    }).attachToRecyclerView(this)
+
+
+    })//.attachToRecyclerView(this)
+    itemTouchHelper.attachToRecyclerView(this)
+    return itemTouchHelper
 }

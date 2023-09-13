@@ -5,6 +5,8 @@ import com.iyakovlev.task2.data.model.Contact
 import com.iyakovlev.task2.data.repositories.contact.ContactRepository
 import com.iyakovlev.task2.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,8 +18,45 @@ class ContactsViewModel @Inject constructor(
 
     val contacts = repository.contacts
 
+    private val _isMultiSelect = MutableStateFlow(false)
+    val isMultiSelect = _isMultiSelect.asStateFlow()
+
+    private val _selectedPositions = MutableStateFlow<List<Int>>(emptyList())
+    val selectedPositions = _selectedPositions.asStateFlow()
+
+    private val removedSelectionList = listOf<Contact>()
+
     init {
         log("view model created", isDebug)
+    }
+
+    fun toggleSelectedPosition(position: Int) {
+        if (_selectedPositions.value.contains(position)) {
+            removeSelectedPosition(position)
+            if (_selectedPositions.value.isEmpty()) {
+                _isMultiSelect.value = false
+            }
+        } else {
+            if (_isMultiSelect.value) {
+                addSelectedPosition(position)
+            }
+        }
+    }
+
+    private fun addSelectedPosition(position: Int) {
+        _selectedPositions.value = _selectedPositions.value.toMutableList().apply {
+            add(position)
+        }
+    }
+
+    private fun removeSelectedPosition(position: Int) {
+        _selectedPositions.value = _selectedPositions.value.toMutableList().apply {
+            remove(position)
+        }
+    }
+
+    fun changeSelectionState(isSelection: Boolean) {
+        _isMultiSelect.value = isSelection
     }
 
     fun createFakeContacts() {

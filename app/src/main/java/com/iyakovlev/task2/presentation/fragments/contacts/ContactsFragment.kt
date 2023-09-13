@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.task2.R
@@ -38,6 +39,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     private val viewModel: ContactsViewModel by viewModels()
 
+    private var itemTouchHelper: ItemTouchHelper? = null
+
     private val contactAdapter = ContactsAdapter(object : ContactItemClickListener {
 
         override fun onItemClick(position: Int, imageView: ImageView) {
@@ -48,13 +51,29 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             deleteContactWithUndo(position)
         }
 
+        override fun onItemLongClick(position: Int) {
+            viewModel.changeSelectionState(true)
+            viewModel.toggleSelectedPosition(position)
+            disableSwipeToDelete()
+        }
+
+        override fun onItemClick(position: Int) {
+            viewModel.toggleSelectedPosition(position)
+        }
+
     })
+
+    // TODO: add remove button 
+    private fun disableSwipeToDelete() {
+        itemTouchHelper?.attachToRecyclerView(
+            if (!viewModel.isMultiSelect.value) binding.rvContacts else null
+        )
+    }
 
     private fun deleteContactWithUndo(position: Int) {
         viewModel.removeContact(position)
         showUndoDeleteSnackBar()
     }
-
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -113,19 +132,22 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         }
     }
 
+
     private fun setupRecyclerView() {
         binding.rvContacts.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = contactAdapter
             val spacing = resources.getDimensionPixelSize(R.dimen.contacts_item_spacing)
             val lastSpacing = resources.getDimensionPixelSize(R.dimen.last_item_bottom_spacing)
-            addItemDecoration(ItemSpacingDecoration(spacing, lastSpacing))
+            if (itemDecorationCount == 0) {
+                addItemDecoration(ItemSpacingDecoration(spacing, lastSpacing))
+            }
 
             setButtonScrollListener { isButtonVisible ->
                 binding.fabUp.toggleFabVisibility(FAB_ANIMATION_TIME, isButtonVisible)
             }
 
-            addSwipeToDelete { position ->
+            itemTouchHelper = addSwipeToDelete { position ->
                 deleteContactWithUndo(position)
             }
         }
@@ -134,8 +156,20 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     private fun setObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.contacts.collect { newContactsList ->
-                    contactAdapter.submitList(newContactsList)
+                launch {
+                    viewModel.contacts.collect { newContactsList ->
+                        contactAdapter.submitList(newContactsList)
+                    }
+                }
+                launch {
+                    viewModel.isMultiSelect.collect {
+                        contactAdapter.changeSelectionState(it)
+                    }
+                }
+                launch {
+                    viewModel.selectedPositions.collect {
+                        contactAdapter.changeSelectedPositions(it)
+                    }
                 }
             }
         }

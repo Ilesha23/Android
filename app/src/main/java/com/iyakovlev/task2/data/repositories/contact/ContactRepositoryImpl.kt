@@ -21,6 +21,7 @@ class ContactRepositoryImpl @Inject constructor(private val contentResolver: Con
     override val contacts: StateFlow<List<Contact>> = _contacts.asStateFlow()
 
     private var lastRemovedContact: Contact? = null
+
     override fun loadContactsFromStorage(): List<Contact> {
         val projection = arrayOf(
             ContactsContract.Contacts._ID,
