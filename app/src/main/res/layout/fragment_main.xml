@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.fragments.MainFragment">
+    tools:context=".presentation.fragments.main.MainFragment">
 
     <View
         android:id="@+id/clTopHalf"
@@ -22,6 +22,7 @@
         android:layout_marginStart="@dimen/margin_middle"
         android:layout_marginTop="@dimen/margin_middle"
         android:text="@string/settings"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintStart_toStartOf="@id/clTopHalf"
         app:layout_constraintTop_toTopOf="@id/clTopHalf" />
 
@@ -42,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/name_lastname_placeholder"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintBottom_toTopOf="@id/tvCareer"
         app:layout_constraintEnd_toEndOf="@id/clTopHalf"
         app:layout_constraintStart_toStartOf="@id/clTopHalf"
@@ -130,6 +132,7 @@
         android:layout_margin="@dimen/margin_default"
         android:background="@drawable/btn_view_contacts"
         android:text="@string/view_contacts_button"
+        android:textColor="?attr/colorOnPrimary"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
