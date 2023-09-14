@@ -3,7 +3,9 @@ package com.iyakovlev.task2.presentation.fragments.main
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
 import com.iyakovlev.task2.R
 import com.iyakovlev.task2.common.constants.Constants.EMAIL
 import com.iyakovlev.task2.common.constants.Constants.NAME
@@ -16,6 +18,8 @@ import com.iyakovlev.task2.presentation.utils.extensions.capitalizeFirstChar
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
     private lateinit var preferences: SharedPreferences
 
+//    private var name
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -26,6 +30,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         parseEmailToPrefs()
         setNameInTextView()
 
+        setListeners()
+
+    }
+
+    private fun setListeners() {
+        binding.btnViewContacts.setOnClickListener {
+            Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
+            val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager)
+            viewPager.currentItem = 1
+        }
     }
 
     private fun parseEmailToPrefs() {
@@ -59,8 +73,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     companion object {
 
-        const val DELIMITER_AT = "DELIMITER_AT"
-        const val DELIMITER_DOT = "DELIMITER_DOT"
+        const val DELIMITER_AT = "@"
+        const val DELIMITER_DOT = "."
 
     }
 

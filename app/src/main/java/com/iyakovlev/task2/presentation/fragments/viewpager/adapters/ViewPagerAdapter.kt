@@ -6,13 +6,18 @@ import com.iyakovlev.task2.presentation.fragments.contacts.ContactsFragment
 import com.iyakovlev.task2.presentation.fragments.main.MainFragment
 
 class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-    override fun getItemCount(): Int = 2
+
+    enum class FragmentType {
+        MAIN_FRAGMENT,
+        CONTACTS_FRAGMENT
+    }
+
+    override fun getItemCount(): Int = FragmentType.values().size
 
     override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            1 -> MainFragment()
-            0 -> ContactsFragment()
-            else -> throw IllegalArgumentException("Invalid position: $position")
+        return when (FragmentType.values()[position]) {
+            FragmentType.MAIN_FRAGMENT -> MainFragment()
+            FragmentType.CONTACTS_FRAGMENT -> ContactsFragment()
         }
     }
 

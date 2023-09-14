@@ -16,6 +16,7 @@ import com.iyakovlev.task2.common.constants.Constants.ISLOGINED
 import com.iyakovlev.task2.common.constants.Constants.PREFERENCES
 import com.iyakovlev.task2.databinding.AuthLayoutBinding
 import com.iyakovlev.task2.presentation.base.BaseActivity
+import com.iyakovlev.task2.utils.log
 
 
 class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate) {
@@ -25,6 +26,8 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         preferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+        println("auth: $preferences")
+        log("auth " + preferences.getString(EMAIL, "asdsaddsaa").toString(), true)
         autoLogin()
 
         super.onCreate(savedInstanceState)
@@ -180,7 +183,7 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
             errorMessage = "${addComma(errorMessage)}$PASSWORD_NUMBERS"
         }
 
-        return "$errorMessage ${getString(R.string.required_error)}"
+        return if (errorMessage.isNotBlank()) "$errorMessage ${getString(R.string.required_error)}" else ""
     }
 
     /* adds comma to error message if there is some text before */

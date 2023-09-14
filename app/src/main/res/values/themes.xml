@@ -13,6 +13,12 @@
         <item name="colorSecondaryContainer">@color/white</item>
         <item name="colorOnSecondaryContainer">@color/grey</item>
 
+        <!--  -->
+        <item name="colorTertiary">@color/color_text_secondary</item>
+<!--        <item name="colorOnTertiary"></item>-->
+        <item name="colorTertiaryContainer">@color/grey</item>
+<!--        <item name="colorOnTertiaryContainer"></item>-->
+
         <item name="colorAccent">@color/orange</item>
 
     </style>

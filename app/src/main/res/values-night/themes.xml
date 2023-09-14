@@ -10,8 +10,11 @@
         <!-- Secondary colors -->
         <item name="colorSecondary">@color/orange</item>
         <item name="colorOnSecondary">@color/white</item>
-        <item name="colorSecondaryContainer">@color/white</item>
+        <item name="colorSecondaryContainer">#3B3760</item>
         <item name="colorOnSecondaryContainer">@color/grey</item>
+
+        <item name="colorTertiary">@color/color_text_secondary</item>
+        <item name="colorTertiaryContainer">@color/grey</item>
 
         <item name="colorAccent">@color/orange</item>
 

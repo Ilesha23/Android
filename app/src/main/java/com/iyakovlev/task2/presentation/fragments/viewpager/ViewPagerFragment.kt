@@ -19,12 +19,11 @@ class ViewPagerFragment :
         binding.viewPager.adapter = pagerAdapter
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            when (position) {
-                0 -> tab.text = "Your Profile"
-                1 -> tab.text = "Contacts"
+            when (ViewPagerAdapter.FragmentType.values()[position]) {
+                ViewPagerAdapter.FragmentType.MAIN_FRAGMENT -> tab.text = "Profile"
+                ViewPagerAdapter.FragmentType.CONTACTS_FRAGMENT -> tab.text = "Contacts"
             }
         }.attach()
-        Log.e("Log", "vp created")
     }
 
 }
