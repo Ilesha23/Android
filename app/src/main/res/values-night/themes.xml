@@ -18,6 +18,11 @@
 
         <item name="colorAccent">@color/orange</item>
 
+        <!--  EditText  -->
+        <item name="colorControlNormal">@color/color_text_secondary</item>
+        <item name="colorControlActivated">@color/color_text_secondary</item>
+        <item name="colorControlHighlight">@color/color_text_secondary</item>
+
     </style>
 
     <style name="Theme.Task2" parent="Base.Theme.Task2" />

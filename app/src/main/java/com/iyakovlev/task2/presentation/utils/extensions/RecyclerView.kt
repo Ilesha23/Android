@@ -30,7 +30,7 @@ fun RecyclerView.addSwipeToDelete(
 
     itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
         0,
-        ItemTouchHelper.END or ItemTouchHelper.START
+        /*ItemTouchHelper.END or */ItemTouchHelper.START
     ) {
 
         override fun onMove(

@@ -55,7 +55,6 @@
     <!--  TextInputLayout  -->
     <style name="til_style" parent="Widget.Design.TextInputLayout">
         <item name="errorEnabled">true</item>
-        <!--        <item name="errorTextColor">@color/color_error</item>-->
         <item name="hintEnabled">false</item>
         <item name="helperTextTextColor">@color/color_error</item>
     </style>
