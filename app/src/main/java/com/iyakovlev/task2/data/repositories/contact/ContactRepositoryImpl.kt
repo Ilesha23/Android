@@ -88,6 +88,12 @@ class ContactRepositoryImpl @Inject constructor(private val contentResolver: Con
         }
     }
 
+    override fun removeSubList(sublist: List<Contact>) {
+        _contacts.value = _contacts.value.toMutableList().apply {
+            removeAll(sublist)
+        }
+    }
+
     override fun removeContact(contact: Contact) {
         lastRemovedContact = contact
         _contacts.value = _contacts.value.toMutableList().apply {

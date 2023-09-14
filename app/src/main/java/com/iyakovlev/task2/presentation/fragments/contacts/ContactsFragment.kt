@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -54,7 +55,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         override fun onItemLongClick(position: Int) {
             viewModel.changeSelectionState(true)
             viewModel.toggleSelectedPosition(position)
-            disableSwipeToDelete()
+            disableSwipeIfNotMultiselect()
         }
 
         override fun onItemClick(position: Int) {
@@ -62,18 +63,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         }
 
     })
-
-    // TODO: add remove button 
-    private fun disableSwipeToDelete() {
-        itemTouchHelper?.attachToRecyclerView(
-            if (!viewModel.isMultiSelect.value) binding.rvContacts else null
-        )
-    }
-
-    private fun deleteContactWithUndo(position: Int) {
-        viewModel.removeContact(position)
-        showUndoDeleteSnackBar()
-    }
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -93,6 +82,45 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         setListeners()
         setObservers()
 
+    }
+
+    // TODO: add remove button
+    private fun disableSwipeIfNotMultiselect() {
+        itemTouchHelper?.attachToRecyclerView(
+            if (!viewModel.isMultiSelect.value) binding.rvContacts else null
+        )
+    }
+
+    private fun deleteContactWithUndo(position: Int) {
+        viewModel.removeContact(position)
+        showUndoDeleteSnackBar()
+    }
+
+    private fun removeContactsWithUndo() {
+        viewModel.removeSelectedContacts()
+        showUndoDeleteListSnackBar()
+    }
+
+    private fun makeBinButton() {
+        binding.rvContacts.clearOnScrollListeners()
+        val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
+        val firstItem = layoutManager.findFirstVisibleItemPosition()
+        binding.fabUp.icon = ContextCompat.getDrawable(requireContext(), R.drawable.fab_bin)
+        binding.fabUp.visibility = View.VISIBLE
+        if (firstItem == 0) {
+            binding.rvContacts.smoothScrollBy(0, 6) // bad decision, but i don't know how to fix that
+        }
+    }
+
+    private fun makeUpButton() {
+        binding.fabUp.icon = ContextCompat.getDrawable(requireContext(), R.drawable.floating_action_button_up)
+        val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
+        val firstItem = layoutManager.findFirstCompletelyVisibleItemPosition()
+        if (firstItem == 0) {
+            binding.fabUp.visibility = View.INVISIBLE
+        } else {
+            binding.fabUp.visibility = View.VISIBLE
+        }
     }
 
     private fun setPhoneContactsList() {
@@ -144,7 +172,11 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             }
 
             setButtonScrollListener { isButtonVisible ->
-                binding.fabUp.toggleFabVisibility(FAB_ANIMATION_TIME, isButtonVisible)
+                if (!viewModel.isMultiSelect.value) {
+                    binding.fabUp.toggleFabVisibility(FAB_ANIMATION_TIME, isButtonVisible)
+                } else {
+                    binding.fabUp.toggleFabVisibility(FAB_ANIMATION_TIME, true)
+                }
             }
 
             itemTouchHelper = addSwipeToDelete { position ->
@@ -164,6 +196,11 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 launch {
                     viewModel.isMultiSelect.collect {
                         contactAdapter.changeSelectionState(it)
+                        if (it) {
+                            makeBinButton()
+                        } else {
+                            makeUpButton()
+                        }
                     }
                 }
                 launch {
@@ -181,7 +218,11 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 navigateToAddContactDialog()
             }
             fabUp.setOnClickListener {
-                rvContacts.smoothScrollToPosition(0)
+                if (!viewModel.isMultiSelect.value) {
+                    rvContacts.smoothScrollToPosition(0)
+                } else {
+                    removeContactsWithUndo()
+                }
             }
         }
     }
@@ -221,6 +262,14 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         Snackbar.make(binding.root, R.string.contact_deleted_snackbar, Constants.SNACK_BAR_LENGTH)
             .setAction(R.string.undo_remove_snackbar) {
                 viewModel.undoRemoveContact()
+            }
+            .show()
+    }
+
+    private fun showUndoDeleteListSnackBar() {
+        Snackbar.make(binding.root, R.string.contact_deleted_snackbar, Constants.SNACK_BAR_LENGTH)
+            .setAction(R.string.undo_remove_snackbar) {
+                viewModel.undoRemoveContactsList()
             }
             .show()
     }

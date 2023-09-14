@@ -24,7 +24,7 @@ class ContactsViewModel @Inject constructor(
     private val _selectedPositions = MutableStateFlow<List<Int>>(emptyList())
     val selectedPositions = _selectedPositions.asStateFlow()
 
-    private val removedSelectionList = listOf<Contact>()
+    private var removedSelectionList = listOf<Contact>()
 
     init {
         log("view model created", isDebug)
@@ -55,6 +55,17 @@ class ContactsViewModel @Inject constructor(
         }
     }
 
+    fun removeSelectedContacts() {
+        val indexesList = _selectedPositions.value.toList()
+        val contactsToRemove = indexesList.mapNotNull {
+            contacts.value.getOrNull(it)
+        }
+        removedSelectionList = contactsToRemove
+        _selectedPositions.value = emptyList()
+        changeSelectionState(false)
+        repository.removeSubList(contactsToRemove)
+    }
+
     fun changeSelectionState(isSelection: Boolean) {
         _isMultiSelect.value = isSelection
     }
@@ -76,6 +87,12 @@ class ContactsViewModel @Inject constructor(
 
     fun undoRemoveContact() {
         repository.undoRemoveContact()
+    }
+
+    fun undoRemoveContactsList() {
+        for (c in removedSelectionList) {
+            repository.addContact(c)
+        }
     }
 
     fun addContact(contact: Contact) {

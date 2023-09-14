@@ -16,7 +16,7 @@ fun RecyclerView.setButtonScrollListener(
 ) {
     this.viewTreeObserver.addOnScrollChangedListener {
         val layoutManager = this.layoutManager as LinearLayoutManager
-        val firstItem = layoutManager.findFirstVisibleItemPosition()
+        val firstItem = layoutManager.findFirstCompletelyVisibleItemPosition()
         val isButtonVisible = firstItem > 0
         checkPosition(isButtonVisible)
     }
@@ -91,7 +91,8 @@ fun RecyclerView.addSwipeToDelete(
         }
 
 
-    })//.attachToRecyclerView(this)
+    })
+
     itemTouchHelper.attachToRecyclerView(this)
     return itemTouchHelper
 }

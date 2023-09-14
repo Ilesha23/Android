@@ -11,6 +11,7 @@ interface ContactRepository {
 
     fun createFakeContacts()
 
+    fun removeSubList(sublist: List<Contact>)
     fun removeContact(contact: Contact)
     fun removeContact(position: Int)
 
