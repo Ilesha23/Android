@@ -56,7 +56,7 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
-                val photo = viewModel.photo.value.ifBlank { it.data?.data.toString() }
+                val photo = it.data?.data.toString()
                 viewModel.setPhoto(photo)
                 contact = Contact(contact.id, photo, contact.name, contact.career, contact.address)
                 binding.ivAddContactAvatar.loadImageWithGlide(photo)
