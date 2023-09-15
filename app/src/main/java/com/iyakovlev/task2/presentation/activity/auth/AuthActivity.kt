@@ -137,7 +137,7 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
         }
 
         // password
-        val passwordError = PasswordValidator().validate(password)
+        val passwordError = PasswordValidator(password).validate()
         if (passwordError.isNotBlank()) {
             binding.tilPassword.helperText = passwordError
             isValid = false
