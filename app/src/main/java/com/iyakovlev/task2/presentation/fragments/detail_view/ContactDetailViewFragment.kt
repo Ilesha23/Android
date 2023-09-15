@@ -5,11 +5,6 @@ import android.view.View
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.iyakovlev.task2.R
-import com.iyakovlev.task2.common.constants.Constants.CONTACT_ADDRESS
-import com.iyakovlev.task2.common.constants.Constants.CONTACT_CAREER
-import com.iyakovlev.task2.common.constants.Constants.CONTACT_ID
-import com.iyakovlev.task2.common.constants.Constants.CONTACT_NAME
-import com.iyakovlev.task2.common.constants.Constants.CONTACT_PHOTO
 import com.iyakovlev.task2.common.constants.Constants.TRANSITION_NAME
 import com.iyakovlev.task2.databinding.FragmentContactDetailViewBinding
 import com.iyakovlev.task2.presentation.base.BaseFragment
