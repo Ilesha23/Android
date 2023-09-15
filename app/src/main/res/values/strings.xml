@@ -52,6 +52,7 @@
     <string name="default_name_main">Name</string>
     <string name="profile">Profile</string>
     <string name="message">message</string>
+    <string name="btn_logout">logout</string>
 
 
 </resources>

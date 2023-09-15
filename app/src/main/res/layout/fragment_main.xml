@@ -26,6 +26,19 @@
         app:layout_constraintStart_toStartOf="@id/clTopHalf"
         app:layout_constraintTop_toTopOf="@id/clTopHalf" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_logout"
+        android:text="@string/btn_logout"
+        android:textColor="?attr/colorOnPrimary"
+        style="@style/text_big"
+        android:layout_marginEnd="@dimen/margin_middle"
+        android:layout_marginTop="@dimen/margin_middle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivAvatar"
         android:layout_width="@dimen/avatar_size"

@@ -1,11 +1,10 @@
-package com.iyakovlev.task2.presentation.activity
+package com.iyakovlev.task2.presentation.activity.auth
 
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Patterns
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -15,6 +14,9 @@ import com.iyakovlev.task2.common.constants.Constants.EMAIL
 import com.iyakovlev.task2.common.constants.Constants.ISLOGINED
 import com.iyakovlev.task2.common.constants.Constants.PREFERENCES
 import com.iyakovlev.task2.databinding.AuthLayoutBinding
+import com.iyakovlev.task2.presentation.activity.auth.email_validator.EmailValidator
+import com.iyakovlev.task2.presentation.activity.auth.password_validator.PasswordValidator
+import com.iyakovlev.task2.presentation.activity.main.MainActivity
 import com.iyakovlev.task2.presentation.base.BaseActivity
 import com.iyakovlev.task2.utils.log
 
@@ -26,8 +28,6 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         preferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-        println("auth: $preferences")
-        log("auth " + preferences.getString(EMAIL, "asdsaddsaa").toString(), true)
         autoLogin()
 
         super.onCreate(savedInstanceState)
@@ -104,7 +104,7 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
     /* Starts main activity with animation */
     private fun goToMainActivity() {
         startActivity(
-            Intent(this@AuthActivity, ContactsActivity::class.java),
+            Intent(this@AuthActivity, MainActivity::class.java),
             ActivityOptionsCompat
                 .makeCustomAnimation(this, R.anim.slide_start, R.anim.slide_end)
                 .toBundle()
@@ -124,82 +124,27 @@ class AuthActivity : BaseActivity<AuthLayoutBinding>(AuthLayoutBinding::inflate)
         }
     }
 
-    private fun isEmailValid(email: String): Boolean {
-        return (email.isNotEmpty()) and (Patterns.EMAIL_ADDRESS.matcher(email).matches())
-    }
-
-    private fun isPassValid(pass: String): Boolean {
-        if (!pass.matches(
-                Regex( /* at least 1 lowercase, 1 uppercase, 1 number, length 8+ */
-                    "^(?=.*[$PASSWORD_LOWERCASE_LETTERS])" +
-                            "(?=.*[$PASSWORD_UPPERCASE_LETTERS])" +
-                            "(?=.*[$PASSWORD_NUMBERS])" +
-                            "[$PASSWORD_LOWERCASE_LETTERS$PASSWORD_UPPERCASE_LETTERS$PASSWORD_NUMBERS]" +
-                            "{$PASSWORD_LENGTH,}$"
-                )
-            )
-        ) {
-            return false
-        }
-        return true
-    }
-
     private fun isInputValid(email: String, password: String): Boolean {
         var isValid = true
 
         // email
-        if (!isEmailValid(email)) {
-            binding.tilEmail.helperText = getString(R.string.error_email)
+        val emailErrorText = EmailValidator(getString(R.string.error_email), email).validate()
+        if (emailErrorText.isNotBlank()) {
+            binding.tilEmail.helperText = emailErrorText
             isValid = false
         } else {
             binding.tilEmail.helperText = null
         }
 
         // password
-        if (!isPassValid(password)) {
-            binding.tilPassword.helperText = formPassErrorText(password)
+        val passwordError = PasswordValidator().validate(password)
+        if (passwordError.isNotBlank()) {
+            binding.tilPassword.helperText = passwordError
             isValid = false
         } else {
             binding.tilPassword.helperText = null
         }
 
         return isValid
-    }
-
-    /* forms error text of each incorrect case in password independently */
-    private fun formPassErrorText(password: String): String {
-        var errorMessage = ""
-
-        if (password.length < 8) {
-            errorMessage += "${getString(R.string.password_length)} $PASSWORD_LENGTH"
-        }
-        if (!password.contains(Regex("[$PASSWORD_LOWERCASE_LETTERS]"))) {
-            errorMessage = "${addComma(errorMessage)}$PASSWORD_LOWERCASE_LETTERS"
-        }
-        if (!password.contains(Regex("[$PASSWORD_UPPERCASE_LETTERS]"))) {
-            errorMessage = "${addComma(errorMessage)}$PASSWORD_UPPERCASE_LETTERS"
-        }
-        if (!password.contains(Regex("[$PASSWORD_NUMBERS]"))) {
-            errorMessage = "${addComma(errorMessage)}$PASSWORD_NUMBERS"
-        }
-
-        return if (errorMessage.isNotBlank()) "$errorMessage ${getString(R.string.required_error)}" else ""
-    }
-
-    /* adds comma to error message if there is some text before */
-    private fun addComma(s: String): String {
-        if (s.isNotBlank()) {
-            return "$s, "
-        }
-        return s
-    }
-
-    companion object {
-
-        const val PASSWORD_LENGTH = 8
-        const val PASSWORD_LOWERCASE_LETTERS = "a-z"
-        const val PASSWORD_UPPERCASE_LETTERS = "A-Z"
-        const val PASSWORD_NUMBERS = "0-9"
-
     }
 }

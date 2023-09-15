@@ -43,5 +43,6 @@
     <string name="profile">Профиль</string>
     <string name="default_name_main">Имя</string>
     <string name="message">Сообщение</string>
+    <string name="btn_logout">выйти</string>
 
 </resources>

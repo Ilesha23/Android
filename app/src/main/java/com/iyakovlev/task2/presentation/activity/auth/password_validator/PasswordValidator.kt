@@ -1,0 +1,48 @@
+package com.iyakovlev.task2.presentation.activity.auth.password_validator
+
+class PasswordValidator {
+
+    fun validate(password: String): String {
+        val errors = mutableListOf<String>()
+
+        if (password.length < 8 || password.length > 16) {
+            errors.add(LENGTH)
+        }
+
+        if (!password.matches(Regex("[A-Za-z0-9!@#\$%^&*()-_+=<>?]+"))) {
+            errors.add(SYMBOLS_INVALID)
+        }
+
+        if (!password.any { it.isDigit() }) {
+            errors.add(NUMBERS)
+        }
+
+        if (!password.any { it.isLowerCase() }) {
+            errors.add(LETTERS_LOWERCASE)
+        }
+
+        if (!password.any { it.isUpperCase() }) {
+            errors.add(LETTERS_UPPERCASE)
+        }
+
+        if (!password.any { it in "!@#\$%^&*()-_+=<>?" }) {
+            errors.add(SYMBOLS)
+        }
+
+        return if (errors.isEmpty()) {
+            ""
+        } else {
+            REQUIRED + errors.joinToString(", ")
+        }
+    }
+
+    companion object {
+        const val REQUIRED = "Required: "
+        const val LENGTH = "8-16 length"
+        const val NUMBERS = "0-9"
+        const val LETTERS_LOWERCASE = "a-z"
+        const val LETTERS_UPPERCASE = "A-Z"
+        const val SYMBOLS = "symbols"
+        const val SYMBOLS_INVALID = "no invalid symbols"
+    }
+}

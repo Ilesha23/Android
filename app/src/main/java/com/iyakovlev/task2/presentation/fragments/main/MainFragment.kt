@@ -1,17 +1,22 @@
 package com.iyakovlev.task2.presentation.fragments.main
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.iyakovlev.task2.R
 import com.iyakovlev.task2.common.constants.Constants.EMAIL
+import com.iyakovlev.task2.common.constants.Constants.ISLOGINED
 import com.iyakovlev.task2.common.constants.Constants.NAME
 import com.iyakovlev.task2.common.constants.Constants.PREFERENCES
 import com.iyakovlev.task2.common.constants.Constants.SURNAME
 import com.iyakovlev.task2.databinding.FragmentMainBinding
+import com.iyakovlev.task2.presentation.activity.auth.AuthActivity
+import com.iyakovlev.task2.presentation.activity.main.MainActivity
 import com.iyakovlev.task2.presentation.base.BaseFragment
 import com.iyakovlev.task2.presentation.utils.extensions.capitalizeFirstChar
 
@@ -40,6 +45,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
             val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager)
             viewPager.currentItem = 1
         }
+        binding.btnLogout?.setOnClickListener {
+            preferences.edit().putString(EMAIL, null).apply()
+            preferences.edit().putBoolean(ISLOGINED, false).apply()
+            navigateToAuthActivity()
+        }
+    }
+
+    private fun navigateToAuthActivity() {
+        val intent = Intent (activity, AuthActivity::class.java)
+        activity?.startActivity(intent)
+        parentFragmentManager.popBackStack()
     }
 
     private fun parseEmailToPrefs() {
