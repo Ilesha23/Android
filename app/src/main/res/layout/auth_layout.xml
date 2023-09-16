@@ -127,7 +127,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.65" />
 
-    <com.iyakovlev.task2.utils.CustomImageButton
+    <com.iyakovlev.contacts.utils.CustomImageButton
         android:id="@+id/btnGoogle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_btn_google"

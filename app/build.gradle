@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'com.iyakovlev.task2'
+    namespace 'com.iyakovlev.contacts'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.iyakovlev.task2"
+        applicationId "com.iyakovlev.contacts"
         minSdk 24
         targetSdk 34
         versionCode 1

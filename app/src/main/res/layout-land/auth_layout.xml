@@ -113,7 +113,7 @@
         app:layout_constraintBottom_toTopOf="@id/tvOr"
         tools:ignore="TouchTargetSizeCheck" />
 
-    <com.iyakovlev.task2.utils.CustomImageButton
+    <com.iyakovlev.contacts.utils.CustomImageButton
         android:id="@+id/btnGoogle"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_btn_google"

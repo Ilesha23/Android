@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/contactDetailViewFragment"
-        android:name="com.iyakovlev.task2.presentation.fragments.detail_view.ContactDetailViewFragment"
+        android:name="com.iyakovlev.contacts.presentation.fragments.detail_view.ContactDetailViewFragment"
         android:label="ContactDetailViewFragment"
         tools:layout="@layout/fragment_contact_detail_view">
         <argument
@@ -33,13 +33,13 @@
     </fragment>
     <dialog
         android:id="@+id/addContactDialogFragment"
-        android:name="com.iyakovlev.task2.presentation.fragments.add_contact.AddContactDialogFragment"
+        android:name="com.iyakovlev.contacts.presentation.fragments.add_contact.AddContactDialogFragment"
         android:label="AddContactDialogFragment"
         tools:layout="@layout/add_contact_dialog">
     </dialog>
     <fragment
         android:id="@+id/viewPagerFragment"
-        android:name="com.iyakovlev.task2.presentation.fragments.viewpager.ViewPagerFragment"
+        android:name="com.iyakovlev.contacts.presentation.fragments.viewpager.ViewPagerFragment"
         android:label="fragment_view_pager"
         tools:layout="@layout/fragment_view_pager">
         <action
