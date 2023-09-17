@@ -53,6 +53,7 @@
     <string name="profile">Profile</string>
     <string name="message">message</string>
     <string name="btn_logout">logout</string>
+    <string name="contact_list_deleted_snackbar">Some contacts have been removed</string>
 
 
 </resources>

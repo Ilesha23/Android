@@ -19,6 +19,7 @@ object Constants {
     const val TRANSITION_NAME = "contactImageTransition_"
 
     /* durations */
-    const val SNACK_BAR_LENGTH = 5000
+    const val SNACK_BAR_LENGTH = 5000L
+    const val SNACK_BAR_TICK_RATE = 1000L
 
 }

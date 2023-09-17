@@ -1,6 +1,7 @@
 package com.iyakovlev.contacts.presentation.fragments.contacts
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -17,7 +18,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.contacts.R
-import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.common.constants.Constants.PREFERENCES
 import com.iyakovlev.contacts.common.constants.Constants.TRANSITION_NAME
 import com.iyakovlev.contacts.databinding.FragmentContactsBinding
@@ -29,6 +29,7 @@ import com.iyakovlev.contacts.presentation.utils.ItemSpacingDecoration
 import com.iyakovlev.contacts.presentation.utils.extensions.addSwipeToDelete
 import com.iyakovlev.contacts.presentation.utils.extensions.setButtonScrollListener
 import com.iyakovlev.contacts.presentation.utils.extensions.toggleFabVisibility
+import com.iyakovlev.contacts.presentation.utils.extensions.showSnackBar
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -49,7 +50,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         }
 
         override fun onItemDeleteClick(position: Int) {
-            deleteContactWithUndo(position)
+            removeContactWithUndo(position)
         }
 
         override fun onItemLongClick(position: Int) {
@@ -90,14 +91,18 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         )
     }
 
-    private fun deleteContactWithUndo(position: Int) {
+    private fun removeContactWithUndo(position: Int) {
         viewModel.removeContact(position)
-        showUndoDeleteSnackBar()
+        showUndoDeleteSnackBar(getString(R.string.contact_deleted_snackbar)) {
+            viewModel.undoRemoveContact()
+        }
     }
 
-    private fun removeContactsWithUndo() {
+    private fun removeContactListWithUndo() {
         viewModel.removeSelectedContacts()
-        showUndoDeleteListSnackBar()
+        showUndoDeleteSnackBar(getString(R.string.contact_list_deleted_snackbar)) {
+            viewModel.undoRemoveContactsList()
+        }
     }
 
     private fun makeBinButton() {
@@ -179,7 +184,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             }
 
             itemTouchHelper = addSwipeToDelete { position ->
-                deleteContactWithUndo(position)
+                removeContactWithUndo(position)
             }
         }
     }
@@ -220,7 +225,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 if (!viewModel.isMultiSelect.value) {
                     rvContacts.smoothScrollToPosition(0)
                 } else {
-                    removeContactsWithUndo()
+                    removeContactListWithUndo()
                 }
             }
         }
@@ -257,20 +262,13 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         log("navigated to $action", isDebug)
     }
 
-    private fun showUndoDeleteSnackBar() {
-        Snackbar.make(binding.root, R.string.contact_deleted_snackbar, Constants.SNACK_BAR_LENGTH)
-            .setAction(R.string.undo_remove_snackbar) {
-                viewModel.undoRemoveContact()
+    @SuppressLint("ShowToast")
+    private fun showUndoDeleteSnackBar(message: String, action: () -> Unit) {
+        Snackbar
+            .make(binding.rvContacts, message, Snackbar.LENGTH_INDEFINITE)
+            .showSnackBar(binding.rvContacts, message, getString(R.string.undo_remove_snackbar)) {
+                action.invoke()
             }
-            .show()
-    }
-
-    private fun showUndoDeleteListSnackBar() {
-        Snackbar.make(binding.root, R.string.contact_deleted_snackbar, Constants.SNACK_BAR_LENGTH)
-            .setAction(R.string.undo_remove_snackbar) {
-                viewModel.undoRemoveContactsList()
-            }
-            .show()
     }
 
     companion object {

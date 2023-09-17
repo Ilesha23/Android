@@ -44,6 +44,7 @@
     <string name="default_name_main">Ім\'я</string>
     <string name="message">Повідомлення</string>
     <string name="btn_logout">вийти</string>
+    <string name="contact_list_deleted_snackbar">Декілька контактів були видалені</string>
 
 
 </resources>
