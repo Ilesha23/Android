@@ -21,8 +21,6 @@ import com.iyakovlev.contacts.presentation.utils.extensions.capitalizeFirstChar
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
     private lateinit var preferences: SharedPreferences
 
-//    private var name
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,7 +37,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     private fun setListeners() {
         binding.btnViewContacts.setOnClickListener {
-            Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
             val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager)
             viewPager.currentItem = 1
         }
