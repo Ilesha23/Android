@@ -29,7 +29,7 @@ import com.iyakovlev.contacts.presentation.utils.ItemSpacingDecoration
 import com.iyakovlev.contacts.presentation.utils.extensions.addSwipeToDelete
 import com.iyakovlev.contacts.presentation.utils.extensions.setButtonScrollListener
 import com.iyakovlev.contacts.presentation.utils.extensions.toggleFabVisibility
-import com.iyakovlev.contacts.presentation.utils.extensions.showSnackBar
+import com.iyakovlev.contacts.presentation.utils.extensions.showSnackBarWithTimer
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -56,7 +56,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         override fun onItemLongClick(position: Int) {
             viewModel.changeSelectionState(true)
             viewModel.toggleSelectedPosition(position)
-            disableSwipeIfNotMultiselect()
+//            toggleSwipeToDelete(false)
         }
 
         override fun onItemClick(position: Int) {
@@ -85,10 +85,14 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     }
 
-    private fun disableSwipeIfNotMultiselect() {
-        itemTouchHelper?.attachToRecyclerView(
-            if (!viewModel.isMultiSelect.value) binding.rvContacts else null
-        )
+    private fun toggleSwipeToDelete(isActive: Boolean) {
+        if (!isActive) {
+            itemTouchHelper?.attachToRecyclerView(
+                if (!viewModel.isMultiSelect.value) binding.rvContacts else null
+            )
+        } else {
+            itemTouchHelper?.attachToRecyclerView(binding.rvContacts)
+        }
     }
 
     private fun removeContactWithUndo(position: Int) {
@@ -202,8 +206,10 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                         contactAdapter.changeSelectionState(it)
                         if (it) {
                             makeBinButton()
+                            toggleSwipeToDelete(false)
                         } else {
                             makeUpButton()
+                            toggleSwipeToDelete(true)
                         }
                     }
                 }
@@ -265,9 +271,9 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     @SuppressLint("ShowToast")
     private fun showUndoDeleteSnackBar(message: String, action: () -> Unit) {
         Snackbar
-            .make(binding.rvContacts, message, Snackbar.LENGTH_INDEFINITE)
-            .showSnackBar(binding.rvContacts, message, getString(R.string.undo_remove_snackbar)) {
-                action.invoke()
+            .make(binding.root, message, Snackbar.LENGTH_INDEFINITE)
+            .showSnackBarWithTimer(getString(R.string.undo_remove_snackbar)) {
+                action()
             }
     }
 
