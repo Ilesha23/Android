@@ -68,6 +68,8 @@ dependencies {
     /* Hilt */
     implementation "com.google.dagger:hilt-android:2.48"
     kapt "com.google.dagger:hilt-compiler:2.48"
+
+    implementation 'com.github.yalantis:ucrop:2.2.6'
 }
 
 kapt {

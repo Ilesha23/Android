@@ -2,7 +2,10 @@ package com.iyakovlev.contacts.presentation.fragments.add_contact
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +20,11 @@ import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.data.model.Contact
 import com.iyakovlev.contacts.databinding.AddContactDialogBinding
 import com.iyakovlev.contacts.presentation.utils.extensions.loadImageWithGlide
+import com.iyakovlev.contacts.utils.log
+import com.yalantis.ucrop.UCrop
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.io.File
 import java.util.UUID
 
 
@@ -31,6 +37,7 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
     private val binding get() = requireNotNull(_binding)
 
     private lateinit var photoActivityResult: ActivityResultLauncher<Intent>
+    private var tempImage: File? = null
     private var contact = Contact(UUID.randomUUID(), "", "", "", "")
 
     override fun getTheme(): Int {
@@ -49,6 +56,9 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            ?.let { deleteFilesInDirectory(it) }
+
         setListeners()
         setObservers()
 
@@ -56,10 +66,11 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
-                val photo = it.data?.data.toString()
-                viewModel.setPhoto(photo)
-                contact = Contact(contact.id, photo, contact.name, contact.career, contact.address)
-                binding.ivAddContactAvatar.loadImageWithGlide(photo)
+                val selectedImageUri = it.data?.data
+                if (selectedImageUri != null) {
+                    val uri = startImageCrop(selectedImageUri)
+                    handleCroppedImage(uri)
+                }
             }
         }
 
@@ -96,9 +107,45 @@ class AddContactDialogFragment : AppCompatDialogFragment() {
     }
 
     private fun openGallery() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         photoActivityResult.launch(intent)
+    }
+
+    private fun handleCroppedImage(uri: Uri?) {
+        if (uri != null) {
+            viewModel.setPhoto(uri.toString())
+        }
+    }
+
+    private fun startImageCrop(sourceUri: Uri): Uri {
+        val destinationUri = Uri.fromFile(createTempFile())
+
+        UCrop.of(sourceUri, destinationUri)
+            .withAspectRatio(1f, 1f)
+            .start(requireContext(), this, UCrop.REQUEST_CROP)
+
+        return destinationUri
+    }
+
+    private fun createTempFile(): File? {
+        val imageFileName = "temp_image"
+        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        tempImage = File.createTempFile(imageFileName, ".jpg", storageDir)
+
+        return tempImage
+    }
+
+    fun deleteFilesInDirectory(directory: File) {
+        if (directory.isDirectory) {
+            val files = directory.listFiles()
+            if (files != null) {
+                for (file in files) {
+                    if (file.isFile) {
+                        file.delete()
+                    }
+                }
+            }
+        }
     }
 
 }

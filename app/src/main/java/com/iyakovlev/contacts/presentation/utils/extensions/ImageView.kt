@@ -8,10 +8,21 @@ import com.iyakovlev.contacts.R
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
+import java.io.File
 
 fun ImageView.loadImageWithGlide(url: String) {
+    if (url.isNotBlank()) {
+        Glide.with(this)
+            .load(url)
+            .circleCrop()
+            .placeholder(R.drawable.baseline_person_24)
+            .error(R.drawable.baseline_person_24)
+            .into(this)    }
+}
+
+fun ImageView.loadImageWithGlide(file: File?) {
     Glide.with(this)
-        .load(url)
+        .load(file)
         .circleCrop()
         .placeholder(R.drawable.baseline_person_24)
         .error(R.drawable.baseline_person_24)
