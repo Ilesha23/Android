@@ -7,6 +7,6 @@ import com.iyakovlev.contacts.domain.model.User
 
 interface UserRepository {
 
-    suspend fun createUser(body: RegisterRequest): RegisterResponse
+    suspend fun createUser(body: RegisterRequest): Resource<User>
 
 }

@@ -8,5 +8,5 @@ fun log(
     message: String,
     isDebug: Boolean = true
 ) {
-    if (isDebug) Log.d(LOG_TAG, message)
+    if (isDebug) Log.e(LOG_TAG, message)
 }

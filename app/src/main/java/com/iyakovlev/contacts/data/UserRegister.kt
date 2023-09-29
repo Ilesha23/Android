@@ -35,18 +35,22 @@ data class UserDto(
     val phone: String,
     val twitter: String,
     val updated_at: String
-)
-
-fun Data.toUser(): User {
-    return User(
-        user.id,
-        user.name,
-        user.phone,
-        user.address,
-        user.career,
-        user.birthday,
-        user.image,
-        accessToken,
-        refreshToken
+) {
+    fun toUser(accessToken: String, refreshToken: String) = User(
+        id, name, phone, address, career, birthday, image, accessToken, refreshToken
     )
 }
+
+//fun Data.toUser(): User {
+//    return User(
+//        user.id,
+//        user.name,
+//        user.phone,
+//        user.address,
+//        user.career,
+//        user.birthday,
+//        user.image,
+//        accessToken,
+//        refreshToken
+//    )
+//}

@@ -50,57 +50,74 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
     private fun setObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.flowWithLifecycle(viewLifecycleOwner.lifecycle).collect {
-                    with(binding) {
-                        when(it) {
-                            is Resource.Error -> {
-                                binding.tvGreeting.text = "ewqqwe"
-                                log("error", true)
-                            }
-                            is Resource.Loading -> {
-                                binding.tvGreeting.text = "dsdasa"
-                                log("loaading", true)
-                            }
-                            is Resource.Success -> {
-                                tvGreeting.text = it.data.toString()
-                                tvFillFormProposal.text = it.data?.accessToken
-                                log("${it.data?.accessToken}", true)
-                            }
+                viewModel.state.collect {resource ->
+                    when (resource) {
+                        is Resource.Error -> {
+                            binding.tvGreeting.text = resource.message
+                        }
+                        is Resource.Loading -> {
+                            binding.tvGreeting.text = "loading"
+                        }
+                        is Resource.Success -> {
+                            binding.tvGreeting.text = resource.data.toString()
+                            binding.tvFillFormProposal.text = resource.data?.accessToken.toString()
+                            log(resource.data?.accessToken.toString(), true)
                         }
                     }
                 }
-                launch {
-                    viewModel.state.collect {
-                        when(it) {
 
-                            is Resource.Loading -> {
-                                binding.tvGreeting.text = "loading"
-                            }
-                            is Resource.Error -> {
-                                binding.tvGreeting.text = "error"
-                            }
-                            is Resource.Success -> {
-                                binding.tvGreeting.text = it.data.toString()
-                            }
-                            /*is Resource.Loading<> -> {
+//                viewModel.state.flowWithLifecycle(viewLifecycleOwner.lifecycle).collect {
+//                    with(binding) {
+//                        when(it) {
+//                            is Resource.Error -> {
+//                                binding.tvGreeting.text = "ewqqwe"
+//                                log("error", true)
+//                            }
+//                            is Resource.Loading -> {
+//                                binding.tvGreeting.text = "dsdasa"
+//                                log("loading", true)
+//                            }
+//                            is Resource.Success -> {
+//                                tvGreeting.text = it.data.toString()
+//                                tvFillFormProposal.text = it.data?.accessToken
+//                                log("${it.data?.accessToken}", true)
+//                            }
+//                        }
+//                    }
+//                }
 
-                            }*/
-
-
-//                            is UserRegisterState.Loading -> {
+//                launch {
+//                    viewModel.state.collect {
+//                        when(it) {
+//
+//                            is Resource.Loading -> {
 //                                binding.tvGreeting.text = "loading"
 //                            }
-//                            is UserRegisterState.Error -> {
+//                            is Resource.Error -> {
 //                                binding.tvGreeting.text = "error"
 //                            }
-//                            is UserRegisterState.Success -> {
-//                                binding.tvGreeting.text = it.user?.accessToken.toString()
-//                                binding.tvFillFormProposal.text = it.user?.refreshToken.toString()
+//                            is Resource.Success -> {
+//                                binding.tvGreeting.text = it.data.toString()
 //                            }
-//                            UserRegisterState.Init -> Unit
-                        }
-                    }
-                }
+//                            /*is Resource.Loading<> -> {
+//
+//                            }*/
+//
+//
+////                            is UserRegisterState.Loading -> {
+////                                binding.tvGreeting.text = "loading"
+////                            }
+////                            is UserRegisterState.Error -> {
+////                                binding.tvGreeting.text = "error"
+////                            }
+////                            is UserRegisterState.Success -> {
+////                                binding.tvGreeting.text = it.user?.accessToken.toString()
+////                                binding.tvFillFormProposal.text = it.user?.refreshToken.toString()
+////                            }
+////                            UserRegisterState.Init -> Unit
+//                        }
+//                    }
+//                }
             }
         }
     }
