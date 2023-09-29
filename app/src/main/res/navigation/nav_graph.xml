@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/viewPagerFragment">
+    app:startDestination="@id/signUpFragment">
 
     <fragment
         android:id="@+id/contactDetailViewFragment"
@@ -38,15 +38,54 @@
         tools:layout="@layout/add_contact_dialog">
     </dialog>
     <fragment
-        android:id="@+id/viewPagerFragment"
-        android:name="com.iyakovlev.contacts.presentation.fragments.viewpager.ViewPagerFragment"
-        android:label="fragment_view_pager"
-        tools:layout="@layout/fragment_view_pager">
+        android:id="@+id/signUpExtFragment"
+        android:name="com.iyakovlev.contacts.presentation.fragments.sign_up_ext.SignUpExtFragment"
+        android:label="SignUpExtFragment"
+        tools:layout="@layout/fragment_sign_up_ext">
         <action
-            android:id="@+id/action_viewPagerFragment_to_contactDetailViewFragment"
-            app:destination="@id/contactDetailViewFragment" />
+            android:id="@+id/action_signUpExtFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.iyakovlev.contacts.presentation.fragments.sign_in.SignInFragment"
+        android:label="SignInFragment"
+        tools:layout="@layout/fragment_sign_in">
         <action
-            android:id="@+id/action_viewPagerFragment_to_addContactDialogFragment"
+            android:id="@+id/action_signInFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.iyakovlev.contacts.presentation.fragments.main.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_contactsFragment"
+            app:destination="@id/contactsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.iyakovlev.contacts.presentation.fragments.contacts.ContactsFragment"
+        android:label="ContactsFragment"
+        tools:layout="@layout/fragment_contacts">
+        <action
+            android:id="@+id/action_contactsFragment_to_addContactDialogFragment"
             app:destination="@id/addContactDialogFragment" />
+        <action
+            android:id="@+id/action_contactsFragment_to_contactDetailViewFragment"
+            app:destination="@id/contactDetailViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.iyakovlev.contacts.presentation.fragments.sign_up.SignUpFragment"
+        android:label="SignUpFragment"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_signUpExtFragment"
+            app:destination="@id/signUpExtFragment" />
     </fragment>
 </navigation>

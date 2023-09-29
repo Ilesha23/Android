@@ -45,5 +45,15 @@
     <string name="message">Сообщение</string>
     <string name="btn_logout">выйти</string>
     <string name="contact_list_deleted_snackbar">Несколько контактов были удалены</string>
+    <string name="your_profile_data">Данные вашего профиля</string>
+    <string name="label_user_name">Имя пользователя</string>
+    <string name="label_phone">Телефон</string>
+    <string name="btn_cancel">Отменить</string>
+    <string name="hello">Привет!</string>
+    <string name="enter_data_proposal">Введите вашу почту и пароль ниже</string>
+    <string name="forgot_pass">Забыли пароль?</string>
+    <string name="dont_have_acc_question">Не зарегистрированы?</string>
+    <string name="btn_signup">Зарегистрироваться</string>
+    <string name="btn_login">Войти</string>
 
 </resources>

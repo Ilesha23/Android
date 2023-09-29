@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.iyakovlev.contacts.data.model.Contact
+import com.iyakovlev.contacts.domain.model.Contact
 import com.iyakovlev.contacts.databinding.ItemUserBinding
 import com.iyakovlev.contacts.databinding.ItemUserSelectedBinding
 import com.iyakovlev.contacts.presentation.fragments.contacts.diffutil.ContactsDiffCallback

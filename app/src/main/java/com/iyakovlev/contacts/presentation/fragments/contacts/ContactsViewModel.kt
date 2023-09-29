@@ -1,8 +1,8 @@
 package com.iyakovlev.contacts.presentation.fragments.contacts
 
 import androidx.lifecycle.ViewModel
-import com.iyakovlev.contacts.data.model.Contact
-import com.iyakovlev.contacts.data.repositories.contact.ContactRepository
+import com.iyakovlev.contacts.domain.model.Contact
+import com.iyakovlev.contacts.domain.repository.contacts.ContactRepository
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

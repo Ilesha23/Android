@@ -17,7 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.iyakovlev.contacts.R
-import com.iyakovlev.contacts.data.model.Contact
+import com.iyakovlev.contacts.domain.model.Contact
 import com.iyakovlev.contacts.databinding.AddContactDialogBinding
 import com.iyakovlev.contacts.presentation.utils.extensions.loadImageWithGlide
 import com.iyakovlev.contacts.utils.log

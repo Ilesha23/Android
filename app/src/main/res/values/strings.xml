@@ -54,6 +54,20 @@
     <string name="message">message</string>
     <string name="btn_logout">logout</string>
     <string name="contact_list_deleted_snackbar">Some contacts have been removed</string>
+    <string name="your_profile_data">Your profile data</string>
+    <string name="label_user_name">User name</string>
+    <string name="label_phone">Mobile phone</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="hello">Hello!</string>
+    <string name="enter_data_proposal">Enter your email and password below</string>
+    <string name="forgot_pass">Forgot your password?</string>
+    <string name="dont_have_acc_question">Don’t have account?</string>
+    <string name="btn_signup">Sign up</string>
+    <string name="btn_login">Login</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
 
 
 </resources>

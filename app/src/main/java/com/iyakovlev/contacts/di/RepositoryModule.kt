@@ -1,8 +1,8 @@
 package com.iyakovlev.contacts.di
 
 import android.app.Application
-import com.iyakovlev.contacts.data.repositories.contact.ContactRepository
-import com.iyakovlev.contacts.data.repositories.contact.ContactRepositoryImpl
+import com.iyakovlev.contacts.domain.repository.contacts.ContactRepository
+import com.iyakovlev.contacts.domain.repository.contacts.ContactRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

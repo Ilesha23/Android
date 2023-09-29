@@ -1,7 +1,7 @@
 package com.iyakovlev.contacts.presentation.fragments.contacts.diffutil
 
 import androidx.recyclerview.widget.DiffUtil
-import com.iyakovlev.contacts.data.model.Contact
+import com.iyakovlev.contacts.domain.model.Contact
 
 class ContactsDiffCallback : DiffUtil.ItemCallback<Contact>() {
 

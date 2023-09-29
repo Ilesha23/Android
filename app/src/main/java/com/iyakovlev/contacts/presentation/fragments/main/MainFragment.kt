@@ -14,7 +14,6 @@ import com.iyakovlev.contacts.common.constants.Constants.NAME
 import com.iyakovlev.contacts.common.constants.Constants.PREFERENCES
 import com.iyakovlev.contacts.common.constants.Constants.SURNAME
 import com.iyakovlev.contacts.databinding.FragmentMainBinding
-import com.iyakovlev.contacts.presentation.activity.auth.AuthActivity
 import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.presentation.utils.extensions.capitalizeFirstChar
 
@@ -37,8 +36,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     private fun setListeners() {
         binding.btnViewContacts.setOnClickListener {
-            val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager)
-            viewPager.currentItem = 1
+//            val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager)
+//            viewPager.currentItem = 1
         }
         binding.btnLogout?.setOnClickListener {
             preferences.edit().putString(EMAIL, null).apply()
@@ -48,10 +47,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     }
 
     private fun navigateToAuthActivity() {
-        val intent = Intent (activity, AuthActivity::class.java)
-        activity?.startActivity(intent)
-        parentFragmentManager.popBackStack()
-        activity?.finish()
+//        val intent = Intent (activity, AuthActivity::class.java)
+//        activity?.startActivity(intent)
+//        parentFragmentManager.popBackStack()
+//        activity?.finish()
     }
 
     private fun parseEmailToPrefs() {

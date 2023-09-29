@@ -45,6 +45,16 @@
     <string name="message">Повідомлення</string>
     <string name="btn_logout">вийти</string>
     <string name="contact_list_deleted_snackbar">Декілька контактів були видалені</string>
+    <string name="your_profile_data">Дані вашого профілю</string>
+    <string name="label_user_name">Ім\'я користувача</string>
+    <string name="label_phone">Телефон</string>
+    <string name="btn_cancel">Відмінити</string>
+    <string name="hello">Привіт</string>
+    <string name="enter_data_proposal">Введіть вашу пошту та пароль нижче</string>
+    <string name="forgot_pass">Забули пароль?</string>
+    <string name="dont_have_acc_question">Не зареєстровані?</string>
+    <string name="btn_signup">Зареєструватися</string>
+    <string name="btn_login">Увійти</string>
 
 
 </resources>

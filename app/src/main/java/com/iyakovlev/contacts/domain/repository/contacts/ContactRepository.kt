@@ -1,6 +1,6 @@
-package com.iyakovlev.contacts.data.repositories.contact
+package com.iyakovlev.contacts.domain.repository.contacts
 
-import com.iyakovlev.contacts.data.model.Contact
+import com.iyakovlev.contacts.domain.model.Contact
 import kotlinx.coroutines.flow.StateFlow
 
 interface ContactRepository {

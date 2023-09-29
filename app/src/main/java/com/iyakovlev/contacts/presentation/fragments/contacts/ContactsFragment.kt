@@ -24,7 +24,6 @@ import com.iyakovlev.contacts.databinding.FragmentContactsBinding
 import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.presentation.fragments.contacts.adapters.ContactsAdapter
 import com.iyakovlev.contacts.presentation.fragments.contacts.interfaces.ContactItemClickListener
-import com.iyakovlev.contacts.presentation.fragments.viewpager.ViewPagerFragmentDirections
 import com.iyakovlev.contacts.presentation.utils.ItemSpacingDecoration
 import com.iyakovlev.contacts.presentation.utils.extensions.addSwipeToDelete
 import com.iyakovlev.contacts.presentation.utils.extensions.setButtonScrollListener
@@ -239,8 +238,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     private fun navigateToAddContactDialog() {
         Log.e("TAG", viewModel.toString())
-        val action = ViewPagerFragmentDirections
-            .actionViewPagerFragmentToAddContactDialogFragment()
+        val action = ContactsFragmentDirections
+            .actionContactsFragmentToAddContactDialogFragment()
         navController.navigate(action)
     }
 
@@ -253,7 +252,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         val contactId = contact.id.toString()
         val transitionName = "$TRANSITION_NAME$contactId"
 
-        val action = ViewPagerFragmentDirections.actionViewPagerFragmentToContactDetailViewFragment(
+        val action = ContactsFragmentDirections.actionContactsFragmentToContactDetailViewFragment(
             contactId = contact.id.toString(),
             contactPhoto = contact.photo,
             contactName = contact.name,

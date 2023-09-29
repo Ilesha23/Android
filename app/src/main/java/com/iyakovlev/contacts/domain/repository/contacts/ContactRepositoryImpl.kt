@@ -1,10 +1,10 @@
-package com.iyakovlev.contacts.data.repositories.contact
+package com.iyakovlev.contacts.domain.repository.contacts
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.provider.ContactsContract
 import com.github.javafaker.Faker
-import com.iyakovlev.contacts.data.model.Contact
+import com.iyakovlev.contacts.domain.model.Contact
 import com.iyakovlev.contacts.utils.log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
