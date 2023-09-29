@@ -97,11 +97,14 @@ class ContactRepositoryImpl @Inject constructor(private val contentResolver: Con
     override fun removeContact(contact: Contact) {
         lastRemovedContact = contact
         _contacts.value = _contacts.value.toMutableList().apply {
-            remove(contact)
+            if (_contacts.value.contains(contact)) {
+                remove(contact)
+            }
         }
     }
 
     override fun removeContact(position: Int) {
+        if (position == -1) return
         _contacts.value = _contacts.value.toMutableList().apply {
             lastRemovedContact = this[position]
             removeAt(position)
