@@ -91,7 +91,7 @@
         app:layout_constraintBottom_toTopOf="@id/tilMobilePhone">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEmail"
+            android:id="@+id/etName"
             style="@style/et_style"
             android:backgroundTint="?attr/colorOnPrimary"
             android:layout_width="match_parent"
@@ -124,7 +124,7 @@
         app:layout_constraintTop_toBottomOf="@id/tilUserName">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPassword"
+            android:id="@+id/etPhone"
             style="@style/et_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -145,6 +145,7 @@
         android:id="@+id/btnCancel"
         style="@style/text_button_caps"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/btn_cancel"
         android:text="@string/btn_cancel"
         android:textColor="?attr/colorOnPrimary"

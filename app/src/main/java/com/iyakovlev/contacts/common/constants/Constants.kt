@@ -3,9 +3,11 @@ package com.iyakovlev.contacts.common.constants
 object Constants {
 
     const val BASE_URL = "http://178.63.9.114:7777/api/"
+    const val AUTHORISATION_HEADER = "Bearer "
 
     const val PREFERENCES = "PREFERENCES"
     const val EMAIL = "EMAIL"
+    const val PASS = "PASS"
     const val NAME = "NAME"
     const val SURNAME = "SURNAME"
     const val ISLOGINED = "ISLOGINED"

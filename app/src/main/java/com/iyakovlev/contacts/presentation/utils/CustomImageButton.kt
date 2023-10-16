@@ -1,4 +1,4 @@
-package com.iyakovlev.contacts.utils
+package com.iyakovlev.contacts.presentation.utils
 
 import android.content.Context
 import android.graphics.Canvas

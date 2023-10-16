@@ -52,6 +52,8 @@ dependencies {
     /* JavaFaker */
     implementation 'com.github.javafaker:javafaker:1.0.2'
 
+    /* DataStore */
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     implementation "androidx.activity:activity-ktx:1.7.2"
 

@@ -3,6 +3,7 @@ package com.iyakovlev.contacts.presentation.fragments.sign_up
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -53,15 +54,20 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
                 viewModel.state.collect {resource ->
                     when (resource) {
                         is Resource.Error -> {
-                            binding.tvGreeting.text = resource.message
+//                            binding.tvGreeting.text = resource.message
+                            Toast.makeText(context, resource.message, Toast.LENGTH_LONG).show()
                         }
                         is Resource.Loading -> {
-                            binding.tvGreeting.text = "loading"
+//                            binding.tvGreeting.text = "loading"
+                            // TODO: progerssbar 
+
                         }
                         is Resource.Success -> {
+                            // TODO: redirect to ext
                             binding.tvGreeting.text = resource.data.toString()
                             binding.tvFillFormProposal.text = resource.data?.accessToken.toString()
                             log(resource.data?.accessToken.toString(), true)
+                            navController.navigate(SignUpFragmentDirections.actionSignUpFragmentToSignUpExtFragment())
                         }
                     }
                 }
@@ -122,7 +128,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
         }
     }
 
-    private lateinit var preferences: SharedPreferences
+//    private lateinit var preferences: SharedPreferences
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //
@@ -178,34 +184,34 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
 //    }
 
     /* registration button clicked */
-    private fun onRegisterClick() {
-        with(binding) {
-            if (isInputValid(etEmail.text.toString(), etPassword.text.toString())) {
-
-                with(preferences) {
-                    edit()
-                        .putString(Constants.EMAIL, etEmail.text.toString())
-                        .apply()
-
-                    if (chkRemember.isChecked) {
-                        edit()
-                            .putBoolean(Constants.ISLOGINED, true)
-                            .apply()
-                    }
-                }
-
-                //goToMainActivity() // TODO: sign up extended 
-
-            }
-        }
-    }
+//    private fun onRegisterClick() {
+//        with(binding) {
+//            if (isInputValid(etEmail.text.toString(), etPassword.text.toString())) {
+//
+//                with(preferences) {
+//                    edit()
+//                        .putString(Constants.EMAIL, etEmail.text.toString())
+//                        .apply()
+//
+//                    if (chkRemember.isChecked) {
+//                        edit()
+//                            .putBoolean(Constants.ISLOGINED, true)
+//                            .apply()
+//                    }
+//                }
+//
+//                //goToMainActivity() // TODO: sign up extended
+//
+//            }
+//        }
+//    }
 
 
     /* Automatically pass register screen if user is logined */
     private fun autoLogin() {
-        if (preferences.getBoolean(Constants.ISLOGINED, false)) {
-            // TODO:  
-        }
+//        if (preferences.getBoolean(Constants.ISLOGINED, false)) {
+//            // TODO:
+//        }
     }
 
     private fun isInputValid(email: String, password: String): Boolean {
