@@ -23,6 +23,10 @@
         <item name="colorControlActivated">@color/color_text_secondary</item>
         <item name="colorControlHighlight">@color/color_text_secondary</item>
 
+        <!-- Splash screen -->
+        <item name="windowSplashScreenBackground">?attr/colorPrimary</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/app_icon</item>
+
     </style>
 
     <style name="Theme.Task2" parent="Base.Theme.Task2" />

@@ -2,15 +2,15 @@ package com.iyakovlev.contacts.presentation.fragments.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.iyakovlev.contacts.common.constants.Constants
+import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
-import com.iyakovlev.contacts.data.RegisterRequest
-import com.iyakovlev.contacts.data.UserGetRequest
+import com.iyakovlev.contacts.domain.datastore.DataStore
 import com.iyakovlev.contacts.domain.model.User
 import com.iyakovlev.contacts.domain.repository.user.UserRepository
 import com.iyakovlev.contacts.domain.use_case.GetUserUseCase
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
-import hilt_aggregated_deps._com_iyakovlev_contacts_di_UserRepositoryModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +18,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val getUserUseCase: GetUserUseCase) : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val getUserUseCase: GetUserUseCase,
+    private val dataStore: DataStore,
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     private val _state = MutableStateFlow<Resource<User>>(Resource.Loading())
     val state = _state.asStateFlow()
@@ -27,19 +31,23 @@ class MainViewModel @Inject constructor(private val getUserUseCase: GetUserUseCa
     val user = _user.asStateFlow()
 
     init {
-        getUser()
-    }
-
-    private fun getUser() {
+        log("init main view model", ISDEBUG)
         viewModelScope.launch(Dispatchers.IO) {
             _state.value = Resource.Loading()
-            _state.value = getUserUseCase()
-            if (_state.value.data == null) {
-                log("ERROR", true)
-            } else {
-                _user.value = _state.value.data!!
-            }
+//            _state.emit(getUserUseCase())
+            _state.emit(Resource.Success(userRepository.getData()))
         }
     }
+
+    fun deleteUserData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStore.delete(Constants.EMAIL)
+            dataStore.delete(Constants.PASS)
+        }
+    }
+
+//    fun getData(): User {
+//        return userRepositoryImpl.getData()
+//    }
 
 }

@@ -3,7 +3,7 @@ package com.iyakovlev.contacts.domain.repository.contacts
 import com.iyakovlev.contacts.domain.model.Contact
 import kotlinx.coroutines.flow.StateFlow
 
-interface ContactRepository {
+interface ContactRep {
 
     val contacts: StateFlow<List<Contact>>
 

@@ -2,6 +2,8 @@ package com.iyakovlev.contacts.common.constants
 
 object Constants {
 
+    const val ISDEBUG = true
+
     const val BASE_URL = "http://178.63.9.114:7777/api/"
     const val AUTHORISATION_HEADER = "Bearer "
 

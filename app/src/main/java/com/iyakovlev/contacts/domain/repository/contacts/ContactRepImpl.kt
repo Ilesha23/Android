@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.util.UUID
 import javax.inject.Inject
 
-class ContactRepositoryImpl @Inject constructor(private val contentResolver: ContentResolver) :
-    ContactRepository {
+class ContactRepImpl @Inject constructor(private val contentResolver: ContentResolver) :
+    ContactRep {
 
     private val isDebug = true
 

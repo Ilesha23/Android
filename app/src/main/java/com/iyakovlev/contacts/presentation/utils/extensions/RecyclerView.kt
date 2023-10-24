@@ -23,7 +23,8 @@ fun RecyclerView.setButtonScrollListener(
 }
 
 fun RecyclerView.addSwipeToDelete(
-    onSwiped: (Int) -> Unit
+    onSwiped: (Int) -> Unit/*,
+    isEnabled: () -> Boolean*/
 ): ItemTouchHelper {
 
     var itemTouchHelper: ItemTouchHelper? = null
@@ -44,6 +45,10 @@ fun RecyclerView.addSwipeToDelete(
             val index = viewHolder.bindingAdapterPosition
             onSwiped(index)
         }
+
+//        override fun isItemViewSwipeEnabled(): Boolean {
+//            return isEnabled.invoke()
+//        }
 
         override fun onChildDraw(
             c: Canvas,

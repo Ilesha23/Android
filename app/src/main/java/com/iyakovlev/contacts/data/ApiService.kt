@@ -36,4 +36,10 @@ interface ApiService {
         @Body body: LoginRequest
     ): Response<RegisterResponse>
 
+    @GET("users/{userId}/contacts")
+    suspend fun contacts(
+        @Header("Authorization") token: String,
+        @Path("userId") id: Long
+    ): Response<UserContactsResponse>
+
 }

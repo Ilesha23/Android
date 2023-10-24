@@ -1,17 +1,19 @@
 package com.iyakovlev.contacts.domain.repository.user
 
 import com.iyakovlev.contacts.common.constants.Constants.AUTHORISATION_HEADER
+import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.data.ApiService
 import com.iyakovlev.contacts.data.LoginRequest
 import com.iyakovlev.contacts.data.RegisterRequest
 import com.iyakovlev.contacts.data.UserEditRequest
 import com.iyakovlev.contacts.domain.model.User
+import com.iyakovlev.contacts.utils.log
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(private val apiService: ApiService) : UserRepository {
 
-    private var user = User()
+    //private var user = User()
 
     override suspend fun createUser(body: RegisterRequest): Resource<User> {
         return try {
@@ -25,7 +27,7 @@ class UserRepositoryImpl @Inject constructor(private val apiService: ApiService)
                 Resource.Error("Registration failed")
             }
         } catch (e: Exception) {
-            Resource.Error("An error occurred")
+            Resource.Error("An error occurred in create")
         }
     }
 
@@ -43,7 +45,7 @@ class UserRepositoryImpl @Inject constructor(private val apiService: ApiService)
                 Resource.Error("Edit failed")
             }
         } catch (e: Exception) {
-            Resource.Error("An error occurred")
+            Resource.Error("An error occurred in edit")
         }
     }
 
@@ -60,7 +62,7 @@ class UserRepositoryImpl @Inject constructor(private val apiService: ApiService)
                 Resource.Error("Get failed")
             }
         } catch (e: Exception) {
-            Resource.Error("An error occurred")
+            Resource.Error("An error occurred in get")
         }
     }
 
@@ -68,6 +70,7 @@ class UserRepositoryImpl @Inject constructor(private val apiService: ApiService)
         return try {
             val response = apiService.login(body)
             if (response.isSuccessful) {
+                log(response.body()!!.data.toString(), ISDEBUG)
                 response.body()?.data?.let {
                     user = it.user.toUser(it.accessToken, it.refreshToken)
                     Resource.Success(user)
@@ -76,8 +79,18 @@ class UserRepositoryImpl @Inject constructor(private val apiService: ApiService)
                 Resource.Error("Login failed")
             }
         } catch (e: Exception) {
-            Resource.Error("An error occurred")
+            log(e.message.toString(), ISDEBUG)
+            Resource.Error("An error occurred in login")
         }
+    }
+
+    override fun getData(): User {
+        return user
+    }
+
+
+    companion object {
+        var user = User()
     }
 
 }

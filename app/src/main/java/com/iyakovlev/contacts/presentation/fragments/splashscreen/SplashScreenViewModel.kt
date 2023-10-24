@@ -1,5 +1,6 @@
-package com.iyakovlev.contacts.presentation.fragments.sign_in
+package com.iyakovlev.contacts.presentation.fragments.splashscreen
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iyakovlev.contacts.common.constants.Constants.EMAIL
@@ -18,16 +19,29 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(
+class SplashScreenViewModel @Inject constructor(
     private val authUserUseCase: AuthUserUseCase,
-    private val dataStore: DataStore
-) :
-    ViewModel() {
+    dataStore: DataStore
+) : ViewModel() {
+
+    private val dataStore = dataStore
 
     private val _state = MutableStateFlow<Resource<User>>(Resource.Loading())
     val state = _state.asStateFlow()
 
-    fun login(email: String, pass: String) {
+//    init {
+//        checkLogin()
+//    }
+
+    fun checkLogin() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val email = dataStore.get(EMAIL)
+            val pass = dataStore.get(PASS)
+            login(email.toString(), pass.toString())
+        }
+    }
+
+    private fun login(email: String, pass: String) {
         viewModelScope.launch(Dispatchers.IO) {
             authUserUseCase(LoginRequest(email, pass)).collect {
                 _state.value = it
@@ -37,17 +51,6 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    fun saveLogin(email: String, pass: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            dataStore.put(EMAIL, email)
-            dataStore.put(PASS, pass)
-        }
-    }
 
-//    fun autologin() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            login(dataStore.get(EMAIL).toString(), dataStore.get(PASS).toString())
-//        }
-//    }
 
 }

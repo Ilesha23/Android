@@ -45,11 +45,11 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     private val contactAdapter = ContactsAdapter(object : ContactItemClickListener {
 
         override fun onItemClick(position: Int, imageView: ImageView) {
-            navigateToDetailView(position, imageView)
+//            navigateToDetailView(position, imageView) todo
         }
 
         override fun onItemDeleteClick(position: Int) {
-            removeContactWithUndo(position)
+//            removeContactWithUndo(position) todo
         }
 
         override fun onItemLongClick(position: Int) {
@@ -64,19 +64,19 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     })
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                setPhoneContactsList()
-            } else {
-                setFakeContactsList()
-            }
-        }
+//    private val requestPermissionLauncher =
+//        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+//            if (isGranted) {
+//                setPhoneContactsList()
+//            } else {
+//                setFakeContactsList()
+//            }
+//        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requestContactsPermission()
+//        requestContactsPermission()
 
         setupRecyclerView()
         setListeners()
@@ -84,29 +84,29 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     }
 
-    private fun toggleSwipeToDelete(isActive: Boolean) {
-        if (!isActive) {
-            itemTouchHelper?.attachToRecyclerView(
-                if (!viewModel.isMultiSelect.value) binding.rvContacts else null
-            )
-        } else {
-            itemTouchHelper?.attachToRecyclerView(binding.rvContacts)
-        }
-    }
+//    private fun toggleSwipeToDelete(isActive: Boolean) {
+//        if (!isActive) {
+//            itemTouchHelper?.attachToRecyclerView(
+//                if (!viewModel.isMultiSelect.value) binding.rvContacts else null
+//            )
+//        } else {
+//            itemTouchHelper?.attachToRecyclerView(binding.rvContacts)
+//        }
+//    }
 
-    private fun removeContactWithUndo(position: Int) {
-        viewModel.removeContact(position)
-        showUndoDeleteSnackBar(getString(R.string.contact_deleted_snackbar)) {
-            viewModel.undoRemoveContact()
-        }
-    }
+//    private fun removeContactWithUndo(position: Int) {
+//        viewModel.removeContact(position)
+//        showUndoDeleteSnackBar(getString(R.string.contact_deleted_snackbar)) {
+//            viewModel.undoRemoveContact()
+//        }
+//    }
 
-    private fun removeContactListWithUndo() {
-        viewModel.removeSelectedContacts()
-        showUndoDeleteSnackBar(getString(R.string.contact_list_deleted_snackbar)) {
-            viewModel.undoRemoveContactsList()
-        }
-    }
+//    private fun removeContactListWithUndo() {
+//        viewModel.removeSelectedContacts()
+//        showUndoDeleteSnackBar(getString(R.string.contact_list_deleted_snackbar)) {
+//            viewModel.undoRemoveContactsList()
+//        }
+//    }
 
     private fun makeBinButton() {
         binding.rvContacts.clearOnScrollListeners()
@@ -130,42 +130,42 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         }
     }
 
-    private fun setPhoneContactsList() {
-        viewModel.loadContactsFromStorage()
-        val prefs = requireContext().getSharedPreferences(
-            PREFERENCES,
-            Context.MODE_PRIVATE
-        )
-        val editor = prefs.edit()
-        editor.putBoolean(READ_CONTACTS_PERMISSION_KEY, true)
-        editor.apply()
-    }
+//    private fun setPhoneContactsList() {
+//        viewModel.loadContactsFromStorage()
+//        val prefs = requireContext().getSharedPreferences(
+//            PREFERENCES,
+//            Context.MODE_PRIVATE
+//        )
+//        val editor = prefs.edit()
+//        editor.putBoolean(READ_CONTACTS_PERMISSION_KEY, true)
+//        editor.apply()
+//    }
 
-    private fun setFakeContactsList() {
-        viewModel.createFakeContacts()
-    }
+//    private fun setFakeContactsList() {
+//        viewModel.createFakeContacts()
+//    }
 
     // bad function to make program not ask permission twice
-    private fun requestContactsPermission() {
-        val prefs = requireContext().getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-        val editor = prefs.edit()
-
-        if (prefs.getBoolean(READ_CONTACTS_PERMISSION_KEY, false)) {
-            viewModel.loadContactsFromStorage()
-        } else {
-            if (prefs.getBoolean(
-                    IS_FIRST_LAUNCH,
-                    true
-                )
-            ) { // tracks apps permission request to store it forever
-                requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
-                editor.putBoolean(IS_FIRST_LAUNCH, false)
-                editor.apply()
-            } else {
-                viewModel.createFakeContacts()
-            }
-        }
-    }
+//    private fun requestContactsPermission() {
+//        val prefs = requireContext().getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+//        val editor = prefs.edit()
+//
+//        if (prefs.getBoolean(READ_CONTACTS_PERMISSION_KEY, false)) {
+//            viewModel.loadContactsFromStorage()
+//        } else {
+//            if (prefs.getBoolean(
+//                    IS_FIRST_LAUNCH,
+//                    true
+//                )
+//            ) { // tracks apps permission request to store it forever
+//                requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+//                editor.putBoolean(IS_FIRST_LAUNCH, false)
+//                editor.apply()
+//            } else {
+//                viewModel.createFakeContacts()
+//            }
+//        }
+//    }
 
 
     private fun setupRecyclerView() {
@@ -187,7 +187,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             }
 
             itemTouchHelper = addSwipeToDelete { position ->
-                removeContactWithUndo(position)
+//                removeContactWithUndo(position) todo
             }
         }
     }
@@ -205,10 +205,10 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                         contactAdapter.changeSelectionState(it)
                         if (it) {
                             makeBinButton()
-                            toggleSwipeToDelete(false)
+//                            toggleSwipeToDelete(false) todo
                         } else {
                             makeUpButton()
-                            toggleSwipeToDelete(true)
+//                            toggleSwipeToDelete(true) todo
                         }
                     }
                 }
@@ -224,48 +224,54 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     private fun setListeners() {
         with(binding) {
             btnAddContact.setOnClickListener {
-                navigateToAddContactDialog()
+//                navigateToAddContactDialog()
             }
             fabUp.setOnClickListener {
                 if (!viewModel.isMultiSelect.value) {
                     rvContacts.smoothScrollToPosition(0)
                 } else {
-                    removeContactListWithUndo()
+//                    removeContactListWithUndo() todo
                 }
+            }
+            ibBack.setOnClickListener {
+                navController.navigateUp()
             }
         }
     }
 
-    private fun navigateToAddContactDialog() {
-        Log.e("TAG", viewModel.toString())
-        val action = ContactsFragmentDirections
-            .actionContactsFragmentToAddContactDialogFragment()
-        navController.navigate(action)
-    }
+    // TODO:
+//    private fun navigateToAddContactDialog() {
+//        Log.e("TAG", viewModel.toString())
+//        val action = ContactsFragmentDirections
+//            .actionContactsFragmentToAddContactDialogFragment()
+//        navController.navigate(action)
+//    }
 
-    private fun navigateToDetailView(position: Int, imageView: ImageView) {
-        navigateToDetailViewWithNavigation(position, imageView)
-    }
+    // TODO:
+//    private fun navigateToDetailView(position: Int, imageView: ImageView) {
+//        navigateToDetailViewWithNavigation(position, imageView)
+//    }
 
-    private fun navigateToDetailViewWithNavigation(position: Int, imageView: ImageView) {
-        val contact = viewModel.getContact(position)
-        val contactId = contact.id.toString()
-        val transitionName = "$TRANSITION_NAME$contactId"
-
-        val action = ContactsFragmentDirections.actionContactsFragmentToContactDetailViewFragment(
-            contactId = contact.id.toString(),
-            contactPhoto = contact.photo,
-            contactName = contact.name,
-            contactCareer = contact.career,
-            contactAddress = contact.address,
-        )
-        imageView.transitionName = transitionName
-        val extras = FragmentNavigatorExtras(
-            imageView to transitionName
-        )
-        navController.navigate(action, extras)
-        log("navigated to $action", isDebug)
-    }
+    // TODO:
+//    private fun navigateToDetailViewWithNavigation(position: Int, imageView: ImageView) {
+//        val contact = viewModel.getContact(position)
+//        val contactId = contact.id.toString()
+//        val transitionName = "$TRANSITION_NAME$contactId"
+//
+//        val action = ContactsFragmentDirections.actionContactsFragmentToContactDetailViewFragment(
+//            contactId = contact.id.toString(),
+//            contactPhoto = contact.photo,
+//            contactName = contact.name,
+//            contactCareer = contact.career,
+//            contactAddress = contact.address,
+//        )
+//        imageView.transitionName = transitionName
+//        val extras = FragmentNavigatorExtras(
+//            imageView to transitionName
+//        )
+//        navController.navigate(action, extras)
+//        log("navigated to $action", isDebug)
+//    }
 
     @SuppressLint("ShowToast")
     private fun showUndoDeleteSnackBar(message: String, action: () -> Unit) {
@@ -278,8 +284,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     companion object {
 
-        const val READ_CONTACTS_PERMISSION_KEY = "READ_CONTACTS_PERMISSION_KEY"
-        const val IS_FIRST_LAUNCH = "IS_FIRST_LAUNCH"
+//        const val READ_CONTACTS_PERMISSION_KEY = "READ_CONTACTS_PERMISSION_KEY"
+//        const val IS_FIRST_LAUNCH = "IS_FIRST_LAUNCH"
 
         const val FAB_ANIMATION_TIME = 200L
 

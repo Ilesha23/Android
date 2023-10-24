@@ -20,8 +20,8 @@ import com.iyakovlev.contacts.common.constants.Constants.PREFERENCES
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.databinding.FragmentSignInBinding
 import com.iyakovlev.contacts.presentation.base.BaseFragment
-import com.iyakovlev.contacts.presentation.utils.extensions.DataStore.get
-import com.iyakovlev.contacts.presentation.utils.extensions.DataStore.put
+//import com.iyakovlev.contacts.presentation.utils.extensions.DataStore.get
+//import com.iyakovlev.contacts.presentation.utils.extensions.DataStore.put
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
@@ -47,10 +47,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(FragmentSignInBinding
                 val email = etEmail.text.toString() // TODO: check
                 val pass = etPassword.text.toString()
                 if (chkRemember.isChecked) {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        put(requireContext(), EMAIL, email)
-                        put(requireContext(), PASS, pass)
-                    }
+                    viewModel.saveLogin(email, pass)
                 }
                 viewModel.login(email, pass)
             }
@@ -63,7 +60,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(FragmentSignInBinding
     private fun setObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
+//                launch {
                     viewModel.state.collect { resource ->
                         when (resource) {
                             is Resource.Error -> {
@@ -79,34 +76,18 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(FragmentSignInBinding
                             }
                         }
                     }
-                }
-                launch {
-                    val email = get(requireContext(), EMAIL)
-                    val pass = get(requireContext(), PASS)
-                    if (!email.isNullOrBlank() and !pass.isNullOrBlank()) {
-                        viewModel.login(email.toString(), pass.toString())
-                    }
-                }
+//                }
+//                launch {
+//                    val email = get(requireContext(), EMAIL)
+//                    val pass = get(requireContext(), PASS)
+//                    if (!email.isNullOrBlank() and !pass.isNullOrBlank()) {
+//                        viewModel.login(email.toString(), pass.toString())
+//                    }
+//                    viewModel.autologin()
+//                }
             }
 
         }
     }
-
-//    private fun autologin() {
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            context?.dataStore?.data
-//                ?.map { preferences ->
-//                    Pair(
-//                        preferences[EMAIL] ?: "",
-//                        preferences[PASS] ?: ""
-//                    )
-//                }
-//                ?.collect { (email, pass) ->
-//                    if (email.isNotEmpty() && pass.isNotEmpty()) {
-//                        viewModel.login(email, pass)
-//                    }
-//                }
-//        }
-//    }
 
 }
