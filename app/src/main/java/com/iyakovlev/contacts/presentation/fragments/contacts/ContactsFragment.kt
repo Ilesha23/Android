@@ -1,42 +1,36 @@
 package com.iyakovlev.contacts.presentation.fragments.contacts
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.contacts.R
-import com.iyakovlev.contacts.common.constants.Constants.PREFERENCES
-import com.iyakovlev.contacts.common.constants.Constants.TRANSITION_NAME
+import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.databinding.FragmentContactsBinding
 import com.iyakovlev.contacts.presentation.base.BaseFragment
+import com.iyakovlev.contacts.presentation.fragments.add_contact.adapters.UsersAdapter
 import com.iyakovlev.contacts.presentation.fragments.contacts.adapters.ContactsAdapter
 import com.iyakovlev.contacts.presentation.fragments.contacts.interfaces.ContactItemClickListener
 import com.iyakovlev.contacts.presentation.utils.ItemSpacingDecoration
 import com.iyakovlev.contacts.presentation.utils.extensions.addSwipeToDelete
 import com.iyakovlev.contacts.presentation.utils.extensions.setButtonScrollListener
-import com.iyakovlev.contacts.presentation.utils.extensions.toggleFabVisibility
 import com.iyakovlev.contacts.presentation.utils.extensions.showSnackBarWithTimer
-import com.iyakovlev.contacts.utils.log
+import com.iyakovlev.contacts.presentation.utils.extensions.toggleFabVisibility
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate) {
-
-    private val isDebug = false
 
     private val viewModel: ContactsViewModel by viewModels()
 
@@ -115,12 +109,16 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         binding.fabUp.icon = ContextCompat.getDrawable(requireContext(), R.drawable.fab_bin)
         binding.fabUp.visibility = View.VISIBLE
         if (firstItem == 0) {
-            binding.rvContacts.smoothScrollBy(0, 6) // bad decision, but i don't know how to fix that
+            binding.rvContacts.smoothScrollBy(
+                0,
+                6
+            ) // bad decision, but i don't know how to fix that
         }
     }
 
     private fun makeUpButton() {
-        binding.fabUp.icon = ContextCompat.getDrawable(requireContext(), R.drawable.floating_action_button_up)
+        binding.fabUp.icon =
+            ContextCompat.getDrawable(requireContext(), R.drawable.floating_action_button_up)
         val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
         val firstItem = layoutManager.findFirstCompletelyVisibleItemPosition()
         if (firstItem == 0) {
@@ -195,12 +193,15 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     private fun setObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.contacts.collect { newContactsList ->
-                        contactAdapter.submitList(newContactsList)
+                launch(Dispatchers.Main) {
+                    viewModel.state.collect { newContactsList ->
+                        contactAdapter.submitList(newContactsList.data)
+                        if (viewModel.state.value is Resource.Error<*>) {
+                            Toast.makeText(context, viewModel.state.value.message, Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
-                launch {
+                launch(Dispatchers.Main) {
                     viewModel.isMultiSelect.collect {
                         contactAdapter.changeSelectionState(it)
                         if (it) {
@@ -212,7 +213,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                         }
                     }
                 }
-                launch {
+                launch(Dispatchers.Main) {
                     viewModel.selectedPositions.collect {
                         contactAdapter.changeSelectedPositions(it)
                     }

@@ -1,4 +1,4 @@
-package com.iyakovlev.contacts.presentation.fragments.contacts.adapters
+package com.iyakovlev.contacts.presentation.fragments.add_contact.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,15 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.iyakovlev.contacts.R
-import com.iyakovlev.contacts.databinding.ItemUserBinding
-import com.iyakovlev.contacts.databinding.ItemUserSelectedBinding
+import com.iyakovlev.contacts.databinding.ItemContactBinding
+import com.iyakovlev.contacts.databinding.ItemContactSelectedBinding
 import com.iyakovlev.contacts.domain.model.User
 import com.iyakovlev.contacts.domain.model.UserRemote
 import com.iyakovlev.contacts.presentation.fragments.add_contact.diffutil.UsersDiffCallback
+import com.iyakovlev.contacts.presentation.fragments.add_contact.interfaces.UserItemClickListener
 import com.iyakovlev.contacts.presentation.fragments.contacts.interfaces.ContactItemClickListener
 import com.iyakovlev.contacts.presentation.utils.extensions.loadImageWithGlide
 
-class ContactsAdapter(val listener: ContactItemClickListener) :
+class UsersAdapter(val listener: UserItemClickListener) :
     ListAdapter<UserRemote, RecyclerView.ViewHolder>(UsersDiffCallback()) {
 
     private var isMultiSelect = false
@@ -36,11 +37,11 @@ class ContactsAdapter(val listener: ContactItemClickListener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (!isMultiSelect) {
             val binding =
-                ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                ItemContactBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return ContactViewHolder(binding)
         }
         val binding =
-            ItemUserSelectedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemContactSelectedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ContactSelectedViewHolder(binding)
     }
 
@@ -59,7 +60,7 @@ class ContactsAdapter(val listener: ContactItemClickListener) :
         }
     }
 
-    inner class ContactViewHolder(private val binding: ItemUserBinding) :
+    inner class ContactViewHolder(private val binding: ItemContactBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(contact: UserRemote) {
@@ -81,7 +82,7 @@ class ContactsAdapter(val listener: ContactItemClickListener) :
         }
     }
 
-    inner class ContactSelectedViewHolder(private val binding: ItemUserSelectedBinding) :
+    inner class ContactSelectedViewHolder(private val binding: ItemContactSelectedBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(contact: UserRemote) {

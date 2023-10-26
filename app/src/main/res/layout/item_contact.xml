@@ -40,22 +40,13 @@
         app:layout_constraintStart_toStartOf="@+id/tvContactName"
         app:layout_constraintTop_toBottomOf="@+id/tvContactName" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:textColor="?attr/colorSecondary"
-        style="@style/text_big"
-        android:layout_marginEnd="@dimen/margin_default"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/ivContactRemove"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivContactRemove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/btn_plus"
+        android:src="@drawable/ic_delete"
         android:layout_marginEnd="@dimen/margin_additional_middle"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"

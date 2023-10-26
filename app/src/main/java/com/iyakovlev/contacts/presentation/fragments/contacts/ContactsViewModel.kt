@@ -1,23 +1,32 @@
 package com.iyakovlev.contacts.presentation.fragments.contacts
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
+import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.domain.model.Contact
+import com.iyakovlev.contacts.domain.model.User
+import com.iyakovlev.contacts.domain.model.UserRemote
 import com.iyakovlev.contacts.domain.repository.contacts.ContactRep
+import com.iyakovlev.contacts.domain.repository.contacts.ContactsRepository
+import com.iyakovlev.contacts.domain.use_case.GetContactsUseCase
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ContactsViewModel @Inject constructor(
-    private val repository: ContactRep
+//    private val repository: ContactsRepository
+    private val getContactsUseCase: GetContactsUseCase
 ) : ViewModel() {
 
-    private val isDebug = true
-
-    val contacts = repository.contacts
+//    val contacts = repository.state
+    private val _state = MutableStateFlow<Resource<List<UserRemote>>>(Resource.Loading())
+    val state = _state.asStateFlow()
 
     private val _isMultiSelect = MutableStateFlow(false)
     val isMultiSelect = _isMultiSelect.asStateFlow()
@@ -28,7 +37,10 @@ class ContactsViewModel @Inject constructor(
     private var removedSelectionList = listOf<Contact>()
 
     init {
-        log("view model created", isDebug)
+        log("contacts view model created", ISDEBUG)
+        viewModelScope.launch(Dispatchers.IO) {
+            _state.emit(getContactsUseCase())
+        }
     }
 
     fun toggleSelectedPosition(position: Int) {
@@ -77,7 +89,7 @@ class ContactsViewModel @Inject constructor(
 //        if (contacts.value.isEmpty()) {
 //            repository.createFakeContacts()
 //        }
-//        log("default contacts created", isDebug)
+//        log("default contacts created", ISDEBUG)
 //    }
 
     // TODO:
@@ -115,5 +127,9 @@ class ContactsViewModel @Inject constructor(
         log("view model cleared", ISDEBUG)
         super.onCleared()
     }
+
+//    companion object {
+//        val contacts = List<User>()
+//    }
 
 }

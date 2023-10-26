@@ -31,12 +31,6 @@
             app:argType="string"
             android:defaultValue="" />
     </fragment>
-    <dialog
-        android:id="@+id/addContactDialogFragment"
-        android:name="com.iyakovlev.contacts.presentation.fragments.add_contact.AddContactDialogFragment"
-        android:label="AddContactDialogFragment"
-        tools:layout="@layout/add_contact_dialog">
-    </dialog>
     <fragment
         android:id="@+id/signUpExtFragment"
         android:name="com.iyakovlev.contacts.presentation.fragments.sign_up_ext.SignUpExtFragment"
@@ -75,9 +69,6 @@
         android:name="com.iyakovlev.contacts.presentation.fragments.contacts.ContactsFragment"
         android:label="ContactsFragment"
         tools:layout="@layout/fragment_contacts">
-        <action
-            android:id="@+id/action_contactsFragment_to_addContactDialogFragment"
-            app:destination="@id/addContactDialogFragment" />
         <action
             android:id="@+id/action_contactsFragment_to_contactDetailViewFragment"
             app:destination="@id/contactDetailViewFragment" />

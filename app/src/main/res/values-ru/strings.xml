@@ -55,5 +55,7 @@
     <string name="dont_have_acc_question">Не зарегистрированы?</string>
     <string name="btn_signup">Зарегистрироваться</string>
     <string name="btn_login">Войти</string>
+    <string name="recommendation">Рекомендация</string>
+    <string name="add">Добавить</string>
 
 </resources>

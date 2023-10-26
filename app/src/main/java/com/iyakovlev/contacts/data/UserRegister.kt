@@ -1,6 +1,7 @@
 package com.iyakovlev.contacts.data
 
 import com.iyakovlev.contacts.domain.model.User
+import com.iyakovlev.contacts.domain.model.UserRemote
 
 data class RegisterRequest(
     val email: String,
@@ -48,6 +49,10 @@ data class UserDto(
 ) {
     fun toUser(accessToken: String, refreshToken: String) = User(
         id, name, phone, address, career, birthday, image, accessToken, refreshToken
+    )
+
+    fun toUserRemote() = UserRemote(
+        id, name, phone, address, career, birthday, image
     )
 }
 
