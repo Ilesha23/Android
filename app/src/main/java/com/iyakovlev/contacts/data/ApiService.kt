@@ -42,4 +42,9 @@ interface ApiService {
         @Path("userId") id: Long
     ): Response<UserContactsResponse>
 
+    @GET("users")
+    suspend fun users(
+        @Header("Authorization") token: String
+    ): Response<UsersResponse>
+
 }

@@ -29,11 +29,11 @@ class MainActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsBindi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        installSplashScreen().apply {
-            setKeepOnScreenCondition { // TODO: maybe splash screen fragment
-                isSplash
-            }
-        }
+//        installSplashScreen().apply {
+//            setKeepOnScreenCondition { // TODO: maybe splash screen fragment
+//                isSplash
+//            }
+//        }
 
         setNavController()
         setObservers()
@@ -42,20 +42,19 @@ class MainActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsBindi
 
     private fun setObservers() {
         lifecycleScope.launch {
-            launch(Dispatchers.Main) {
+            launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.state.collect {
                         log("view model state collected in main", ISDEBUG)
                         if (it is Resource.Success) {
-                            isSplash = false
                             navController.navigate(R.id.action_signInFragment_to_mainFragment)
+                            isSplash = false
                             log("navigated main act -> main fr")
+                        } else if (it is Resource.Error) {
+                            isSplash = false
                         }
                     }
                 }
-            }
-            launch(Dispatchers.IO) {
-
             }
         }
     }

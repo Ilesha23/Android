@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.databinding.ItemContactBinding
 import com.iyakovlev.contacts.databinding.ItemContactSelectedBinding
+import com.iyakovlev.contacts.databinding.ItemUserBinding
+import com.iyakovlev.contacts.databinding.ItemUserSelectedBinding
 import com.iyakovlev.contacts.domain.model.User
 import com.iyakovlev.contacts.domain.model.UserRemote
 import com.iyakovlev.contacts.presentation.fragments.add_contact.diffutil.UsersDiffCallback
@@ -37,30 +39,30 @@ class UsersAdapter(val listener: UserItemClickListener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (!isMultiSelect) {
             val binding =
-                ItemContactBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return ContactViewHolder(binding)
+                ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            return UserViewHolder(binding)
         }
         val binding =
-            ItemContactSelectedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ContactSelectedViewHolder(binding)
+            ItemUserSelectedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return UserSelectedViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is ContactViewHolder -> holder.bind(getItem(position))
-            is ContactSelectedViewHolder -> holder.bind(getItem(position))
+            is UserViewHolder -> holder.bind(getItem(position))
+            is UserSelectedViewHolder -> holder.bind(getItem(position))
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return if (isMultiSelect) {
-            R.layout.item_contact_selected // Use a different layout for multi-selection mode
+            R.layout.item_user_selected
         } else {
-            R.layout.item_contact
+            R.layout.item_user
         }
     }
 
-    inner class ContactViewHolder(private val binding: ItemContactBinding) :
+    inner class UserViewHolder(private val binding: ItemUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(contact: UserRemote) {
@@ -82,7 +84,7 @@ class UsersAdapter(val listener: UserItemClickListener) :
         }
     }
 
-    inner class ContactSelectedViewHolder(private val binding: ItemContactSelectedBinding) :
+    inner class UserSelectedViewHolder(private val binding: ItemUserSelectedBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(contact: UserRemote) {

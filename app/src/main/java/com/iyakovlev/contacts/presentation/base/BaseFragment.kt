@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
+import com.iyakovlev.contacts.utils.log
 
 abstract class BaseFragment<VBinding : ViewBinding>(
     private val inflaterMethod: (LayoutInflater, ViewGroup?, Boolean) -> VBinding
@@ -15,7 +17,7 @@ abstract class BaseFragment<VBinding : ViewBinding>(
     Fragment() {
 
     private var _binding: VBinding? = null
-    val binding get() = requireNotNull(_binding)
+    val binding get() = _binding!!
     val navController: NavController
         get() = findNavController()
 
@@ -29,8 +31,8 @@ abstract class BaseFragment<VBinding : ViewBinding>(
     }
 
     override fun onDestroyView() {
-        _binding = null
         super.onDestroyView()
+        _binding = null
     }
 
 //    open fun setObservers() {}
