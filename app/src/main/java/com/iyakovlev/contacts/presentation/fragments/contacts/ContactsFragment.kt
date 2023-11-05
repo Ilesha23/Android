@@ -31,6 +31,7 @@ import com.iyakovlev.contacts.presentation.utils.extensions.toggleFabVisibility
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -46,8 +47,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 //            navigateToDetailView(position, imageView) todo
         }
 
-        override fun onItemDeleteClick(position: Int) {
-//            removeContactWithUndo(position) todo
+        override fun onItemDeleteClick(id: Long) {
+            removeContactWithUndo(id) //todo
         }
 
         override fun onItemLongClick(position: Int) {
@@ -79,6 +80,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         setupRecyclerView()
         setListeners()
         setObservers()
+//        viewModel.updateContacts()
 
     }
 
@@ -92,12 +94,12 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 //        }
 //    }
 
-//    private fun removeContactWithUndo(position: Int) {
-//        viewModel.removeContact(position)
-//        showUndoDeleteSnackBar(getString(R.string.contact_deleted_snackbar)) {
-//            viewModel.undoRemoveContact()
-//        }
-//    }
+    private fun removeContactWithUndo(id: Long) {
+        viewModel.deleteContact(id)
+        showUndoDeleteSnackBar(getString(R.string.contact_deleted_snackbar)) {
+            viewModel.undoRemoveContact()
+        }
+    }
 
 //    private fun removeContactListWithUndo() {
 //        viewModel.removeSelectedContacts()
@@ -209,11 +211,12 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun setObservers() {
+        viewModel.updateContacts()
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.state.collect { newContactsList ->
-                        contactAdapter.submitList(newContactsList.data)
+                    viewModel.state.collect { list ->
+                        contactAdapter.submitList(list.data)
                         if (viewModel.state.value is Resource.Error<*>) {
                             Toast.makeText(context, viewModel.state.value.message, Toast.LENGTH_SHORT).show()
                         }

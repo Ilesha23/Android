@@ -11,6 +11,7 @@ import com.iyakovlev.contacts.R
 import java.lang.Float.max
 import java.lang.Float.min
 
+// TODO:
 fun RecyclerView.setButtonScrollListener(
     checkPosition: (Boolean) -> Unit
 ) {

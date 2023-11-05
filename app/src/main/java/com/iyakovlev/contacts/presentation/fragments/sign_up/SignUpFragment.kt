@@ -63,9 +63,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
 
                         }
                         is Resource.Success -> {
-                            // TODO: redirect to ext
-                            binding.tvGreeting.text = resource.data.toString()
-                            binding.tvFillFormProposal.text = resource.data?.accessToken.toString()
                             log(resource.data?.accessToken.toString(), true)
                             navController.navigate(SignUpFragmentDirections.actionSignUpFragmentToSignUpExtFragment())
                         }

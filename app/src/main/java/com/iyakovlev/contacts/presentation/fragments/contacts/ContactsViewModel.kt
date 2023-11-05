@@ -9,10 +9,13 @@ import com.iyakovlev.contacts.domain.model.User
 import com.iyakovlev.contacts.domain.model.UserRemote
 import com.iyakovlev.contacts.domain.repository.contacts.ContactRep
 import com.iyakovlev.contacts.domain.repository.contacts.ContactsRepository
+import com.iyakovlev.contacts.domain.use_case.AddContactUseCase
+import com.iyakovlev.contacts.domain.use_case.DeleteContactUseCase
 import com.iyakovlev.contacts.domain.use_case.GetContactsUseCase
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -21,7 +24,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ContactsViewModel @Inject constructor(
 //    private val repository: ContactsRepository
-    private val getContactsUseCase: GetContactsUseCase
+    private val getContactsUseCase: GetContactsUseCase,
+    private val deleteContactUseCase: DeleteContactUseCase,
+    private val addContactUseCase: AddContactUseCase
 ) : ViewModel() {
 
 //    val contacts = repository.state
@@ -36,10 +41,53 @@ class ContactsViewModel @Inject constructor(
 
     private var removedSelectionList = listOf<Contact>()
 
+    private var removedContact: UserRemote? = null
+
+    private var isRemoving = false
+
     init {
         log("contacts view model created", ISDEBUG)
+//        viewModelScope.launch(Dispatchers.IO) {
+//            _state.emit(getContactsUseCase())
+//        }
+//        updateContacts()
+    }
+
+    fun updateContacts() {
+        _state.value.data?.toMutableList().apply {
+            this?.clear()
+        }
         viewModelScope.launch(Dispatchers.IO) {
-            _state.emit(getContactsUseCase())
+//            _state.emit(getContactsUseCase())
+            val response = getContactsUseCase()
+            if (response is Resource.Success) {
+                _state.emit(response)
+            }
+        }
+    }
+
+    fun deleteContact(id: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            removedContact = _state.value.data?.find { it.id == id }
+//            _state.emit(deleteContactUseCase(id))
+            val response = deleteContactUseCase(id)
+            if (response is Resource.Success) {
+                _state.emit(response)
+            }
+        }
+    }
+
+    fun undoRemoveContact() {
+        if (!isRemoving and (removedContact != null)) {
+            isRemoving = true
+            viewModelScope.launch(Dispatchers.IO) {
+                val response = addContactUseCase(removedContact!!.id)
+                if (response is Resource.Success) {
+                    _state.emit(response)
+                    removedContact = null
+                    isRemoving = false
+                }
+            }
         }
     }
 

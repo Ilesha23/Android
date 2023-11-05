@@ -34,8 +34,8 @@ class MainViewModel @Inject constructor(
         log("init main view model", ISDEBUG)
         viewModelScope.launch(Dispatchers.IO) {
             _state.value = Resource.Loading()
-//            _state.emit(getUserUseCase())
-            _state.emit(Resource.Success(userRepository.getData()))
+            _state.emit(getUserUseCase())
+//            _state.emit(Resource.Success(userRepository.getData()))
         }
     }
 

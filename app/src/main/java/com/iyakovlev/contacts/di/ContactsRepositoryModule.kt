@@ -3,7 +3,6 @@ package com.iyakovlev.contacts.di
 import com.iyakovlev.contacts.data.ApiService
 import com.iyakovlev.contacts.domain.repository.contacts.ContactsRepository
 import com.iyakovlev.contacts.domain.repository.contacts.ContactsRepositoryImpl
-import com.iyakovlev.contacts.domain.repository.users.UsersRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,16 +16,16 @@ object ContactsRepositoryModule {
 
     @Provides
     @Singleton
-    @Named("Contacts")
+//    @Named("Contacts")
     fun provideContactsRepository(apiService: ApiService): ContactsRepository {
         return ContactsRepositoryImpl(apiService)
     }
 
-    @Provides
-    @Singleton
-    @Named("Users")
-    fun provideUsersRepository(apiService: ApiService): ContactsRepository {
-        return UsersRepositoryImpl(apiService)
-    }
+//    @Provides
+//    @Singleton
+//    @Named("Users")
+//    fun provideUsersRepository(apiService: ApiService): ContactsRepository {
+//        return UsersRepositoryImpl(apiService)
+//    }
 
 }

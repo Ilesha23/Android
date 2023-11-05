@@ -7,7 +7,7 @@ import com.iyakovlev.contacts.domain.repository.contacts.ContactsRepository
 import javax.inject.Inject
 import javax.inject.Named
 
-class GetContactsUseCase @Inject constructor(@Named("Contacts") private val contactsRepository: ContactsRepository) {
+class GetContactsUseCase @Inject constructor(/*@Named("Contacts") */private val contactsRepository: ContactsRepository) {
 
     suspend operator fun invoke(): Resource<List<UserRemote>> {
         return contactsRepository.fetch()

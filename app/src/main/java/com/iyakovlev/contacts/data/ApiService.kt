@@ -2,6 +2,9 @@ package com.iyakovlev.contacts.data
 
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -40,6 +43,22 @@ interface ApiService {
     suspend fun contacts(
         @Header("Authorization") token: String,
         @Path("userId") id: Long
+    ): Response<UserContactsResponse>
+
+    @FormUrlEncoded
+    @PUT("users/{userId}/contacts")
+//    @Headers("Content-type: application/json")
+    suspend fun addContact(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Long,
+        @Field("contactId") contactId: Long
+    ): Response<UserContactsResponse>
+
+    @DELETE("users/{userId}/contacts/{contactId}")
+    suspend fun deleteContact(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Long,
+        @Path("contactId") contactId: Long
     ): Response<UserContactsResponse>
 
     @GET("users")

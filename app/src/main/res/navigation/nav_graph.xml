@@ -89,5 +89,9 @@
         android:id="@+id/addContactFragment"
         android:name="com.iyakovlev.contacts.presentation.fragments.add_contact.AddContactFragment"
         android:label="AddContactFragment"
-        tools:layout="@layout/fragment_add_contact" />
+        tools:layout="@layout/fragment_add_contact" >
+        <action
+            android:id="@+id/action_addContactFragment_to_contactsFragment"
+            app:destination="@id/contactsFragment" />
+    </fragment>
 </navigation>

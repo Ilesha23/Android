@@ -9,18 +9,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.iyakovlev.contacts.R
-import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.databinding.FragmentAddContactBinding
 import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.presentation.fragments.add_contact.adapters.UsersAdapter
 import com.iyakovlev.contacts.presentation.fragments.add_contact.interfaces.UserItemClickListener
-import com.iyakovlev.contacts.presentation.fragments.contacts.ContactsFragment
 import com.iyakovlev.contacts.presentation.utils.ItemSpacingDecoration
-import com.iyakovlev.contacts.presentation.utils.extensions.setButtonScrollListener
-import com.iyakovlev.contacts.presentation.utils.extensions.toggleFabVisibility
-import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -30,20 +26,11 @@ class AddContactFragment :
 
     private val viewModel: AddContactViewModel by viewModels()
     private val userAdapter: UsersAdapter = UsersAdapter(object : UserItemClickListener {
-        override fun onItemClick(position: Int, imageView: ImageView) {
-            // TODO("Not yet implemented")
-        }
-
-        override fun onItemClick(position: Int) {
-            // TODO("Not yet implemented")
-        }
-
-        override fun onItemDeleteClick(position: Int) {
-            // TODO("Not yet implemented")
-        }
-
-        override fun onItemLongClick(position: Int) {
-            // TODO("Not yet implemented")
+        override fun onItemClick(id: Long) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.addContact(id)
+                viewModel.toggleSelectedContact(id)
+            }
         }
     })
 
@@ -61,17 +48,30 @@ class AddContactFragment :
             fab.setOnClickListener {
                 rvUsers.scrollToPosition(0)
             }
+            ibBack.setOnClickListener {
+                navController.navigateUp()
+//                navController.navigate(AddContactFragmentDirections.actionAddContactFragmentToContactsFragment())
+            }
         }
     }
 
     private fun setObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect {
-                    userAdapter.submitList(it.data)
-                    if (viewModel.state.value is Resource.Error<*>) {
-                        Toast.makeText(context, viewModel.state.value.message, Toast.LENGTH_SHORT)
-                            .show()
+                launch {
+                    viewModel.state.collect {
+                        userAdapter.submitList(it.data)
+//                        userAdapter.changeContacts(it.data)
+                        if (viewModel.state.value is Resource.Error<*>) {
+                            Toast.makeText(context, viewModel.state.value.message, Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                }
+                launch {
+                    viewModel.selectedContacts.collect {
+                        userAdapter.changeSelectedPositions(viewModel.selectedContacts.value)
+                        userAdapter.submitList(viewModel.state.value.data)
                     }
                 }
             }
@@ -88,9 +88,18 @@ class AddContactFragment :
                 addItemDecoration(ItemSpacingDecoration(spacing, lastSpacing))
             }
 
-            setButtonScrollListener { isButtonVisible ->
-                binding.fab.toggleFabVisibility(ContactsFragment.FAB_ANIMATION_TIME, true)
-            }
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    val layoutManager = binding.rvUsers.layoutManager as LinearLayoutManager
+                    val firstItem = layoutManager.findFirstCompletelyVisibleItemPosition()
+                    if (firstItem == 0) {
+                        binding.fab.hide()
+                    }
+                    if (dy > 0) {
+                        binding.fab.show()
+                    }
+                }
+            })
         }
     }
 

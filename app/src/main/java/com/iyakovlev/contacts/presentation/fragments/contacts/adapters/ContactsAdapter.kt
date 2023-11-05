@@ -13,11 +13,12 @@ import com.iyakovlev.contacts.databinding.ItemUserSelectedBinding
 import com.iyakovlev.contacts.domain.model.User
 import com.iyakovlev.contacts.domain.model.UserRemote
 import com.iyakovlev.contacts.presentation.fragments.add_contact.diffutil.UsersDiffCallback
+import com.iyakovlev.contacts.presentation.fragments.contacts.diffutil.ContactsDiffCallback
 import com.iyakovlev.contacts.presentation.fragments.contacts.interfaces.ContactItemClickListener
 import com.iyakovlev.contacts.presentation.utils.extensions.loadImageWithGlide
 
 class ContactsAdapter(val listener: ContactItemClickListener) :
-    ListAdapter<UserRemote, RecyclerView.ViewHolder>(UsersDiffCallback()) {
+    ListAdapter<UserRemote, RecyclerView.ViewHolder>(ContactsDiffCallback()) {
 
     private var isMultiSelect = false
 
@@ -55,7 +56,7 @@ class ContactsAdapter(val listener: ContactItemClickListener) :
 
     override fun getItemViewType(position: Int): Int {
         return if (isMultiSelect) {
-            R.layout.item_contact_selected // Use a different layout for multi-selection mode
+            R.layout.item_contact_selected
         } else {
             R.layout.item_contact
         }
@@ -70,7 +71,7 @@ class ContactsAdapter(val listener: ContactItemClickListener) :
                 tvContactCareer.text = contact.career
                 ivAvatar.loadImageWithGlide(contact.image.toString())
                 ivContactRemove.setOnClickListener {
-                    listener.onItemDeleteClick(bindingAdapterPosition)
+                    listener.onItemDeleteClick(contact.id)
                 }
                 clContactItem.setOnClickListener {
                     listener.onItemClick(bindingAdapterPosition, ivAvatar)
