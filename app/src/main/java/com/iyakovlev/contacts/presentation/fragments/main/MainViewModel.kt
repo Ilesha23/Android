@@ -21,7 +21,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
     private val dataStore: DataStore,
-    private val userRepository: UserRepository
+//    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<Resource<User>>(Resource.Loading())
@@ -33,9 +33,7 @@ class MainViewModel @Inject constructor(
     init {
         log("init main view model", ISDEBUG)
         viewModelScope.launch(Dispatchers.IO) {
-            _state.value = Resource.Loading()
             _state.emit(getUserUseCase())
-//            _state.emit(Resource.Success(userRepository.getData()))
         }
     }
 

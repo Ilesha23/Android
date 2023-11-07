@@ -157,19 +157,29 @@
         app:layout_constraintTop_toBottomOf="@+id/btnGoogle"
         app:layout_constraintBottom_toTopOf="@id/btnRegister" />
 
+    <ProgressBar
+        android:id="@+id/pbReg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/btnRegister"
+        app:layout_constraintBottom_toBottomOf="@+id/btnRegister"
+        app:layout_constraintEnd_toEndOf="@+id/btnRegister"
+        app:layout_constraintStart_toStartOf="@+id/btnRegister" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegister"
+        style="@style/text_button_caps"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_btn_register"
         android:layout_marginTop="@dimen/margin_default"
-        android:text="@string/register_button"
-        style="@style/text_button_caps"
         android:background="@drawable/register_button"
+        android:text="@string/register_button"
         android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/tvTerms"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvOr"
-        app:layout_constraintBottom_toTopOf="@+id/tvTerms"
         tools:ignore="VisualLintButtonSize" />
 
     <androidx.appcompat.widget.AppCompatTextView

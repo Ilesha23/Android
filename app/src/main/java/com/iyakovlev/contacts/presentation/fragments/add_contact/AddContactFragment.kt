@@ -37,9 +37,11 @@ class AddContactFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        toggleLoading(true)
         setupRecyclerView()
         setListeners()
         setObservers()
+//        binding.ibBack.click
 
     }
 
@@ -49,8 +51,9 @@ class AddContactFragment :
                 rvUsers.scrollToPosition(0)
             }
             ibBack.setOnClickListener {
-                navController.navigateUp()
-//                navController.navigate(AddContactFragmentDirections.actionAddContactFragmentToContactsFragment())
+//                navController.navigateUp()
+                navController.navigate(AddContactFragmentDirections.actionAddContactFragmentToContactsFragment())
+                onDestroy()
             }
         }
     }
@@ -65,6 +68,10 @@ class AddContactFragment :
                         if (viewModel.state.value is Resource.Error<*>) {
                             Toast.makeText(context, viewModel.state.value.message, Toast.LENGTH_SHORT)
                                 .show()
+                            toggleLoading(false)
+                        }
+                        if (viewModel.state.value is Resource.Success) {
+                            toggleLoading(false)
                         }
                     }
                 }
@@ -100,6 +107,16 @@ class AddContactFragment :
                     }
                 }
             })
+        }
+    }
+
+    private fun toggleLoading(isLoading: Boolean) {
+        with(binding) {
+            if (isLoading) {
+                pbAddContacts.visibility = View.VISIBLE
+            } else {
+                pbAddContacts.visibility = View.GONE
+            }
         }
     }
 

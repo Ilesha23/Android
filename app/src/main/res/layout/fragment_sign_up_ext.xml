@@ -156,6 +156,16 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="VisualLintButtonSize" />
 
+    <ProgressBar
+        android:id="@+id/pbRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/btnRegister"
+        app:layout_constraintBottom_toBottomOf="@+id/btnRegister"
+        app:layout_constraintEnd_toEndOf="@+id/btnRegister"
+        app:layout_constraintStart_toStartOf="@+id/btnRegister" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegister"
         style="@style/text_button_caps"

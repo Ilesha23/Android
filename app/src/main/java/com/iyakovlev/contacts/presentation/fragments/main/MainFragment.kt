@@ -53,13 +53,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                     when (resource) {
                         is Resource.Error -> {
                             Toast.makeText(context, resource.message, Toast.LENGTH_LONG).show()
+                            navController.navigate(MainFragmentDirections.actionMainFragmentToSignInFragment())
                         }
-
                         is Resource.Loading -> {
-                            // TODO: progerssbar
+                            // progressbar
                         }
-
                         is Resource.Success -> {
+                            binding.pbMain?.visibility = View.GONE
                             setData()
                             log(resource.data?.accessToken.toString(), true)
                         }
@@ -72,9 +72,18 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     private fun setData() {
         val user = viewModel.state.value.data
-        binding.tvFullName.text = user?.name ?: getString(R.string.default_name)
-        binding.tvCareer.text = user?.career ?: getString(R.string.career_placeholder)
-        binding.tvAddress.text = user?.address ?: getString(R.string.address)
+        binding.tvFullName.apply {
+            text = user?.name ?: getString(R.string.default_name)
+            visibility = View.VISIBLE
+        }
+        binding.tvCareer.apply {
+            text = user?.career ?: getString(R.string.career_placeholder)
+            visibility = View.VISIBLE
+        }
+        binding.tvAddress.apply {
+            text = user?.address ?: getString(R.string.address)
+            visibility = View.VISIBLE
+        }
     }
 
 }

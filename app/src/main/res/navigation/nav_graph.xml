@@ -75,6 +75,9 @@
         <action
             android:id="@+id/action_contactsFragment_to_addContactFragment"
             app:destination="@id/addContactFragment" />
+        <action
+            android:id="@+id/action_contactsFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"

@@ -35,9 +35,13 @@ class SignUpExtFragment : BaseFragment<FragmentSignUpExtBinding>(FragmentSignUpE
     private fun setListeners() {
         with(binding) {
             btnRegister.setOnClickListener {
+                toggleLoading(true)
                 val name = etName.text.toString()
                 val phone = etPhone.text.toString()
                 viewModel.editUser(name, phone)
+            }
+            btnCancel.setOnClickListener {
+                navController.navigateUp()
             }
         }
     }
@@ -49,12 +53,13 @@ class SignUpExtFragment : BaseFragment<FragmentSignUpExtBinding>(FragmentSignUpE
                     when (resource) {
                         is Resource.Error -> {
                             Toast.makeText(context, resource.message, Toast.LENGTH_LONG).show()
+                            toggleLoading(false)
                         }
                         is Resource.Loading -> {
-                            // TODO: progerssbar
+                            // progressbar
                         }
                         is Resource.Success -> {
-                            // TODO: redirect to main
+                            toggleLoading(false)
                             binding.tvYourData.text = resource.data.toString()
                             binding.tvFillFormProposal.text = resource.data?.accessToken.toString()
                             log(resource.data?.accessToken.toString(), true)
@@ -62,6 +67,18 @@ class SignUpExtFragment : BaseFragment<FragmentSignUpExtBinding>(FragmentSignUpE
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun toggleLoading (isLoading: Boolean) {
+        with(binding) {
+            if (isLoading) {
+                btnRegister.text = ""
+                pbRegister.visibility = View.VISIBLE
+            } else {
+                btnRegister.text = getString(R.string.btn_signup)
+                pbRegister.visibility = View.GONE
             }
         }
     }

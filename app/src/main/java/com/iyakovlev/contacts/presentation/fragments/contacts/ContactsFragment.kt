@@ -77,6 +77,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
 //        requestContactsPermission()
 
+        toggleLoading(true)
         setupRecyclerView()
         setListeners()
         setObservers()
@@ -218,7 +219,10 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                     viewModel.state.collect { list ->
                         contactAdapter.submitList(list.data)
                         if (viewModel.state.value is Resource.Error<*>) {
+                            toggleLoading(false)
                             Toast.makeText(context, viewModel.state.value.message, Toast.LENGTH_SHORT).show()
+                        } else if (viewModel.state.value is Resource.Success) {
+                            toggleLoading(false)
                         }
                     }
                 }
@@ -258,7 +262,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 }
             }
             ibBack.setOnClickListener {
-                navController.navigateUp()
+//                navController.navigateUp()
+                navController.navigate(ContactsFragmentDirections.actionContactsFragmentToMainFragment())
             }
         }
     }
@@ -304,6 +309,16 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             .showSnackBarWithTimer(getString(R.string.undo_remove_snackbar)) {
                 action()
             }
+    }
+
+    private fun toggleLoading(isLoading: Boolean) {
+        with(binding) {
+            if (isLoading) {
+                pbContacts.visibility = View.VISIBLE
+            } else {
+                pbContacts.visibility = View.GONE
+            }
+        }
     }
 
     companion object {

@@ -32,8 +32,6 @@ class SignInViewModel @Inject constructor(
             authUserUseCase(LoginRequest(email, pass)).collect {
                 _state.value = it
             }
-//            _state.value = Resource.Loading()
-//            _state.value = authUserUseCase(LoginRequest(email, pass))
         }
     }
 

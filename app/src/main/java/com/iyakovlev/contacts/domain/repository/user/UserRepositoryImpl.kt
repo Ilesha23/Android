@@ -24,7 +24,7 @@ class UserRepositoryImpl @Inject constructor(private val apiService: ApiService)
                     Resource.Success(user)
                 } ?: Resource.Error("Registration failed")
             } else {
-                Resource.Error("Registration failed")
+                Resource.Error("Registration failed or user exists")
             }
         } catch (e: Exception) {
             Resource.Error("An error occurred in create")
