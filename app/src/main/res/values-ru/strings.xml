@@ -57,5 +57,6 @@
     <string name="btn_login">Войти</string>
     <string name="recommendation">Рекомендация</string>
     <string name="add">Добавить</string>
+    <string name="edit_profile">Редактировать профиль</string>
 
 </resources>

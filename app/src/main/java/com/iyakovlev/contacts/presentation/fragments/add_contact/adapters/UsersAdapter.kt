@@ -81,7 +81,7 @@ class UsersAdapter(val listener: UserItemClickListener) :
             with(binding) {
                 tvContactName.text = contact.name
                 tvContactCareer.text = contact.career
-                ivAvatar.loadImageWithGlide(contact.image.toString())
+                ivAvatar.loadImageWithGlide(contact.image)
 //                ivContactRemove.setOnClickListener {
 //                    listener.onItemDeleteClick(bindingAdapterPosition)
 //                }
@@ -147,7 +147,7 @@ class UsersAdapter(val listener: UserItemClickListener) :
 //                }
                 tvContactName.text = contact.name
                 tvContactCareer.text = contact.career
-                ivAvatar.loadImageWithGlide(contact.image.toString())
+                ivAvatar.loadImageWithGlide(contact.image)
                 clContactItem.setOnClickListener {
 //                    listener.onItemClick(bindingAdapterPosition)
                     chkSelect.toggle()

@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.iyakovlev.contacts.R
+import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.databinding.FragmentMainBinding
 import com.iyakovlev.contacts.presentation.base.BaseFragment
@@ -28,8 +29,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        log("main fr onviewcreated", ISDEBUG)
         setListeners()
         setObservers()
+        viewModel.fetchUser()
 
     }
 
@@ -37,11 +40,18 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         with(binding) {
             btnViewContacts.setOnClickListener {
                 navController.navigate(MainFragmentDirections.actionMainFragmentToContactsFragment())
+//                navController.navigate(R.id.contactsFragment)
             }
             btnLogout?.setOnClickListener {
                 viewModel.deleteUserData()
                 navController.navigate(MainFragmentDirections.actionMainFragmentToSignInFragment())
+//                navController.navigate(R.id.signInFragment)
                 log("nav", true)
+            }
+            btnEditProfile.setOnClickListener {
+                navController.navigate(MainFragmentDirections.actionMainFragmentToEditProfileFragment())
+//                navController.navigate(R.id.editProfileFragment)
+                log("navigated main -> edit profile")
             }
         }
     }
@@ -54,6 +64,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                         is Resource.Error -> {
                             Toast.makeText(context, resource.message, Toast.LENGTH_LONG).show()
                             navController.navigate(MainFragmentDirections.actionMainFragmentToSignInFragment())
+//                            navController.navigate(R.id.signInFragment)
                         }
                         is Resource.Loading -> {
                             // progressbar

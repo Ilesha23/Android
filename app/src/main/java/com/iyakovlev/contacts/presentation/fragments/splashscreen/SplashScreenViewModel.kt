@@ -1,10 +1,8 @@
 package com.iyakovlev.contacts.presentation.fragments.splashscreen
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.iyakovlev.contacts.common.constants.Constants.EMAIL
-import com.iyakovlev.contacts.common.constants.Constants.PASS
+import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.data.LoginRequest
 import com.iyakovlev.contacts.domain.datastore.DataStore
@@ -14,43 +12,56 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashScreenViewModel @Inject constructor(
     private val authUserUseCase: AuthUserUseCase,
-    dataStore: DataStore
+    private val dataStore: DataStore
 ) : ViewModel() {
-
-    private val dataStore = dataStore
 
     private val _state = MutableStateFlow<Resource<User>>(Resource.Loading())
     val state = _state.asStateFlow()
 
-//    init {
-//        checkLogin()
-//    }
+    private var email = ""
+    private var pass = ""
 
-    fun checkLogin() {
+    init {
+        checkLogin()
+    }
+
+    private fun checkLogin() {
         viewModelScope.launch(Dispatchers.IO) {
-            val email = dataStore.get(EMAIL)
-            val pass = dataStore.get(PASS)
-            login(email.toString(), pass.toString())
+            email = dataStore.get(Constants.EMAIL).toString()
+            pass = dataStore.get(Constants.PASS).toString()
+            if (email.isNotBlank() and pass.isNotBlank()) {
+                login(email, pass)
+            } else {
+                _state.value = Resource.Error("no login data")
+            }
         }
     }
 
     private fun login(email: String, pass: String) {
         viewModelScope.launch(Dispatchers.IO) {
             authUserUseCase(LoginRequest(email, pass)).collect {
-                _state.value = it
+                when (it) {
+                    is Resource.Loading -> {
+                        _state.value = Resource.Loading()
+                    }
+
+                    is Resource.Error -> {
+                        _state.value = Resource.Error("error logging in")
+                    }
+
+                    is Resource.Success -> {
+                        _state.value = Resource.Success(it.data!!)
+                    }
+                }
             }
-//            _state.value = Resource.Loading()
-//            _state.value = authUserUseCase(LoginRequest(email, pass))
+
+
         }
     }
-
-
-
 }

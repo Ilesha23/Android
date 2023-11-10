@@ -67,6 +67,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
                             log(resource.data?.accessToken.toString(), true)
                             toggleLoading(false)
                             navController.navigate(SignUpFragmentDirections.actionSignUpFragmentToSignUpExtFragment())
+//                            navController.navigate(R.id.signUpExtFragment)
                         }
                     }
                 }

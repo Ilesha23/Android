@@ -30,17 +30,23 @@ class MainViewModel @Inject constructor(
     private val _user = MutableStateFlow(User())
     val user = _user.asStateFlow()
 
-    init {
-        log("init main view model", ISDEBUG)
-        viewModelScope.launch(Dispatchers.IO) {
-            _state.emit(getUserUseCase())
-        }
-    }
+//    init {
+//        log("init main view model", ISDEBUG)
+//        viewModelScope.launch(Dispatchers.IO) {
+//            _state.emit(getUserUseCase())
+//        }
+//    }
 
     fun deleteUserData() {
         viewModelScope.launch(Dispatchers.IO) {
             dataStore.delete(Constants.EMAIL)
             dataStore.delete(Constants.PASS)
+        }
+    }
+
+    fun fetchUser() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _state.emit(getUserUseCase())
         }
     }
 

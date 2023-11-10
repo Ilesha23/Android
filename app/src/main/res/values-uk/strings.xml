@@ -57,6 +57,7 @@
     <string name="btn_login">Увійти</string>
     <string name="recommendation">Рекомендація</string>
     <string name="add">Додати</string>
+    <string name="edit_profile">Редагувати профіль</string>
 
 
 </resources>

@@ -41,7 +41,6 @@ class AddContactFragment :
         setupRecyclerView()
         setListeners()
         setObservers()
-//        binding.ibBack.click
 
     }
 
@@ -51,9 +50,9 @@ class AddContactFragment :
                 rvUsers.scrollToPosition(0)
             }
             ibBack.setOnClickListener {
-//                navController.navigateUp()
-                navController.navigate(AddContactFragmentDirections.actionAddContactFragmentToContactsFragment())
-                onDestroy()
+                navController.navigateUp() // TODO:
+//                navController.navigate(AddContactFragmentDirections.actionAddContactFragmentToContactsFragment())
+//                onDestroy()
             }
         }
     }

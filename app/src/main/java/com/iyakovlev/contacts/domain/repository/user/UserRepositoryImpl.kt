@@ -88,6 +88,8 @@ class UserRepositoryImpl @Inject constructor(private val apiService: ApiService)
         return user
     }
 
+    fun user() = user
+
 
     companion object {
         var user = User()

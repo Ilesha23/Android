@@ -69,12 +69,12 @@ class ContactsAdapter(val listener: ContactItemClickListener) :
             with(binding) {
                 tvContactName.text = contact.name
                 tvContactCareer.text = contact.career
-                ivAvatar.loadImageWithGlide(contact.image.toString())
+                ivAvatar.loadImageWithGlide(contact.image)
                 ivContactRemove.setOnClickListener {
                     listener.onItemDeleteClick(contact.id)
                 }
                 clContactItem.setOnClickListener {
-                    listener.onItemClick(bindingAdapterPosition, ivAvatar)
+                    listener.onItemClick(contact.id, ivAvatar)
                 }
                 clContactItem.setOnLongClickListener {
                     listener.onItemLongClick(bindingAdapterPosition)
@@ -92,7 +92,7 @@ class ContactsAdapter(val listener: ContactItemClickListener) :
                 chkSelect.isChecked = selectedPositions.contains(bindingAdapterPosition)
                 tvContactName.text = contact.name
                 tvContactCareer.text = contact.career
-                ivAvatar.loadImageWithGlide(contact.image.toString())
+                ivAvatar.loadImageWithGlide(contact.image)
                 clContactItem.setOnClickListener {
                     listener.onItemClick(bindingAdapterPosition)
                     chkSelect.toggle()

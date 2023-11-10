@@ -10,7 +10,6 @@ abstract class BaseActivity<VBinding : ViewBinding>(private val inflaterMethod: 
 
     private var _binding: VBinding? = null
 
-    @Suppress("MemberVisibilityCanBePrivate")
     val binding get() = requireNotNull(_binding)
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -3,6 +3,7 @@ package com.iyakovlev.contacts.presentation.activity.main
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -22,51 +23,54 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityContactsBinding>(ActivityContactsBinding::inflate) {
+class MainActivity : AppCompatActivity(R.layout.activity_contacts) {
 
-    private val viewModel: MainViewModel by viewModels()
-    private lateinit var navController: NavController
-    private var isSplash = true
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        installSplashScreen().apply {
-            setKeepOnScreenCondition { // TODO: maybe splash screen fragment
-                isSplash
-            }
-        }
-
-        setNavController()
-        setObservers()
-
-    }
-
-    private fun setObservers() {
-        lifecycleScope.launch {
-            launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.state.collect {
-                        log("view model state collected in main", ISDEBUG)
-                        if (it is Resource.Success) {
-                            navController.navigate(R.id.action_signInFragment_to_mainFragment)
-                            delay(10)
-                            isSplash = false
-                            log("navigated main act -> main fr")
-                        } else if (it is Resource.Error) {
-                            isSplash = false
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun setNavController() {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-        if (navHostFragment is NavHostFragment) {
-            navController = navHostFragment.navController
-        }
-    }
+//    private val viewModel: MainViewModel by viewModels()
+//    private lateinit var navController: NavController
+//    private var isSplash = true
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//
+//        log("${viewModel}", ISDEBUG)
+//
+//        installSplashScreen().apply {
+//            setKeepOnScreenCondition { // TODO: maybe splash screen fragment
+//                isSplash
+//            }
+//        }
+//
+//        setNavController()
+//        setObservers()
+//
+//    }
+//
+//    private fun setObservers() {
+//        lifecycleScope.launch {
+//            launch {
+//                repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                    viewModel.state.collect {
+//                        log("view model state collected in main", ISDEBUG)
+//                        if (it is Resource.Success) {
+////                            navController.navigate(R.id.action_signInFragment_to_mainFragment)
+//                            navController.navigate(R.id.mainFragment)
+//                            delay(10)
+//                            isSplash = false
+//                            log("navigated main act -> main fr")
+//                        } else if (it is Resource.Error) {
+//                            isSplash = false
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//    private fun setNavController() {
+//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+//        if (navHostFragment is NavHostFragment) {
+//            navController = navHostFragment.navController
+//        }
+//    }
 
 }

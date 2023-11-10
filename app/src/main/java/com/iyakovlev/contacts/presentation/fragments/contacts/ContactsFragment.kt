@@ -3,7 +3,6 @@ package com.iyakovlev.contacts.presentation.fragments.contacts
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -16,22 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.contacts.R
-import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.databinding.FragmentContactsBinding
 import com.iyakovlev.contacts.presentation.base.BaseFragment
-import com.iyakovlev.contacts.presentation.fragments.add_contact.adapters.UsersAdapter
 import com.iyakovlev.contacts.presentation.fragments.contacts.adapters.ContactsAdapter
 import com.iyakovlev.contacts.presentation.fragments.contacts.interfaces.ContactItemClickListener
 import com.iyakovlev.contacts.presentation.utils.ItemSpacingDecoration
-import com.iyakovlev.contacts.presentation.utils.extensions.addSwipeToDelete
-import com.iyakovlev.contacts.presentation.utils.extensions.setButtonScrollListener
 import com.iyakovlev.contacts.presentation.utils.extensions.showSnackBarWithTimer
-import com.iyakovlev.contacts.presentation.utils.extensions.toggleFabVisibility
-import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -43,8 +34,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     private val contactAdapter = ContactsAdapter(object : ContactItemClickListener {
 
-        override fun onItemClick(position: Int, imageView: ImageView) {
-//            navigateToDetailView(position, imageView) todo
+        override fun onItemClick(id: Long, imageView: ImageView) {
+            navigateToDetailView(id, imageView)
         }
 
         override fun onItemDeleteClick(id: Long) {
@@ -63,25 +54,13 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     })
 
-//    private val requestPermissionLauncher =
-//        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-//            if (isGranted) {
-//                setPhoneContactsList()
-//            } else {
-//                setFakeContactsList()
-//            }
-//        }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        requestContactsPermission()
 
         toggleLoading(true)
         setupRecyclerView()
         setListeners()
         setObservers()
-//        viewModel.updateContacts()
 
     }
 
@@ -134,44 +113,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 //            binding.fabUp.visibility = View.VISIBLE
 //        }
     }
-
-//    private fun setPhoneContactsList() {
-//        viewModel.loadContactsFromStorage()
-//        val prefs = requireContext().getSharedPreferences(
-//            PREFERENCES,
-//            Context.MODE_PRIVATE
-//        )
-//        val editor = prefs.edit()
-//        editor.putBoolean(READ_CONTACTS_PERMISSION_KEY, true)
-//        editor.apply()
-//    }
-
-//    private fun setFakeContactsList() {
-//        viewModel.createFakeContacts()
-//    }
-
-    // bad function to make program not ask permission twice
-//    private fun requestContactsPermission() {
-//        val prefs = requireContext().getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-//        val editor = prefs.edit()
-//
-//        if (prefs.getBoolean(READ_CONTACTS_PERMISSION_KEY, false)) {
-//            viewModel.loadContactsFromStorage()
-//        } else {
-//            if (prefs.getBoolean(
-//                    IS_FIRST_LAUNCH,
-//                    true
-//                )
-//            ) { // tracks apps permission request to store it forever
-//                requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
-//                editor.putBoolean(IS_FIRST_LAUNCH, false)
-//                editor.apply()
-//            } else {
-//                viewModel.createFakeContacts()
-//            }
-//        }
-//    }
-
 
     private fun setupRecyclerView() {
         binding.rvContacts.apply {
@@ -252,6 +193,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             btnAddContact.setOnClickListener {
 //                navigateToAddContactDialog()
                 navController.navigate(ContactsFragmentDirections.actionContactsFragmentToAddContactFragment())
+//                navController.navigate(R.id.addContactFragment)
             }
             fabUp.setOnClickListener {
                 if (!viewModel.isMultiSelect.value) {
@@ -262,24 +204,24 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 }
             }
             ibBack.setOnClickListener {
-//                navController.navigateUp()
-                navController.navigate(ContactsFragmentDirections.actionContactsFragmentToMainFragment())
+                navController.navigateUp() // TODO:  
+//                navController.navigate(ContactsFragmentDirections.actionContactsFragmentToMainFragment())
             }
         }
     }
 
-    // TODO:
-//    private fun navigateToAddContactDialog() {
-//        Log.e("TAG", viewModel.toString())
-//        val action = ContactsFragmentDirections
-//            .actionContactsFragmentToAddContactDialogFragment()
-//        navController.navigate(action)
-//    }
 
-    // TODO:
-//    private fun navigateToDetailView(position: Int, imageView: ImageView) {
-//        navigateToDetailViewWithNavigation(position, imageView)
-//    }
+    private fun navigateToDetailView(id: Long, imageView: ImageView) {
+        val contact = viewModel.state.value.data?.find {
+            it.id == id
+        }
+        navController.navigate(ContactsFragmentDirections.actionContactsFragmentToContactDetailViewFragment(
+            contact?.image ?: "",
+            contact?.name ?: getString(R.string.default_name_main),
+            contact?.career ?: getString(R.string.career_placeholder),
+            contact?.address ?: getString(R.string.address)
+        ))
+    }
 
     // TODO:
 //    private fun navigateToDetailViewWithNavigation(position: Int, imageView: ImageView) {
@@ -320,13 +262,5 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             }
         }
     }
-
-    companion object {
-
-//        const val READ_CONTACTS_PERMISSION_KEY = "READ_CONTACTS_PERMISSION_KEY"
-//        const val IS_FIRST_LAUNCH = "IS_FIRST_LAUNCH"
-
-        const val FAB_ANIMATION_TIME = 200L
-
-    }
+    
 }

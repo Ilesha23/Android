@@ -64,6 +64,7 @@ class SignUpExtFragment : BaseFragment<FragmentSignUpExtBinding>(FragmentSignUpE
                             binding.tvFillFormProposal.text = resource.data?.accessToken.toString()
                             log(resource.data?.accessToken.toString(), true)
                             navController.navigate(SignUpExtFragmentDirections.actionSignUpExtFragmentToMainFragment())
+//                            navController.navigate(R.id.mainFragment)
                         }
                     }
                 }

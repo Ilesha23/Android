@@ -5,13 +5,15 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.bumptech.glide.Glide
 import com.iyakovlev.contacts.R
+import com.iyakovlev.contacts.common.constants.Constants
+import com.iyakovlev.contacts.utils.log
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 import java.io.File
 
-fun ImageView.loadImageWithGlide(url: String) {
-    if (url.isNotBlank()) {
+fun ImageView.loadImageWithGlide(url: String?) {
+    if (url != null) {
         Glide.with(this)
             .load(url)
             .circleCrop()

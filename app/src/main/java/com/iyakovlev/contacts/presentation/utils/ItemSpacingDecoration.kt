@@ -18,24 +18,11 @@ class ItemSpacingDecoration(
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        val position = parent.getChildAdapterPosition(view)
-        val count = state.itemCount
-
         outRect.apply { // all elements common spacing
             left = spacing * 2
             right = spacing * 2
             top = spacing
             bottom = spacing
-        }
-
-        if (position == 0) { // top element spacing
-            outRect.apply {
-                top = spacing * 2
-            }
-        } else if (position == count - 1) { // bottom element spacing
-            outRect.apply {
-                bottom = lastSpacing
-            }
         }
     }
 }

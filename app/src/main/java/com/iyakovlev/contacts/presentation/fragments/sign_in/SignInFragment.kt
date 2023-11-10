@@ -54,6 +54,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(FragmentSignInBinding
             }
             btnSignUp.setOnClickListener {
                 navController.navigate(SignInFragmentDirections.actionSignInFragmentToSignUpFragment())
+//                navController.navigate(R.id.action_signInFragment_to_signUpFragment)
             }
         }
     }
@@ -76,6 +77,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(FragmentSignInBinding
                             is Resource.Success -> {
                                 toggleLoading(false)
                                 navController.navigate(SignInFragmentDirections.actionSignInFragmentToMainFragment())
+//                                navController.navigate(R.id.action_signInFragment_to_mainFragment)
                             }
                         }
                     }
