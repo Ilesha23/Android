@@ -39,7 +39,7 @@ class ContactsViewModel @Inject constructor(
     private val _selectedPositions = MutableStateFlow<List<Int>>(emptyList())
     val selectedPositions = _selectedPositions.asStateFlow()
 
-    private var removedSelectionList = listOf<Contact>()
+    private var removedSelectionList = mutableListOf<Long>()
 
     private var removedContact: UserRemote? = null
 
@@ -93,7 +93,7 @@ class ContactsViewModel @Inject constructor(
 
     fun toggleSelectedPosition(position: Int) {
         if (_selectedPositions.value.contains(position)) {
-//            removeSelectedPosition(position) todo
+            removeSelectedPosition(position)
             if (_selectedPositions.value.isEmpty()) {
                 _isMultiSelect.value = false
             }
@@ -111,34 +111,36 @@ class ContactsViewModel @Inject constructor(
     }
 
     // TODO:
-//    private fun removeSelectedPosition(position: Int) {
-//        _selectedPositions.value = _selectedPositions.value.toMutableList().apply {
-//            remove(position)
-//        }
-//    }
+    private fun removeSelectedPosition(position: Int) {
+        _selectedPositions.value = _selectedPositions.value.toMutableList().apply {
+            remove(position)
+        }
+    }
 
-    // TODO:
-//    fun removeSelectedContacts() {
-//        val indexesList = _selectedPositions.value.toList()
-//        val contactsToRemove = indexesList.mapNotNull {
-//            contacts.value.getOrNull(it)
-//        }
-//        removedSelectionList = contactsToRemove
-//        _selectedPositions.value = emptyList()
-//        changeSelectionState(false)
-//        repository.removeSubList(contactsToRemove)
-//    }
+    fun removeSelectedContacts() {
+        val indexesList = _selectedPositions.value.toList()
+        _state.value.data?.apply {
+            viewModelScope.launch(Dispatchers.IO) {
+                for (c in indexesList) {
+//                    _state.emit(deleteContactUseCase(this@apply.elementAt(c).id))
+                    val id = this@apply.elementAt(c).id
+                    removedSelectionList.add(id)
+                    deleteContactUseCase(id)
+                }
+                updateContacts()
+            }
+            _selectedPositions.value.toMutableList().apply {
+                clear()
+            }
+        }
+    }
 
     fun changeSelectionState(isSelection: Boolean) {
         _isMultiSelect.value = isSelection
+        if (!isSelection) {
+            _selectedPositions.value = emptyList()
+        }
     }
-
-//    fun createFakeContacts() {
-//        if (contacts.value.isEmpty()) {
-//            repository.createFakeContacts()
-//        }
-//        log("default contacts created", ISDEBUG)
-//    }
 
     // TODO:
 //    fun removeContact(contact: Contact) {
@@ -153,11 +155,15 @@ class ContactsViewModel @Inject constructor(
 //        repository.undoRemoveContact()
 //    }
 //
-//    fun undoRemoveContactsList() {
-//        for (c in removedSelectionList) {
-//            repository.addContact(c)
-//        }
-//    }
+    fun undoRemoveContactsList() {
+        viewModelScope.launch(Dispatchers.IO) {
+            for (c in removedSelectionList) {
+                addContactUseCase(c)
+            }
+            updateContacts()
+            removedSelectionList.clear()
+        }
+    }
 //
 //    fun addContact(contact: Contact) {
 //        repository.addContact(contact)

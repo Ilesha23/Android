@@ -38,7 +38,8 @@ class SplashScreenFragment :
                             navController.navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment())
                             log("navigated splash -> main fr")
                         } else if (it is Resource.Error) {
-
+                            navController.navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToSignInFragment())
+                            log("navigated splash -> sign in fr")
                         }
                     }
                 }

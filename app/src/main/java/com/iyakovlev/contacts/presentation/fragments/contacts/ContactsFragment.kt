@@ -39,7 +39,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         }
 
         override fun onItemDeleteClick(id: Long) {
-            removeContactWithUndo(id) //todo
+            removeContactWithUndo(id)
         }
 
         override fun onItemLongClick(position: Int) {
@@ -81,12 +81,12 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         }
     }
 
-//    private fun removeContactListWithUndo() {
-//        viewModel.removeSelectedContacts()
-//        showUndoDeleteSnackBar(getString(R.string.contact_list_deleted_snackbar)) {
-//            viewModel.undoRemoveContactsList()
-//        }
-//    }
+    private fun removeContactListWithUndo() {
+        viewModel.removeSelectedContacts()
+        showUndoDeleteSnackBar(getString(R.string.contact_list_deleted_snackbar)) {
+            viewModel.undoRemoveContactsList()
+        }
+    }
 
     private fun makeBinButton() {
         binding.rvContacts.clearOnScrollListeners()
@@ -200,7 +200,10 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                     rvContacts.smoothScrollToPosition(0)
                     binding.fabUp.hide()
                 } else {
-//                    removeContactListWithUndo() todo
+                    removeContactListWithUndo()
+                    contactAdapter.changeSelectedPositions(emptyList())
+                    viewModel.changeSelectionState(false)
+
                 }
             }
             ibBack.setOnClickListener {
