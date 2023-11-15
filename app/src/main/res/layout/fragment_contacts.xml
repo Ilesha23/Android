@@ -15,6 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvHeader"
         android:layout_width="wrap_content"
@@ -41,17 +42,26 @@
         app:layout_constraintTop_toTopOf="@+id/tvHeader"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <!--    <androidx.appcompat.widget.AppCompatImageButton-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="@dimen/margin_default"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:src="@drawable/baseline_search_24"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/tvHeader"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/tvHeader"-->
+<!--        tools:ignore="SpeakableTextPresentCheck" />-->
+
+
+    <SearchView
+        android:id="@+id/svContacts"
+        style="@style/searchViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_default"
-        android:background="@android:color/transparent"
-        android:src="@drawable/baseline_search_24"
         app:layout_constraintBottom_toBottomOf="@+id/tvHeader"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvHeader"
-        tools:ignore="SpeakableTextPresentCheck" />
-
+        app:layout_constraintTop_toTopOf="@+id/tvHeader" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btnAddContact"

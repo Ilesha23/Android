@@ -3,7 +3,10 @@ package com.iyakovlev.contacts.presentation.fragments.contacts
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.contacts.R
+import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.databinding.FragmentContactsBinding
 import com.iyakovlev.contacts.presentation.base.BaseFragment
@@ -22,6 +26,7 @@ import com.iyakovlev.contacts.presentation.fragments.contacts.adapters.ContactsA
 import com.iyakovlev.contacts.presentation.fragments.contacts.interfaces.ContactItemClickListener
 import com.iyakovlev.contacts.presentation.utils.ItemSpacingDecoration
 import com.iyakovlev.contacts.presentation.utils.extensions.showSnackBarWithTimer
+import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -184,6 +189,11 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                         contactAdapter.changeSelectedPositions(it)
                     }
                 }
+                launch {
+                    viewModel.cachedList.collect {
+                        contactAdapter.submitList(it)
+                    }
+                }
             }
         }
     }
@@ -207,9 +217,33 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 }
             }
             ibBack.setOnClickListener {
-                navController.navigateUp() // TODO:  
-//                navController.navigate(ContactsFragmentDirections.actionContactsFragmentToMainFragment())
+                navController.navigateUp()
             }
+            svContacts.setOnSearchClickListener {
+                tvHeader.visibility = View.INVISIBLE
+                ibBack.visibility = View.INVISIBLE
+                it.layoutParams.width = MATCH_PARENT
+            }
+            svContacts.setOnCloseListener {
+                tvHeader.visibility = View.VISIBLE
+                ibBack.visibility = View.VISIBLE
+                svContacts.layoutParams.width = WRAP_CONTENT
+                viewModel.setFilter(null)
+                contactAdapter.submitList(viewModel.state.value.data)
+                false
+            }
+            svContacts.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(p0: String?): Boolean {
+                    return true
+                }
+
+                override fun onQueryTextChange(p0: String?): Boolean {
+                    viewModel.setFilter(p0)
+                    log("setted filter: $p0", ISDEBUG)
+                    return true
+                }
+
+            })
         }
     }
 

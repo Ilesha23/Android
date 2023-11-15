@@ -112,7 +112,18 @@
         <item name="colorContainer">?attr/colorSecondary</item>
         <item name="cornerSize">50%</item>
     </style>
-
+    
+    <!-- Search view -->
+    <style name="searchViewTheme">
+        <item name="android:editTextColor">?attr/colorOnPrimary</item>
+    </style>
+    <style name="searchViewStyle">
+        <item name="android:theme">@style/searchViewTheme</item>
+        <item name="android:closeIcon">@drawable/close</item>
+        <item name="android:searchIcon">@drawable/baseline_search_24</item>
+        <item name="android:searchHintIcon">@android:color/transparent</item>
+        <item name="android:queryBackground">@android:color/background_dark</item>
+    </style>
 
     <!--**************** DialogFragment styles ****************-->
     <!--  DialogFragment  -->
@@ -121,5 +132,6 @@
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
     </style>
+    
 
 </resources>

@@ -18,6 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,6 +33,9 @@ class ContactsViewModel @Inject constructor(
 //    val contacts = repository.state
     private val _state = MutableStateFlow<Resource<List<UserRemote>>>(Resource.Loading())
     val state = _state.asStateFlow()
+
+    private val _cachedList = MutableStateFlow<List<UserRemote>>(emptyList())
+    val cachedList = _cachedList.asStateFlow()
 
     private val _isMultiSelect = MutableStateFlow(false)
     val isMultiSelect = _isMultiSelect.asStateFlow()
@@ -142,19 +146,6 @@ class ContactsViewModel @Inject constructor(
         }
     }
 
-    // TODO:
-//    fun removeContact(contact: Contact) {
-//        repository.removeContact(contact)
-//    }
-//
-//    fun removeContact(position: Int) {
-//        repository.removeContact(position)
-//    }
-//
-//    fun undoRemoveContact() {
-//        repository.undoRemoveContact()
-//    }
-//
     fun undoRemoveContactsList() {
         viewModelScope.launch(Dispatchers.IO) {
             for (c in removedSelectionList) {
@@ -164,26 +155,23 @@ class ContactsViewModel @Inject constructor(
             removedSelectionList.clear()
         }
     }
-//
-//    fun addContact(contact: Contact) {
-//        repository.addContact(contact)
-//    }
-//
-//    fun getContact(index: Int): Contact {
-//        return contacts.value[index]
-//    }
 
-//    fun loadContactsFromStorage() {
-//        repository.loadContactsFromStorage()
-//    }
+    fun setFilter(filter: String?) {
+        if (filter.isNullOrBlank()) {
+            _cachedList.value = emptyList()
+        } else {
+            _cachedList.update {
+                _state.value.data!!.filter {
+                    it.name?.contains(filter, ignoreCase = true) ?: false
+                }
+            }
+        }
+        log("${_cachedList.value}", ISDEBUG)
+    }
 
     override fun onCleared() {
         log("view model cleared", ISDEBUG)
         super.onCleared()
     }
-
-//    companion object {
-//        val contacts = List<User>()
-//    }
 
 }
