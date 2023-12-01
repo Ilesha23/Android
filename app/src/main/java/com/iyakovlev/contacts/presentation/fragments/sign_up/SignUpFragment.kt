@@ -10,8 +10,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.databinding.FragmentSignUpBinding
-import com.iyakovlev.contacts.presentation.fragments.sign_up.email_validator.EmailValidator
-import com.iyakovlev.contacts.presentation.activity.auth.password_validator.PasswordValidator
 import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,14 +58,18 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
                             toggleLoading(false)
                             Toast.makeText(context, resource.message, Toast.LENGTH_LONG).show()
                         }
-                        is Resource.Loading -> {
-                            // progressbar
-                        }
+
+                        is Resource.Loading -> {}
                         is Resource.Success -> {
                             log(resource.data?.accessToken.toString(), true)
                             toggleLoading(false)
+                            if (binding.chkRemember.isChecked) {
+                                viewModel.saveLogin(
+                                    binding.etEmail.text.toString(),
+                                    binding.etPassword.text.toString()
+                                )
+                            }
                             navController.navigate(SignUpFragmentDirections.actionSignUpFragmentToSignUpExtFragment())
-//                            navController.navigate(R.id.signUpExtFragment)
                         }
                     }
                 }

@@ -2,15 +2,18 @@ package com.iyakovlev.contacts.presentation.fragments.add_contact
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.domain.model.UserRemote
 import com.iyakovlev.contacts.domain.use_case.AddContactUseCase
 import com.iyakovlev.contacts.domain.use_case.GetContactsUseCase
 import com.iyakovlev.contacts.domain.use_case.GetUsersUseCase
+import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,6 +26,9 @@ class AddContactViewModel @Inject constructor(
 
     private val _state = MutableStateFlow<Resource<List<UserRemote>>>(Resource.Loading())
     val state = _state.asStateFlow()
+
+    private val _cachedList = MutableStateFlow<List<UserRemote>>(emptyList())
+    val cachedList = _cachedList.asStateFlow()
 
     private val _selectedContacts = MutableStateFlow<List<Long/*UserRemote*/>>(emptyList())
     val selectedContacts = _selectedContacts.asStateFlow()
@@ -68,6 +74,19 @@ class AddContactViewModel @Inject constructor(
             add(id) // TODO:
         }
 
+    }
+
+    fun setFilter(filter: String?) {
+        if (filter.isNullOrBlank()) {
+            _cachedList.value = emptyList()
+        } else {
+            _cachedList.update {
+                _state.value.data!!.filter {
+                    it.name?.contains(filter, ignoreCase = true) ?: false
+                }
+            }
+        }
+        log("${_cachedList.value}", Constants.ISDEBUG)
     }
 
     fun addContact(id: Long) {

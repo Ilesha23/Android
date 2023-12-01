@@ -1,5 +1,6 @@
 package com.iyakovlev.contacts.domain.repository.user
 
+import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.common.constants.Constants.AUTHORISATION_HEADER
 import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
@@ -7,13 +8,15 @@ import com.iyakovlev.contacts.data.ApiService
 import com.iyakovlev.contacts.data.LoginRequest
 import com.iyakovlev.contacts.data.RegisterRequest
 import com.iyakovlev.contacts.data.UserEditRequest
+import com.iyakovlev.contacts.domain.datastore.DataStore
 import com.iyakovlev.contacts.domain.model.User
 import com.iyakovlev.contacts.utils.log
 import javax.inject.Inject
 
-class UserRepositoryImpl @Inject constructor(private val apiService: ApiService) : UserRepository {
-
-    //private var user = User()
+class UserRepositoryImpl @Inject constructor(
+    private val apiService: ApiService,
+    private val dataStore: DataStore
+) : UserRepository {
 
     override suspend fun createUser(body: RegisterRequest): Resource<User> {
         return try {
@@ -84,8 +87,9 @@ class UserRepositoryImpl @Inject constructor(private val apiService: ApiService)
         }
     }
 
-    override fun getData(): User {
-        return user
+    override suspend fun saveUserLogin(email: String, pass: String) {
+        dataStore.put(Constants.EMAIL, email)
+        dataStore.put(Constants.PASS, pass)
     }
 
     fun user() = user

@@ -18,6 +18,6 @@ interface UserRepository {
 
     suspend fun loginUser(body: LoginRequest): Resource<User>
 
-    fun getData(): User
+    suspend fun saveUserLogin(email: String, pass: String)
 
 }

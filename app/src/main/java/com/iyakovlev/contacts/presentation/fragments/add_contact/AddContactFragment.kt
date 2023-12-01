@@ -2,7 +2,9 @@ package com.iyakovlev.contacts.presentation.fragments.add_contact
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -11,12 +13,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iyakovlev.contacts.R
+import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.databinding.FragmentAddContactBinding
 import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.presentation.fragments.add_contact.adapters.UsersAdapter
 import com.iyakovlev.contacts.presentation.fragments.add_contact.interfaces.UserItemClickListener
 import com.iyakovlev.contacts.presentation.utils.ItemSpacingDecoration
+import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -54,6 +58,31 @@ class AddContactFragment :
 //                navController.navigate(AddContactFragmentDirections.actionAddContactFragmentToContactsFragment())
 //                onDestroy()
             }
+            svUsers.setOnSearchClickListener {
+                tvHeader.visibility = View.INVISIBLE
+                ibBack.visibility = View.INVISIBLE
+                it.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            }
+            svUsers.setOnCloseListener {
+                tvHeader.visibility = View.VISIBLE
+                ibBack.visibility = View.VISIBLE
+                svUsers.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                viewModel.setFilter(null)
+                userAdapter.submitList(viewModel.state.value.data)
+                false
+            }
+            svUsers.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(p0: String?): Boolean {
+                    return true
+                }
+
+                override fun onQueryTextChange(p0: String?): Boolean {
+                    viewModel.setFilter(p0)
+                    log("setted filter: $p0", Constants.ISDEBUG)
+                    return true
+                }
+
+            })
         }
     }
 
@@ -78,6 +107,11 @@ class AddContactFragment :
                     viewModel.selectedContacts.collect {
                         userAdapter.changeSelectedPositions(viewModel.selectedContacts.value)
                         userAdapter.submitList(viewModel.state.value.data)
+                    }
+                }
+                launch {
+                    viewModel.cachedList.collect {
+                        userAdapter.submitList(it)
                     }
                 }
             }

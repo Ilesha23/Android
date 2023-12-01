@@ -7,6 +7,7 @@ import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.data.RegisterRequest
 import com.iyakovlev.contacts.domain.model.User
+import com.iyakovlev.contacts.domain.repository.user.UserRepository
 import com.iyakovlev.contacts.domain.use_case.RegisterUserUseCase
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(private val registerUserUseCase: RegisterUserUseCase) :
+class SignUpViewModel @Inject constructor(
+    private val registerUserUseCase: RegisterUserUseCase,
+    private val userRepository: UserRepository
+) :
     ViewModel() {
 
     private val _state = MutableStateFlow<Resource<User>>(Resource.Loading())
@@ -44,6 +48,12 @@ class SignUpViewModel @Inject constructor(private val registerUserUseCase: Regis
             return true
         }
         return false
+    }
+
+    fun saveLogin(email: String, pass: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userRepository.saveUserLogin(email, pass)
+        }
     }
 
 }

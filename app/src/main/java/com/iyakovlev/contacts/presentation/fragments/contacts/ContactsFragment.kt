@@ -94,29 +94,33 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     }
 
     private fun makeBinButton() {
+        binding.fabUp.show()
         binding.rvContacts.clearOnScrollListeners()
-        val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
-        val firstItem = layoutManager.findFirstVisibleItemPosition()
         binding.fabUp.icon = ContextCompat.getDrawable(requireContext(), R.drawable.fab_bin)
-        binding.fabUp.visibility = View.VISIBLE
-        if (firstItem == 0) {
-            binding.rvContacts.smoothScrollBy(
-                0,
-                6
-            ) // bad decision, but i don't know how to fix that
-        }
     }
 
     private fun makeUpButton() {
         binding.fabUp.icon =
             ContextCompat.getDrawable(requireContext(), R.drawable.floating_action_button_up)
-//        val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
-//        val firstItem = layoutManager.findFirstCompletelyVisibleItemPosition()
-//        if (firstItem == 0) {
-//            binding.fabUp.visibility = View.INVISIBLE
-//        } else {
-//            binding.fabUp.visibility = View.VISIBLE
-//        }
+        val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
+        val firstItem = layoutManager.findFirstCompletelyVisibleItemPosition()
+        if (firstItem == 0) {
+            binding.fabUp.hide()
+        } else {
+            binding.fabUp.show()
+        }
+        binding.rvContacts.apply {
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    val fi = layoutManager.findFirstCompletelyVisibleItemPosition()
+                    if (fi == 0) {
+                        binding.fabUp.hide()
+                    } else if (dy > 0) {
+                        binding.fabUp.show()
+                    }
+                }
+            })
+        }
     }
 
     private fun setupRecyclerView() {
@@ -129,31 +133,17 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 addItemDecoration(ItemSpacingDecoration(spacing, lastSpacing))
             }
 
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
-                    val firstItem = layoutManager.findFirstCompletelyVisibleItemPosition()
-                    if (firstItem == 0) {
-                        binding.fabUp.hide()
-                    }
-                    if (dy > 0) {
-                        binding.fabUp.show()
-                    }
-                }
-            })
-
-//            setButtonScrollListener { isButtonVisible ->
-//                if (!viewModel.isMultiSelect.value) {
-//                    log("contacts - $binding", ISDEBUG)
-//                    binding.fabUp.toggleFabVisibility(FAB_ANIMATION_TIME, isButtonVisible)
-//                } else {
-//                    binding.fabUp.toggleFabVisibility(FAB_ANIMATION_TIME, true)
+//            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                    val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
+//                    val firstItem = layoutManager.findFirstCompletelyVisibleItemPosition()
+//                    if (firstItem == 0) {
+//                        binding.fabUp.hide()
+//                    } else if (dy > 0) {
+//                        binding.fabUp.show()
+//                    }
 //                }
-//            }
-
-//            itemTouchHelper = addSwipeToDelete { position ->
-//                removeContactWithUndo(position) todo
-//            }
+//            })
         }
     }
 
@@ -164,7 +154,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 launch {
                     viewModel.state.collect { list ->
                         contactAdapter.submitList(list.data)
-                        if (viewModel.state.value is Resource.Error<*>) {
+                        if (viewModel.state.value is Resource.Error) {
                             toggleLoading(false)
                             Toast.makeText(context, viewModel.state.value.message, Toast.LENGTH_SHORT).show()
                         } else if (viewModel.state.value is Resource.Success) {
@@ -201,9 +191,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     private fun setListeners() {
         with(binding) {
             btnAddContact.setOnClickListener {
-//                navigateToAddContactDialog()
                 navController.navigate(ContactsFragmentDirections.actionContactsFragmentToAddContactFragment())
-//                navController.navigate(R.id.addContactFragment)
             }
             fabUp.setOnClickListener {
                 if (!viewModel.isMultiSelect.value) {
@@ -213,7 +201,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                     removeContactListWithUndo()
                     contactAdapter.changeSelectedPositions(emptyList())
                     viewModel.changeSelectionState(false)
-
                 }
             }
             ibBack.setOnClickListener {

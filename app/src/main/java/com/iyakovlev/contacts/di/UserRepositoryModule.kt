@@ -1,6 +1,7 @@
 package com.iyakovlev.contacts.di
 
 import com.iyakovlev.contacts.data.ApiService
+import com.iyakovlev.contacts.domain.datastore.DataStore
 import com.iyakovlev.contacts.domain.repository.user.UserRepository
 import com.iyakovlev.contacts.domain.repository.user.UserRepositoryImpl
 import dagger.Module
@@ -15,8 +16,8 @@ object UserRepositoryModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(api: ApiService): UserRepository {
-        return UserRepositoryImpl(api)
+    fun provideUserRepository(api: ApiService, dataStore: DataStore): UserRepository {
+        return UserRepositoryImpl(api, dataStore)
     }
 
 }

@@ -58,15 +58,14 @@ class ContactsViewModel @Inject constructor(
     }
 
     fun updateContacts() {
-        _state.value.data?.toMutableList().apply {
-            this?.clear()
-        }
+        log("contacts fr: contacts list updated", ISDEBUG)
         viewModelScope.launch(Dispatchers.IO) {
 //            _state.emit(getContactsUseCase())
             val response = getContactsUseCase()
-            if (response is Resource.Success) {
-                _state.emit(response)
-            }
+            _state.emit(response)
+//            if (response is Resource.Success) {
+//                _state.emit(response)
+//            }
         }
     }
 
