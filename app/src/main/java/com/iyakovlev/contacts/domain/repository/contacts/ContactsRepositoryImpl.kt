@@ -1,15 +1,12 @@
 package com.iyakovlev.contacts.domain.repository.contacts
 
+import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.constants.Constants
-import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.data.ApiService
-import com.iyakovlev.contacts.domain.model.User
 import com.iyakovlev.contacts.domain.model.UserRemote
 import com.iyakovlev.contacts.domain.repository.user.UserRepositoryImpl
-import com.iyakovlev.contacts.utils.log
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class ContactsRepositoryImpl(private val apiService: ApiService) : ContactsRepository {
@@ -28,13 +25,13 @@ class ContactsRepositoryImpl(private val apiService: ApiService) : ContactsRepos
                     }
                     Resource.Success(c)
                 } else {
-                    Resource.Error("no users found")
+                    Resource.Error(R.string.error_users)
                 }
             } else {
-                Resource.Error("failed to get users list")
+                Resource.Error(R.string.error_users)
             }
         } catch (e: Exception) {
-            Resource.Error("An error occurred getting users list")
+            Resource.Error(R.string.error)
         }
     }
 
@@ -47,20 +44,15 @@ class ContactsRepositoryImpl(private val apiService: ApiService) : ContactsRepos
                     val c = response.body()!!.data.contacts.map {
                         it.toUserRemote()
                     }
-//                    _state.emit(Resource.Success(response.body()?.contacts!!))
-//                    Resource.Success(response.body()?.contacts!!)
                     Resource.Success(c)
                 } else {
-//                    _state.emit(Resource.Error("failed to get contacts list"))
-                    Resource.Error("no contacts found")
+                    Resource.Error(R.string.error_contacts)
                 }
             } else {
-//                _state.emit(Resource.Error("failed to get contacts list"))
-                Resource.Error("failed to get contacts list")
+                Resource.Error(R.string.error_contacts)
             }
         } catch (e: Exception) {
-//            _state.emit(Resource.Error("An error occurred getting contacts list"))
-            Resource.Error("An error occurred getting contacts list")
+            Resource.Error(R.string.error)
         }
     }
 
@@ -76,13 +68,13 @@ class ContactsRepositoryImpl(private val apiService: ApiService) : ContactsRepos
                     }
                     Resource.Success(c)
                 } else {
-                    Resource.Error("no contacts found")
+                    Resource.Error(R.string.error_contact_add)
                 }
             } else {
-                Resource.Error("failed to get contacts list")
+                Resource.Error(R.string.error_contact_add)
             }
         } catch (e: Exception) {
-            Resource.Error("An error occurred getting contacts list")
+            Resource.Error(R.string.error)
         }
     }
 
@@ -97,13 +89,13 @@ class ContactsRepositoryImpl(private val apiService: ApiService) : ContactsRepos
                     }
                     Resource.Success(c)
                 } else {
-                    Resource.Error("no contacts found")
+                    Resource.Error(R.string.error_contact_delete)
                 }
             } else {
-                Resource.Error("failed to get contacts list")
+                Resource.Error(R.string.error_contact_delete)
             }
         } catch (e: Exception) {
-            Resource.Error("An error occurred getting contacts list")
+            Resource.Error(R.string.error)
         }
     }
 

@@ -58,6 +58,17 @@
     <string name="recommendation">Рекомендація</string>
     <string name="add">Додати</string>
     <string name="edit_profile">Редагувати профіль</string>
+    <string name="error_contacts">Неможливо отримати список контактів</string>
+    <string name="error">Виникла помилка (немає інтернету або сервер не відповідає)</string>
+    <string name="error_users">Неможливо отримати список користувачів</string>
+    <string name="error_contact_add">Неможливо додати контакт</string>
+    <string name="error_contact_delete">Не вдалося видалити контакт</string>
+    <string name="error_user_registration">Реєстрація не вдалася чи користувач існує</string>
+    <string name="error_user_edit">Не вдалося змінити користувача</string>
+    <string name="error_user_get">Неможливо отримати користувача</string>
+    <string name="error_user_login">Не вдалося увійти</string>
+    <string name="search_no_results">Нема результатів</string>
+    <string name="search_recommendation">Ви можете побачити більше контактів у рекомендаціях</string>
 
 
 </resources>

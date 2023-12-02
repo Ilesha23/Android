@@ -2,6 +2,7 @@ package com.iyakovlev.contacts.presentation.activity.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.data.LoginRequest
@@ -39,7 +40,7 @@ class MainViewModel @Inject constructor(
             if (email.isNotBlank() and pass.isNotBlank()) {
                 login(email, pass)
             } else {
-                _state.value = Resource.Error("no login data")
+                _state.value = Resource.Error(R.string.error_user_login)
             }
         }
     }
@@ -51,29 +52,15 @@ class MainViewModel @Inject constructor(
                     is Resource.Loading -> {
                         _state.value = Resource.Loading()
                     }
-
                     is Resource.Error -> {
-                        _state.value = Resource.Error("error logging in")
+                        _state.value = Resource.Error(R.string.error_user_login)
                     }
-
                     is Resource.Success -> {
                         _state.value = Resource.Success(it.data!!)
                     }
                 }
             }
 
-//            _state.value = authUserUseCase(LoginRequest(email, pass))
-//            when (_state.value) {
-//                is Resource.Loading -> {
-//                    _s
-//                }
-//                is Resource.Error -> {
-//                    _isLoading.value = false
-//                }
-//                is Resource.Success -> {
-//                    _isLoading.value = false
-//                }
-//            }
         }
     }
 

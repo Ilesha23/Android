@@ -4,18 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
-import com.iyakovlev.contacts.domain.model.Contact
-import com.iyakovlev.contacts.domain.model.User
 import com.iyakovlev.contacts.domain.model.UserRemote
-import com.iyakovlev.contacts.domain.repository.contacts.ContactRep
-import com.iyakovlev.contacts.domain.repository.contacts.ContactsRepository
 import com.iyakovlev.contacts.domain.use_case.AddContactUseCase
 import com.iyakovlev.contacts.domain.use_case.DeleteContactUseCase
 import com.iyakovlev.contacts.domain.use_case.GetContactsUseCase
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -24,13 +19,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ContactsViewModel @Inject constructor(
-//    private val repository: ContactsRepository
     private val getContactsUseCase: GetContactsUseCase,
     private val deleteContactUseCase: DeleteContactUseCase,
     private val addContactUseCase: AddContactUseCase
 ) : ViewModel() {
 
-//    val contacts = repository.state
+    //    val contacts = repository.state
     private val _state = MutableStateFlow<Resource<List<UserRemote>>>(Resource.Loading())
     val state = _state.asStateFlow()
 

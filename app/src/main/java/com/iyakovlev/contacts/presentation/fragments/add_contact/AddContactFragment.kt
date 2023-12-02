@@ -94,7 +94,7 @@ class AddContactFragment :
                         userAdapter.submitList(it.data)
 //                        userAdapter.changeContacts(it.data)
                         if (viewModel.state.value is Resource.Error<*>) {
-                            Toast.makeText(context, viewModel.state.value.message, Toast.LENGTH_SHORT)
+                            Toast.makeText(context, getString(viewModel.state.value.message ?: R.string.error_contact_add), Toast.LENGTH_SHORT)
                                 .show()
                             toggleLoading(false)
                         }

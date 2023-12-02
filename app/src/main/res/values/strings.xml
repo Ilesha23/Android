@@ -69,6 +69,17 @@
     <string name="add">Add</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="edit_profile">Edit profile</string>
+    <string name="error_contacts">failed to get contacts list</string>
+    <string name="error">An error occurred (no internet or server is not responding)</string>
+    <string name="error_users">failed to get users list</string>
+    <string name="error_contact_add">failed to add contact</string>
+    <string name="error_contact_delete">failed to delete contact</string>
+    <string name="error_user_registration">Registration failed or user exists</string>
+    <string name="error_user_edit">Failed to edit user</string>
+    <string name="error_user_get">Failed to get user</string>
+    <string name="error_user_login">Failed to login</string>
+    <string name="search_no_results">No results found</string>
+    <string name="search_recommendation">You can see more contacts in the recommendation</string>
     <!-- TODO: Remove or change this placeholder text -->
     <!-- TODO: Remove or change this placeholder text -->
 

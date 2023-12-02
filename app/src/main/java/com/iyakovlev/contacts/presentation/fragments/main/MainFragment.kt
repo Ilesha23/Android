@@ -62,9 +62,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 viewModel.state.collect { resource ->
                     when (resource) {
                         is Resource.Error -> {
-                            Toast.makeText(context, resource.message, Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, getString(resource.message ?: R.string.error_user_get), Toast.LENGTH_LONG).show()
                             navController.navigate(MainFragmentDirections.actionMainFragmentToSignInFragment())
-//                            navController.navigate(R.id.signInFragment)
                         }
                         is Resource.Loading -> {
                             // progressbar

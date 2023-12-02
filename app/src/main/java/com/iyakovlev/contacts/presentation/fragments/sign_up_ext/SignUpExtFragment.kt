@@ -52,7 +52,7 @@ class SignUpExtFragment : BaseFragment<FragmentSignUpExtBinding>(FragmentSignUpE
                 viewModel.state.collect { resource ->
                     when (resource) {
                         is Resource.Error -> {
-                            Toast.makeText(context, resource.message, Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, getString(resource.message ?: R.string.error), Toast.LENGTH_LONG).show()
                             toggleLoading(false)
                         }
                         is Resource.Loading -> {

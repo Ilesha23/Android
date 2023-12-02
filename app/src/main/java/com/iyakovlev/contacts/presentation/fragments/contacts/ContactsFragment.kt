@@ -35,7 +35,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     private val viewModel: ContactsViewModel by viewModels()
 
-    private var itemTouchHelper: ItemTouchHelper? = null
+//    private var itemTouchHelper: ItemTouchHelper? = null
 
     private val contactAdapter = ContactsAdapter(object : ContactItemClickListener {
 
@@ -132,18 +132,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             if (itemDecorationCount == 0) {
                 addItemDecoration(ItemSpacingDecoration(spacing, lastSpacing))
             }
-
-//            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                    val layoutManager = binding.rvContacts.layoutManager as LinearLayoutManager
-//                    val firstItem = layoutManager.findFirstCompletelyVisibleItemPosition()
-//                    if (firstItem == 0) {
-//                        binding.fabUp.hide()
-//                    } else if (dy > 0) {
-//                        binding.fabUp.show()
-//                    }
-//                }
-//            })
         }
     }
 
@@ -156,10 +144,18 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                         contactAdapter.submitList(list.data)
                         if (viewModel.state.value is Resource.Error) {
                             toggleLoading(false)
-                            Toast.makeText(context, viewModel.state.value.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                getString(viewModel.state.value.message ?: R.string.error),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         } else if (viewModel.state.value is Resource.Success) {
                             toggleLoading(false)
                         }
+//                        if (list.data?.isEmpty() == true) {
+//                            toggleSearchInfo(list.data)
+//                        }
+                        list.data?.let { toggleSearchInfo(it) }
                     }
                 }
                 launch {
@@ -182,6 +178,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 launch {
                     viewModel.cachedList.collect {
                         contactAdapter.submitList(it)
+                        toggleSearchInfo(it)
                     }
                 }
             }
@@ -217,6 +214,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                 svContacts.layoutParams.width = WRAP_CONTENT
                 viewModel.setFilter(null)
                 contactAdapter.submitList(viewModel.state.value.data)
+                viewModel.state.value.data?.let { toggleSearchInfo(it) }
                 false
             }
             svContacts.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -239,12 +237,14 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         val contact = viewModel.state.value.data?.find {
             it.id == id
         }
-        navController.navigate(ContactsFragmentDirections.actionContactsFragmentToContactDetailViewFragment(
-            contact?.image ?: "",
-            contact?.name ?: getString(R.string.default_name_main),
-            contact?.career ?: getString(R.string.career_placeholder),
-            contact?.address ?: getString(R.string.address)
-        ))
+        navController.navigate(
+            ContactsFragmentDirections.actionContactsFragmentToContactDetailViewFragment(
+                contact?.image ?: "",
+                contact?.name ?: getString(R.string.default_name_main),
+                contact?.career ?: getString(R.string.career_placeholder),
+                contact?.address ?: getString(R.string.address)
+            )
+        )
     }
 
     // TODO:
@@ -286,5 +286,17 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             }
         }
     }
-    
+
+    private fun toggleSearchInfo(list: List<*>) {
+        with(binding) {
+            if (list.isEmpty()) {
+                tvSearchNotFound.visibility = View.VISIBLE
+                tvSearchRecommendation.visibility = View.VISIBLE
+            } else {
+                tvSearchNotFound.visibility = View.INVISIBLE
+                tvSearchRecommendation.visibility = View.INVISIBLE
+            }
+        }
+    }
+
 }

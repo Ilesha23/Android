@@ -1,5 +1,6 @@
 package com.iyakovlev.contacts.domain.repository.user
 
+import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.common.constants.Constants.AUTHORISATION_HEADER
 import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
@@ -25,12 +26,12 @@ class UserRepositoryImpl @Inject constructor(
                 response.body()?.data?.let {
                     user = it.user.toUser(it.accessToken, it.refreshToken)
                     Resource.Success(user)
-                } ?: Resource.Error("Registration failed")
+                } ?: Resource.Error(R.string.error_user_registration)
             } else {
-                Resource.Error("Registration failed or user exists")
+                Resource.Error(R.string.error_user_registration)
             }
         } catch (e: Exception) {
-            Resource.Error("An error occurred in create")
+            Resource.Error(R.string.error)
         }
     }
 
@@ -43,12 +44,12 @@ class UserRepositoryImpl @Inject constructor(
                 response.body()?.data?.let {
                     user = it.user.toUser(user.accessToken.toString(), user.refreshToken.toString())
                     Resource.Success(user)
-                } ?: Resource.Error("Edit failed")
+                } ?: Resource.Error(R.string.error_user_edit)
             } else {
-                Resource.Error("Edit failed")
+                Resource.Error(R.string.error_user_edit)
             }
         } catch (e: Exception) {
-            Resource.Error("An error occurred in edit")
+            Resource.Error(R.string.error)
         }
     }
 
@@ -60,12 +61,12 @@ class UserRepositoryImpl @Inject constructor(
                 response.body()?.data?.let {
                     user = it.user.toUser(user.accessToken.toString(), user.refreshToken.toString())
                     Resource.Success(user)
-                } ?: Resource.Error("Get failed")
+                } ?: Resource.Error(R.string.error_user_get)
             } else {
-                Resource.Error("Get failed")
+                Resource.Error(R.string.error_user_get)
             }
         } catch (e: Exception) {
-            Resource.Error("An error occurred in get")
+            Resource.Error(R.string.error)
         }
     }
 
@@ -77,13 +78,13 @@ class UserRepositoryImpl @Inject constructor(
                 response.body()?.data?.let {
                     user = it.user.toUser(it.accessToken, it.refreshToken)
                     Resource.Success(user)
-                } ?: Resource.Error("Login failed")
+                } ?: Resource.Error(R.string.error_user_login)
             } else {
-                Resource.Error("Login failed")
+                Resource.Error(R.string.error_user_login)
             }
         } catch (e: Exception) {
             log(e.message.toString(), ISDEBUG)
-            Resource.Error("An error occurred in login")
+            Resource.Error(R.string.error)
         }
     }
 

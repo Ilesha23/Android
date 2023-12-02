@@ -42,18 +42,6 @@
         app:layout_constraintTop_toTopOf="@+id/tvHeader"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <!--    <androidx.appcompat.widget.AppCompatImageButton-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginEnd="@dimen/margin_default"-->
-<!--        android:background="@android:color/transparent"-->
-<!--        android:src="@drawable/baseline_search_24"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/tvHeader"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/tvHeader"-->
-<!--        tools:ignore="SpeakableTextPresentCheck" />-->
-
-
     <SearchView
         android:id="@+id/svContacts"
         style="@style/searchViewStyle"
@@ -84,6 +72,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSearchNotFound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_add_contact_save_btn"
+        android:text="@string/search_no_results"
+        android:textColor="?attr/colorOnPrimaryContainer"
+        android:textSize="@dimen/text_header_size"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSearchRecommendation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_recommendation"
+        android:textColor="?attr/colorOnPrimaryContainer"
+        android:textSize="@dimen/text_small_size"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSearchNotFound" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvContacts"

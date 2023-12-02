@@ -58,5 +58,16 @@
     <string name="recommendation">Рекомендация</string>
     <string name="add">Добавить</string>
     <string name="edit_profile">Редактировать профиль</string>
+    <string name="error_contacts">Не удалось получить список контактов</string>
+    <string name="error">Произошла ошибка (нет интернета или сервер не отвечает)</string>
+    <string name="error_users">Не удалось получить список пользователей</string>
+    <string name="error_contact_add">Не удалось добавить контакт</string>
+    <string name="error_contact_delete">Не удалось удалить контакт</string>
+    <string name="error_user_registration">Регистрация не удалась или пользователь существует</string>
+    <string name="error_user_edit">Не удалось изменить пользователя</string>
+    <string name="error_user_get">Не удалось получить пользователя</string>
+    <string name="error_user_login">Не удалось войти</string>
+    <string name="search_no_results">Нет результатов</string>
+    <string name="search_recommendation">Вы можете увидеть больше контактов в рекоммендациях</string>
 
 </resources>
