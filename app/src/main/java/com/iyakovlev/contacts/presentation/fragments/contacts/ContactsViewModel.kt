@@ -151,7 +151,7 @@ class ContactsViewModel @Inject constructor(
 
     fun setFilter(filter: String?) {
         if (filter.isNullOrBlank()) {
-            _cachedList.value = emptyList()
+            _cachedList.value = _state.value.data ?: emptyList()
         } else {
             _cachedList.update {
                 _state.value.data!!.filter {
