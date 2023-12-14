@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.common.resource.Resource
-import com.iyakovlev.contacts.data.LoginRequest
+import com.iyakovlev.contacts.data.model.LoginRequest
 import com.iyakovlev.contacts.domain.datastore.DataStore
 import com.iyakovlev.contacts.domain.model.User
 import com.iyakovlev.contacts.domain.use_case.AuthUserUseCase

@@ -1,7 +1,6 @@
-package com.iyakovlev.contacts.domain.repository.contacts
+package com.iyakovlev.contacts.data.repository.contacts
 
 import com.iyakovlev.contacts.common.resource.Resource
-import com.iyakovlev.contacts.domain.model.User
 import com.iyakovlev.contacts.domain.model.UserRemote
 import kotlinx.coroutines.flow.StateFlow
 

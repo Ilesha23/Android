@@ -35,8 +35,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     private val viewModel: ContactsViewModel by viewModels()
 
-//    private var itemTouchHelper: ItemTouchHelper? = null
-
     private val contactAdapter = ContactsAdapter(object : ContactItemClickListener {
 
         override fun onItemClick(id: Long, imageView: ImageView) {
@@ -152,9 +150,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                         } else if (viewModel.state.value is Resource.Success) {
                             toggleLoading(false)
                         }
-//                        if (list.data?.isEmpty() == true) {
-//                            toggleSearchInfo(list.data)
-//                        }
                         list.data?.let { toggleSearchInfo(it) }
                     }
                 }
@@ -246,27 +241,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             )
         )
     }
-
-    // TODO:
-//    private fun navigateToDetailViewWithNavigation(position: Int, imageView: ImageView) {
-//        val contact = viewModel.getContact(position)
-//        val contactId = contact.id.toString()
-//        val transitionName = "$TRANSITION_NAME$contactId"
-//
-//        val action = ContactsFragmentDirections.actionContactsFragmentToContactDetailViewFragment(
-//            contactId = contact.id.toString(),
-//            contactPhoto = contact.photo,
-//            contactName = contact.name,
-//            contactCareer = contact.career,
-//            contactAddress = contact.address,
-//        )
-//        imageView.transitionName = transitionName
-//        val extras = FragmentNavigatorExtras(
-//            imageView to transitionName
-//        )
-//        navController.navigate(action, extras)
-//        log("navigated to $action", isDebug)
-//    }
 
     @SuppressLint("ShowToast")
     private fun showUndoDeleteSnackBar(message: String, action: () -> Unit) {

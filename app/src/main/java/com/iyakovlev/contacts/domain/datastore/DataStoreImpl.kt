@@ -12,7 +12,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-class DataStoreImpl @Inject constructor(@ApplicationContext private val context: Context) : DataStore {
+class DataStoreImpl @Inject constructor(@ApplicationContext private val context: Context) :
+    DataStore {
 
     override suspend fun get(key: String): String? {
         val dataStoreKey = stringPreferencesKey(key)
@@ -39,8 +40,9 @@ class DataStoreImpl @Inject constructor(@ApplicationContext private val context:
     }
 
     companion object {
-        private val Context.dataStore: androidx.datastore.core.DataStore<Preferences> by preferencesDataStore(name = Constants.PREFERENCES)
+        private val Context.dataStore: androidx.datastore.core.DataStore<Preferences> by preferencesDataStore(
+            name = Constants.PREFERENCES
+        )
     }
-
 
 }

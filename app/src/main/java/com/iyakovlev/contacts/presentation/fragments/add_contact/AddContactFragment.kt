@@ -3,7 +3,6 @@ package com.iyakovlev.contacts.presentation.fragments.add_contact
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -54,9 +53,7 @@ class AddContactFragment :
                 rvUsers.scrollToPosition(0)
             }
             ibBack.setOnClickListener {
-                navController.navigateUp() // TODO:
-//                navController.navigate(AddContactFragmentDirections.actionAddContactFragmentToContactsFragment())
-//                onDestroy()
+                navController.navigateUp()
             }
             svUsers.setOnSearchClickListener {
                 tvHeader.visibility = View.INVISIBLE
@@ -92,9 +89,14 @@ class AddContactFragment :
                 launch {
                     viewModel.state.collect {
                         userAdapter.submitList(it.data)
-//                        userAdapter.changeContacts(it.data)
                         if (viewModel.state.value is Resource.Error<*>) {
-                            Toast.makeText(context, getString(viewModel.state.value.message ?: R.string.error_contact_add), Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                context,
+                                getString(
+                                    viewModel.state.value.message ?: R.string.error_contact_add
+                                ),
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                             toggleLoading(false)
                         }

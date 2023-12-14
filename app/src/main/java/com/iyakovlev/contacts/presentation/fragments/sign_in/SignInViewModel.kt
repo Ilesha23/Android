@@ -3,9 +3,9 @@ package com.iyakovlev.contacts.presentation.fragments.sign_in
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iyakovlev.contacts.common.resource.Resource
-import com.iyakovlev.contacts.data.LoginRequest
+import com.iyakovlev.contacts.data.model.LoginRequest
+import com.iyakovlev.contacts.data.repository.user.UserRepository
 import com.iyakovlev.contacts.domain.model.User
-import com.iyakovlev.contacts.domain.repository.user.UserRepository
 import com.iyakovlev.contacts.domain.use_case.AuthUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

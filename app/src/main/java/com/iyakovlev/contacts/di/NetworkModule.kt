@@ -1,7 +1,7 @@
 package com.iyakovlev.contacts.di
 
 import com.iyakovlev.contacts.common.constants.Constants.BASE_URL
-import com.iyakovlev.contacts.data.ApiService
+import com.iyakovlev.contacts.data.api.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.iyakovlev.contacts.data
+package com.iyakovlev.contacts.data.model
 
 import com.iyakovlev.contacts.domain.model.User
 import com.iyakovlev.contacts.domain.model.UserRemote
@@ -55,17 +55,3 @@ data class UserDto(
         id, name, phone, address, career, birthday, image
     )
 }
-
-//fun Data.toUser(): User {
-//    return User(
-//        user.id,
-//        user.name,
-//        user.phone,
-//        user.address,
-//        user.career,
-//        user.birthday,
-//        user.image,
-//        accessToken,
-//        refreshToken
-//    )
-//}

@@ -1,4 +1,4 @@
-package com.iyakovlev.contacts.data
+package com.iyakovlev.contacts.data.model
 
 data class UserEditRequest(
     val address: String? = null,
@@ -18,6 +18,3 @@ data class UserGetResponse(
     val message: String,
     val data: Data
 )
-
-
-//fun UserEditResponse.toUser() = data.toUser()

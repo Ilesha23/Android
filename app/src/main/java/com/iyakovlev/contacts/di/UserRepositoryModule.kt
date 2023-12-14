@@ -1,9 +1,9 @@
 package com.iyakovlev.contacts.di
 
-import com.iyakovlev.contacts.data.ApiService
+import com.iyakovlev.contacts.data.api.ApiService
 import com.iyakovlev.contacts.domain.datastore.DataStore
-import com.iyakovlev.contacts.domain.repository.user.UserRepository
-import com.iyakovlev.contacts.domain.repository.user.UserRepositoryImpl
+import com.iyakovlev.contacts.data.repository.user.UserRepository
+import com.iyakovlev.contacts.data.repository.user.UserRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

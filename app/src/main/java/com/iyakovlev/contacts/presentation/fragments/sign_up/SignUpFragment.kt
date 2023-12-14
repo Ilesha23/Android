@@ -56,7 +56,11 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
                     when (resource) {
                         is Resource.Error -> {
                             toggleLoading(false)
-                            Toast.makeText(context, getString(resource.message ?: R.string.error), Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                context,
+                                getString(resource.message ?: R.string.error),
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
 
                         is Resource.Loading -> {}

@@ -3,13 +3,10 @@ package com.iyakovlev.contacts.presentation.fragments.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iyakovlev.contacts.common.constants.Constants
-import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.domain.datastore.DataStore
 import com.iyakovlev.contacts.domain.model.User
-import com.iyakovlev.contacts.domain.repository.user.UserRepository
 import com.iyakovlev.contacts.domain.use_case.GetUserUseCase
-import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,8 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
-    private val dataStore: DataStore,
-//    private val userRepository: UserRepository
+    private val dataStore: DataStore
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<Resource<User>>(Resource.Loading())
@@ -49,9 +45,5 @@ class MainViewModel @Inject constructor(
             _state.emit(getUserUseCase())
         }
     }
-
-//    fun getData(): User {
-//        return userRepositoryImpl.getData()
-//    }
 
 }

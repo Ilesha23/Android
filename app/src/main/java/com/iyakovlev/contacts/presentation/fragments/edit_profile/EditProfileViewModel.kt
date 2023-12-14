@@ -3,9 +3,9 @@ package com.iyakovlev.contacts.presentation.fragments.edit_profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iyakovlev.contacts.common.resource.Resource
-import com.iyakovlev.contacts.data.UserEditRequest
+import com.iyakovlev.contacts.data.model.UserEditRequest
+import com.iyakovlev.contacts.data.repository.user.UserRepositoryImpl
 import com.iyakovlev.contacts.domain.model.User
-import com.iyakovlev.contacts.domain.repository.user.UserRepositoryImpl
 import com.iyakovlev.contacts.domain.use_case.EditUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -13,9 +13,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
@@ -34,15 +31,17 @@ class EditProfileViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val d = SimpleDateFormat("dd-mm-yyy", Locale.getDefault())
             d.parse(date)
-//            val formatter = DateTimeFormatter.ofPattern("dd-mm-yyyy")
-//            LocalDate.parse(dateString, formatter)
-            _state.emit(editUserUseCase(UserEditRequest(
-                name = name,
-                career = career,
-                phone = phone,
-                address = address,
-                birthday = date,
-            )))
+            _state.emit(
+                editUserUseCase(
+                    UserEditRequest(
+                        name = name,
+                        career = career,
+                        phone = phone,
+                        address = address,
+                        birthday = date,
+                    )
+                )
+            )
         }
     }
 

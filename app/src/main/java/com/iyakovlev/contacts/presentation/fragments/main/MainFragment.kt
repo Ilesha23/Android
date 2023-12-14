@@ -40,17 +40,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         with(binding) {
             btnViewContacts.setOnClickListener {
                 navController.navigate(MainFragmentDirections.actionMainFragmentToContactsFragment())
-//                navController.navigate(R.id.contactsFragment)
             }
             btnLogout?.setOnClickListener {
                 viewModel.deleteUserData()
                 navController.navigate(MainFragmentDirections.actionMainFragmentToSignInFragment())
-//                navController.navigate(R.id.signInFragment)
                 log("nav", true)
             }
             btnEditProfile.setOnClickListener {
                 navController.navigate(MainFragmentDirections.actionMainFragmentToEditProfileFragment())
-//                navController.navigate(R.id.editProfileFragment)
                 log("navigated main -> edit profile")
             }
         }

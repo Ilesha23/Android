@@ -46,34 +46,13 @@ class AddContactViewModel @Inject constructor(
             if (list != null) {
                 _state.emit(Resource.Success(list))
             }
-//            _state.emit(getUsersUseCase())
         }
     }
 
     fun toggleSelectedContact(id: Long) {
-//        val id = _state.value.data?.find {
-//            it.id == position + 1.toLong()
-//        }
-//        viewModelScope.launch(Dispatchers.IO) {
-//            if (_selectedContacts.value.contains(id)) {
-//                _selectedContacts.value.toMutableList().apply {
-//                    removeAt(position)
-//                }
-//            } else {
-//                _selectedContacts.value.toMutableList().apply {
-//                    id?.let { add(it) } // TODO:
-//                }
-//            }
-//        }
-
-//        if (_selectedContacts.value.find { it.id == id } != null) {
-//
-//        }
-
         _selectedContacts.value.toMutableList().apply {
             add(id) // TODO:
         }
-
     }
 
     fun setFilter(filter: String?) {

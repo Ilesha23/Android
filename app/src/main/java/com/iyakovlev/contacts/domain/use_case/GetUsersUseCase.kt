@@ -2,7 +2,7 @@ package com.iyakovlev.contacts.domain.use_case
 
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.domain.model.UserRemote
-import com.iyakovlev.contacts.domain.repository.contacts.ContactsRepository
+import com.iyakovlev.contacts.data.repository.contacts.ContactsRepository
 import javax.inject.Inject
 import javax.inject.Named
 

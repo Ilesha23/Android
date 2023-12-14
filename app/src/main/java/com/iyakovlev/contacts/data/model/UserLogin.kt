@@ -1,4 +1,4 @@
-package com.iyakovlev.contacts.data
+package com.iyakovlev.contacts.data.model
 
 data class LoginRequest(
     val email: String,

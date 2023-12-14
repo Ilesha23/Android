@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
-import com.iyakovlev.contacts.data.RegisterRequest
+import com.iyakovlev.contacts.data.model.RegisterRequest
+import com.iyakovlev.contacts.data.repository.user.UserRepository
 import com.iyakovlev.contacts.domain.model.User
-import com.iyakovlev.contacts.domain.repository.user.UserRepository
 import com.iyakovlev.contacts.domain.use_case.RegisterUserUseCase
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +26,6 @@ class SignUpViewModel @Inject constructor(
 
     private val _state = MutableStateFlow<Resource<User>>(Resource.Loading())
     val state = _state.asStateFlow()
-
-    // TODO: savedstatehandle
 
     init {
         log("sign up ext viewmodel init", ISDEBUG)
