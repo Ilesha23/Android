@@ -13,7 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -25,7 +24,9 @@ import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.presentation.fragments.contacts.adapters.ContactsAdapter
 import com.iyakovlev.contacts.presentation.fragments.contacts.interfaces.ContactItemClickListener
 import com.iyakovlev.contacts.presentation.utils.ItemSpacingDecoration
+import com.iyakovlev.contacts.presentation.utils.extensions.addSwipe
 import com.iyakovlev.contacts.presentation.utils.extensions.showSnackBarWithTimer
+import com.iyakovlev.contacts.presentation.utils.extensions.toggleLoading
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -48,7 +49,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         override fun onItemLongClick(position: Int) {
             viewModel.changeSelectionState(true)
             viewModel.toggleSelectedPosition(position)
-//            toggleSwipeToDelete(false)
         }
 
         override fun onItemClick(position: Int) {
@@ -60,22 +60,12 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        toggleLoading(true)
+        binding.pbContacts.toggleLoading(true)
         setupRecyclerView()
         setListeners()
         setObservers()
 
     }
-
-//    private fun toggleSwipeToDelete(isActive: Boolean) {
-//        if (!isActive) {
-//            itemTouchHelper?.attachToRecyclerView(
-//                if (!viewModel.isMultiSelect.value) binding.rvContacts else null
-//            )
-//        } else {
-//            itemTouchHelper?.attachToRecyclerView(binding.rvContacts)
-//        }
-//    }
 
     private fun removeContactWithUndo(id: Long) {
         viewModel.deleteContact(id)
@@ -130,6 +120,12 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             if (itemDecorationCount == 0) {
                 addItemDecoration(ItemSpacingDecoration(spacing, lastSpacing))
             }
+            addSwipe<ContactsAdapter.ContactViewHolder> {
+                val id = viewModel.state.value.data?.get(it.bindingAdapterPosition)?.id
+                if (id != null) {
+                    removeContactWithUndo(id)
+                }
+            }
         }
     }
 
@@ -138,17 +134,25 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
+                    viewModel.cachedList.collect {
+                        log("cached list submitted: ${viewModel.cachedList.value}", ISDEBUG)
+                        contactAdapter.submitList(it)
+                        toggleSearchInfo(it)
+                    }
+                }
+                launch {
                     viewModel.state.collect { list ->
+                        log("contacts list submit", ISDEBUG)
                         contactAdapter.submitList(list.data)
                         if (viewModel.state.value is Resource.Error) {
-                            toggleLoading(false)
+                            binding.pbContacts.toggleLoading(false)
                             Toast.makeText(
                                 context,
                                 getString(viewModel.state.value.message ?: R.string.error),
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else if (viewModel.state.value is Resource.Success) {
-                            toggleLoading(false)
+                            binding.pbContacts.toggleLoading(false)
                         }
                         list.data?.let { toggleSearchInfo(it) }
                     }
@@ -170,12 +174,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                         contactAdapter.changeSelectedPositions(it)
                     }
                 }
-                launch {
-                    viewModel.cachedList.collect {
-                        contactAdapter.submitList(it)
-                        toggleSearchInfo(it)
-                    }
-                }
+
             }
         }
     }
@@ -249,16 +248,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             .showSnackBarWithTimer(getString(R.string.undo_remove_snackbar)) {
                 action()
             }
-    }
-
-    private fun toggleLoading(isLoading: Boolean) {
-        with(binding) {
-            if (isLoading) {
-                pbContacts.visibility = View.VISIBLE
-            } else {
-                pbContacts.visibility = View.GONE
-            }
-        }
     }
 
     private fun toggleSearchInfo(list: List<*>) {

@@ -19,6 +19,7 @@ import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.presentation.fragments.add_contact.adapters.UsersAdapter
 import com.iyakovlev.contacts.presentation.fragments.add_contact.interfaces.UserItemClickListener
 import com.iyakovlev.contacts.presentation.utils.ItemSpacingDecoration
+import com.iyakovlev.contacts.presentation.utils.extensions.toggleLoading
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -40,7 +41,7 @@ class AddContactFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        toggleLoading(true)
+        binding.pbAddContacts.toggleLoading(true)
         setupRecyclerView()
         setListeners()
         setObservers()
@@ -98,10 +99,10 @@ class AddContactFragment :
                                 Toast.LENGTH_SHORT
                             )
                                 .show()
-                            toggleLoading(false)
+                            binding.pbAddContacts.toggleLoading(false)
                         }
                         if (viewModel.state.value is Resource.Success) {
-                            toggleLoading(false)
+                            binding.pbAddContacts.toggleLoading(false)
                         }
                     }
                 }
@@ -145,14 +146,14 @@ class AddContactFragment :
         }
     }
 
-    private fun toggleLoading(isLoading: Boolean) {
-        with(binding) {
-            if (isLoading) {
-                pbAddContacts.visibility = View.VISIBLE
-            } else {
-                pbAddContacts.visibility = View.GONE
-            }
-        }
-    }
+//    private fun toggleLoading(isLoading: Boolean) {
+//        with(binding) {
+//            if (isLoading) {
+//                pbAddContacts.visibility = View.VISIBLE
+//            } else {
+//                pbAddContacts.visibility = View.GONE
+//            }
+//        }
+//    }
 
 }

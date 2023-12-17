@@ -38,7 +38,7 @@ class ContactsRepositoryImpl(private val apiService: ApiService) : ContactsRepos
     override suspend fun getUsers(): Resource<List<UserRemote>> {
         return performRequest(
             apiCall = { apiService.users(Constants.AUTHORISATION_HEADER + UserRepositoryImpl.user.accessToken) },
-            onSuccess = { it.data.users.map { it.toUserRemote() } },
+            onSuccess = { it.data.users.map { it.toUserRemote() }.filter { it.name?.isNotBlank() == true } },
             onError = R.string.error_users
         )
     }

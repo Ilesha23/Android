@@ -54,19 +54,14 @@ class ContactsViewModel @Inject constructor(
     fun updateContacts() {
         log("contacts fr: contacts list updated", ISDEBUG)
         viewModelScope.launch(Dispatchers.IO) {
-//            _state.emit(getContactsUseCase())
             val response = getContactsUseCase()
             _state.emit(response)
-//            if (response is Resource.Success) {
-//                _state.emit(response)
-//            }
         }
     }
 
     fun deleteContact(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             removedContact = _state.value.data?.find { it.id == id }
-//            _state.emit(deleteContactUseCase(id))
             val response = deleteContactUseCase(id)
             if (response is Resource.Success) {
                 _state.emit(response)
@@ -78,11 +73,14 @@ class ContactsViewModel @Inject constructor(
         if (!isRemoving and (removedContact != null)) {
             isRemoving = true
             viewModelScope.launch(Dispatchers.IO) {
-                val response = addContactUseCase(removedContact!!.id)
-                if (response is Resource.Success) {
-                    _state.emit(response)
-                    removedContact = null
-                    isRemoving = false
+                val id = removedContact!!.id
+                if (_state.value.data?.any { it.id == id } == false) {
+                    val response = addContactUseCase(removedContact!!.id)
+                    if (response is Resource.Success) {
+                        _state.emit(response)
+                        removedContact = null
+                        isRemoving = false
+                    }
                 }
             }
         }
@@ -107,7 +105,6 @@ class ContactsViewModel @Inject constructor(
         }
     }
 
-    // TODO:
     private fun removeSelectedPosition(position: Int) {
         _selectedPositions.value = _selectedPositions.value.toMutableList().apply {
             remove(position)
@@ -119,7 +116,6 @@ class ContactsViewModel @Inject constructor(
         _state.value.data?.apply {
             viewModelScope.launch(Dispatchers.IO) {
                 for (c in indexesList) {
-//                    _state.emit(deleteContactUseCase(this@apply.elementAt(c).id))
                     val id = this@apply.elementAt(c).id
                     removedSelectionList.add(id)
                     deleteContactUseCase(id)
