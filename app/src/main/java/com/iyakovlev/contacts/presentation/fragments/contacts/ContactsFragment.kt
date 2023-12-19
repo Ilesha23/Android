@@ -162,10 +162,8 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                         contactAdapter.changeSelectionState(it)
                         if (it) {
                             makeBinButton()
-//                            toggleSwipeToDelete(false) todo
                         } else {
                             makeUpButton()
-//                            toggleSwipeToDelete(true) todo
                         }
                     }
                 }
