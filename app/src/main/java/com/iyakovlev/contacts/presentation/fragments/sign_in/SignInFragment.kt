@@ -31,7 +31,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(FragmentSignInBinding
         with(binding) {
             btnLogin.setOnClickListener {
                 toggleLoading(true)
-                val email = etEmail.text.toString() // TODO: check
+                val email = etEmail.text.toString()
                 val pass = etPassword.text.toString()
                 if (chkRemember.isChecked) {
                     viewModel.saveLogin(email, pass)

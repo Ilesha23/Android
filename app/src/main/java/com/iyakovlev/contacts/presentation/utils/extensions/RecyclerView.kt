@@ -11,18 +11,6 @@ import com.iyakovlev.contacts.R
 import java.lang.Float.max
 import java.lang.Float.min
 
-// TODO:
-fun RecyclerView.setButtonScrollListener(
-    checkPosition: (Boolean) -> Unit
-) {
-    this.viewTreeObserver.addOnScrollChangedListener {
-        val layoutManager = this.layoutManager as LinearLayoutManager
-        val firstItem = layoutManager.findFirstCompletelyVisibleItemPosition()
-        val isButtonVisible = firstItem > 0
-        checkPosition(isButtonVisible)
-    }
-}
-
 inline fun <reified T: RecyclerView.ViewHolder>RecyclerView.addSwipe(crossinline callback: (T) -> Unit) {
     ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, 0) {
         override fun getSwipeDirs(
@@ -45,6 +33,17 @@ inline fun <reified T: RecyclerView.ViewHolder>RecyclerView.addSwipe(crossinline
         }
 
     }).attachToRecyclerView(this)
+}
+
+fun RecyclerView.setButtonScrollListener(
+    checkPosition: (Boolean) -> Unit
+) {
+    this.viewTreeObserver.addOnScrollChangedListener {
+        val layoutManager = this.layoutManager as LinearLayoutManager
+        val firstItem = layoutManager.findFirstCompletelyVisibleItemPosition()
+        val isButtonVisible = firstItem > 0
+        checkPosition(isButtonVisible)
+    }
 }
 
 fun RecyclerView.addSwipeToDelete(
@@ -70,10 +69,6 @@ fun RecyclerView.addSwipeToDelete(
             val index = viewHolder.bindingAdapterPosition
             onSwiped(index)
         }
-
-//        override fun isItemViewSwipeEnabled(): Boolean {
-//            return isEnabled.invoke()
-//        }
 
         override fun onChildDraw(
             c: Canvas,

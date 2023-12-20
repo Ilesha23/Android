@@ -51,7 +51,7 @@ class AddContactViewModel @Inject constructor(
 
     fun toggleSelectedContact(id: Long) {
         _selectedContacts.value.toMutableList().apply {
-            add(id) // TODO:
+            add(id)
         }
     }
 
