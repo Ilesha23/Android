@@ -1,13 +1,17 @@
 package com.iyakovlev.contacts.presentation.fragments.contacts
 
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
-import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -20,6 +24,7 @@ import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.databinding.FragmentContactsBinding
+import com.iyakovlev.contacts.presentation.activity.main.MainActivity
 import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.presentation.fragments.contacts.adapters.ContactsAdapter
 import com.iyakovlev.contacts.presentation.fragments.contacts.interfaces.ContactItemClickListener
@@ -195,33 +200,35 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             ibBack.setOnClickListener {
                 navController.navigateUp()
             }
-            svContacts.setOnSearchClickListener {
-                tvHeader.visibility = View.INVISIBLE
-                ibBack.visibility = View.INVISIBLE
-                it.layoutParams.width = MATCH_PARENT
+            ivContacts.setOnClickListener {
+                // TODO: notification
+                showNotification()
             }
-            svContacts.setOnCloseListener {
-                tvHeader.visibility = View.VISIBLE
-                ibBack.visibility = View.VISIBLE
-                svContacts.layoutParams.width = WRAP_CONTENT
-                viewModel.setFilter(null)
-                contactAdapter.submitList(viewModel.state.value.data)
-                viewModel.state.value.data?.let { toggleSearchInfo(it) }
-                false
-            }
-            svContacts.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(p0: String?): Boolean {
-                    return true
-                }
-
-                override fun onQueryTextChange(p0: String?): Boolean {
-                    viewModel.setFilter(p0)
-                    log("setted filter: $p0", ISDEBUG)
-                    return true
-                }
-
-            })
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun showNotification() {
+        Toast.makeText(requireContext(), "clicked", Toast.LENGTH_SHORT).show()
+        val notificationManager = NotificationManagerCompat.from(requireContext())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannel(
+                NotificationChannel("channel_id", "channel_name", NotificationManager.IMPORTANCE_DEFAULT)
+            )
+        }
+        val intent = Intent(requireContext(), MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP// or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent = PendingIntent.getActivity(requireContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val notification = NotificationCompat.Builder(requireContext(), "channel_id")
+            .setContentTitle(getString(R.string.notification_click_to_search))
+            .setSmallIcon(R.drawable.app_icon)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .addAction(R.drawable.app_icon, getString(R.string.search), pendingIntent)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+        notificationManager.notify(1, notification.build())
     }
 
 

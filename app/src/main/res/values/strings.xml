@@ -81,6 +81,9 @@
     <string name="search_no_results">No results found</string>
     <string name="search_recommendation">You can see more contacts in the recommendation</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="search">Search</string>
+    <string name="notification_click_to_search">Click to search</string>
+    <!-- TODO: Remove or change this placeholder text -->
     <!-- TODO: Remove or change this placeholder text -->
 
 

@@ -106,4 +106,9 @@
             android:id="@+id/action_splashScreenFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.iyakovlev.contacts.presentation.fragments.search.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search"/>
 </navigation>

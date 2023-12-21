@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_additional_small"
         android:fontFamily="@font/ysabeau_semi_bold"
-        android:text="@string/title"
+        android:text="@string/search"
         android:textColor="?attr/colorOnPrimary"
         android:textSize="@dimen/text_header_main"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,27 +42,14 @@
         app:layout_constraintTop_toTopOf="@+id/tvHeader"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivContacts"
-        android:src="@drawable/baseline_search_24"
+    <SearchView
+        android:id="@+id/svContacts"
+        style="@style/searchViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_default"
         app:layout_constraintBottom_toBottomOf="@+id/tvHeader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvHeader" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/btnAddContact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_add_contacts"
-        android:fontFamily="@font/ysabeau_semi_bold"
-        android:text="@string/add_contacts"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_middle"
-        app:layout_constraintStart_toStartOf="@+id/ibBack"
-        app:layout_constraintTop_toTopOf="@id/toolbar" />
 
     <ProgressBar
         android:id="@+id/pbContacts"
