@@ -1,5 +1,6 @@
 package com.iyakovlev.contacts.presentation.fragments.search
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -36,6 +37,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
         super.onViewCreated(view, savedInstanceState)
 
         binding.pbContacts.toggleLoading(true)
+
         setupRecyclerView()
         setListeners()
         setObservers()
@@ -119,6 +121,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             }
             ibBack.setOnClickListener {// TODO: ???
                 navController.navigateUp()
+//                navController.navigate(Uri.parse("myapp://com.iyakovlev.contacts/contacts"))
             }
             svContacts.setOnSearchClickListener {
                 tvHeader.visibility = View.INVISIBLE

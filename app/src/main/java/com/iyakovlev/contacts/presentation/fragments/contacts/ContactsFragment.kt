@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -209,7 +210,6 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     @SuppressLint("MissingPermission")
     private fun showNotification() {
-        Toast.makeText(requireContext(), "clicked", Toast.LENGTH_SHORT).show()
         val notificationManager = NotificationManagerCompat.from(requireContext())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.createNotificationChannel(
@@ -217,20 +217,22 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             )
         }
         val intent = Intent(requireContext(), MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP// or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            //flags = Intent.FLAG_ACTIVITY_SINGLE_TOP// or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+//            data = Uri.parse("myapp://com.iyakovlev.contacts/search")
         }
         val pendingIntent = PendingIntent.getActivity(requireContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val i = navController.createDeepLink().setDestination(R.id.searchFragment).createPendingIntent()
         val notification = NotificationCompat.Builder(requireContext(), "channel_id")
             .setContentTitle(getString(R.string.notification_click_to_search))
             .setSmallIcon(R.drawable.app_icon)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .addAction(R.drawable.app_icon, getString(R.string.search), pendingIntent)
+            .addAction(R.drawable.app_icon, getString(R.string.search), i)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
         notificationManager.notify(1, notification.build())
     }
-
 
     private fun navigateToDetailView(id: Long, imageView: ImageView) {
         val contact = viewModel.state.value.data?.find {
