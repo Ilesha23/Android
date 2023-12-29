@@ -1,16 +1,18 @@
 package com.iyakovlev.contacts.presentation.fragments.contacts
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
-import android.net.Uri
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -41,6 +43,10 @@ import kotlinx.coroutines.launch
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate) {
 
     private val viewModel: ContactsViewModel by viewModels()
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {}
 
     private val contactAdapter = ContactsAdapter(object : ContactItemClickListener {
 
@@ -210,26 +216,41 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
     @SuppressLint("MissingPermission")
     private fun showNotification() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) ==
+                PackageManager.PERMISSION_DENIED
+            ) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+
         val notificationManager = NotificationManagerCompat.from(requireContext())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.createNotificationChannel(
-                NotificationChannel("channel_id", "channel_name", NotificationManager.IMPORTANCE_DEFAULT)
+                NotificationChannel(
+                    "channel_id",
+                    "channel_name",
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
             )
         }
         val intent = Intent(requireContext(), MainActivity::class.java).apply {
-            //flags = Intent.FLAG_ACTIVITY_SINGLE_TOP// or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-//            data = Uri.parse("myapp://com.iyakovlev.contacts/search")
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP// or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
-        val pendingIntent = PendingIntent.getActivity(requireContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        val i = navController.createDeepLink().setDestination(R.id.searchFragment).createPendingIntent()
-        val notification = NotificationCompat.Builder(requireContext(), "channel_id")
+        val pendingIntent =
+            PendingIntent.getActivity(requireContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val i =
+            navController.createDeepLink().setDestination(R.id.searchFragment).createPendingIntent()
+        val notification = NotificationCompat.Builder(requireContext(), "channel_id") // TODO: name
             .setContentTitle(getString(R.string.notification_click_to_search))
             .setSmallIcon(R.drawable.app_icon)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .addAction(R.drawable.app_icon, getString(R.string.search), i)
-            .setContentIntent(pendingIntent)
+            .setContentIntent(i)
             .setAutoCancel(true)
         notificationManager.notify(1, notification.build())
     }

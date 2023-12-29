@@ -26,6 +26,7 @@
             android:name=".presentation.activity.main.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Task2">
+            <!--android:launchMode="singleTask">--> <!-- https://habr.com/ru/articles/186434/#:~:text=%D0%90%D1%82%D1%80%D0%B8%D0%B1%D1%83%D1%82%20launchMode,%D1%87%D0%BB%D0%B5%D0%BD%D0%BE%D0%BC%20%D1%81%D0%B2%D0%BE%D0%B5%D0%B3%D0%BE%20%D1%82%D0%B0%D1%81%D0%BA%D0%B0 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -52,7 +53,7 @@
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
     </application>

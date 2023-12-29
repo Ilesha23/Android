@@ -1,12 +1,12 @@
 package com.iyakovlev.contacts.presentation.fragments.search
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -38,10 +38,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
         binding.pbContacts.toggleLoading(true)
 
+        cancelNotification()
         setupRecyclerView()
         setListeners()
         setObservers()
 
+    }
+
+    private fun cancelNotification() {
+        val notificationManager = NotificationManagerCompat.from(requireContext())
+        notificationManager.cancel(1)
     }
 
     private fun makeUpButton() {
@@ -121,6 +127,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             }
             ibBack.setOnClickListener {// TODO: ???
                 navController.navigateUp()
+
 //                navController.navigate(Uri.parse("myapp://com.iyakovlev.contacts/contacts"))
             }
             svContacts.setOnSearchClickListener {
