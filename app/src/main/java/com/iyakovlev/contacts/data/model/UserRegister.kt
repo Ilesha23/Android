@@ -1,5 +1,6 @@
 package com.iyakovlev.contacts.data.model
 
+import com.iyakovlev.contacts.data.database.entities.ContactEntity
 import com.iyakovlev.contacts.domain.model.User
 import com.iyakovlev.contacts.domain.model.UserRemote
 
@@ -52,6 +53,10 @@ data class UserDto(
     )
 
     fun toUserRemote() = UserRemote(
+        id, name, phone, address, career, birthday, image
+    )
+
+    fun toContactEntity() = ContactEntity(
         id, name, phone, address, career, birthday, image
     )
 }

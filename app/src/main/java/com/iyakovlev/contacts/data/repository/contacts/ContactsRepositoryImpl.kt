@@ -4,13 +4,18 @@ import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.data.api.ApiService
-import com.iyakovlev.contacts.domain.model.UserRemote
+import com.iyakovlev.contacts.data.database.repository.DatabaseRepository
 import com.iyakovlev.contacts.data.repository.user.UserRepositoryImpl
+import com.iyakovlev.contacts.domain.model.UserRemote
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import retrofit2.Response
+import javax.inject.Inject
 
-class ContactsRepositoryImpl(private val apiService: ApiService) : ContactsRepository {
+class ContactsRepositoryImpl @Inject constructor(
+    private val apiService: ApiService,
+    private val db: DatabaseRepository
+) : ContactsRepository {
 
     private val _state = MutableStateFlow<Resource<List<UserRemote>>>(Resource.Loading())
     override val state = _state.asStateFlow()
@@ -18,28 +23,37 @@ class ContactsRepositoryImpl(private val apiService: ApiService) : ContactsRepos
     private suspend fun <T, E> performRequest(
         apiCall: suspend () -> Response<T>,
         onSuccess: (T) -> E,
-        onError: Int
+        dbAction: suspend (T) -> Unit,
+        onError: Int,
+        onNoConnection: suspend () -> E
     ): Resource<E> {
         return try {
             val response = apiCall()
             if (response.isSuccessful) {
                 response.body()?.let {
                     val result = onSuccess(it)
+                    dbAction(it)
                     Resource.Success(result)
+
                 } ?: Resource.Error(onError)
             } else {
                 Resource.Error(onError)
             }
         } catch (e: Exception) {
-            Resource.Error(R.string.error)
+            Resource.Success(onNoConnection.invoke())
+//            Resource.Error(R.string.error)
         }
     }
 
     override suspend fun getUsers(): Resource<List<UserRemote>> {
         return performRequest(
             apiCall = { apiService.users(Constants.AUTHORISATION_HEADER + UserRepositoryImpl.user.accessToken) },
-            onSuccess = { it.data.users.map { it.toUserRemote() }.filter { it.name?.isNotBlank() == true } },
-            onError = R.string.error_users
+            onSuccess = {
+                it.data.users.map { it.toUserRemote() }.filter { it.name?.isNotBlank() == true }
+            },
+            dbAction = { }, // TODO:
+            onError = R.string.error_users,
+            onNoConnection = { listOf() } // TODO:
         )
     }
 
@@ -52,7 +66,14 @@ class ContactsRepositoryImpl(private val apiService: ApiService) : ContactsRepos
                 )
             },
             onSuccess = { it.data.contacts.map { it.toUserRemote() } },
-            onError = R.string.error_contacts
+            dbAction = {
+                val l = it.data.contacts.map {
+                    it.toContactEntity()
+                }
+                db.insertContactList(l)
+            },
+            onError = R.string.error_contacts,
+            onNoConnection = { db.getContactList().map { it.toUserRemote() } }
         )
     }
 
@@ -66,7 +87,9 @@ class ContactsRepositoryImpl(private val apiService: ApiService) : ContactsRepos
                 )
             },
             onSuccess = { it.data.contacts.map { it.toUserRemote() } },
-            onError = R.string.error_contact_add
+            dbAction = {},
+            onError = R.string.error_contact_add,
+            onNoConnection = { listOf() } // TODO:  
         )
     }
 
@@ -80,7 +103,9 @@ class ContactsRepositoryImpl(private val apiService: ApiService) : ContactsRepos
                 )
             },
             onSuccess = { it.data.contacts.map { it.toUserRemote() } },
-            onError = R.string.error_contact_delete
+            dbAction = {},
+            onError = R.string.error_contact_delete,
+            onNoConnection = { listOf() } // TODO:  
         )
     }
 

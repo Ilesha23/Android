@@ -1,6 +1,8 @@
 package com.iyakovlev.contacts.di
 
 import com.iyakovlev.contacts.data.api.ApiService
+import com.iyakovlev.contacts.data.database.ContactDatabase
+import com.iyakovlev.contacts.data.database.repository.DatabaseRepository
 import com.iyakovlev.contacts.data.repository.contacts.ContactsRepository
 import com.iyakovlev.contacts.data.repository.contacts.ContactsRepositoryImpl
 import dagger.Module
@@ -15,8 +17,8 @@ object ContactsRepositoryModule {
 
     @Provides
     @Singleton
-    fun provideContactsRepository(apiService: ApiService): ContactsRepository {
-        return ContactsRepositoryImpl(apiService)
+    fun provideContactsRepository(apiService: ApiService, db: DatabaseRepository): ContactsRepository {
+        return ContactsRepositoryImpl(apiService, db)
     }
 
 }

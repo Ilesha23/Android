@@ -1,6 +1,7 @@
 package com.iyakovlev.contacts.data.repository.contacts
 
 import com.iyakovlev.contacts.common.resource.Resource
+import com.iyakovlev.contacts.data.database.interfaces.ContactDao
 import com.iyakovlev.contacts.domain.model.UserRemote
 import kotlinx.coroutines.flow.StateFlow
 
