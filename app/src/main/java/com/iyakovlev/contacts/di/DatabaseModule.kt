@@ -2,7 +2,7 @@ package com.iyakovlev.contacts.di
 
 import android.content.Context
 import androidx.room.Room
-import com.iyakovlev.contacts.data.database.ContactDatabase
+import com.iyakovlev.contacts.data.database.Database
 import com.iyakovlev.contacts.data.database.repository.DatabaseRepository
 import dagger.Module
 import dagger.Provides
@@ -17,16 +17,18 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext applicationContext: Context): ContactDatabase {
+    fun provideDatabase(@ApplicationContext applicationContext: Context): Database {
         return Room.databaseBuilder(
             applicationContext,
-            ContactDatabase::class.java, "contacts"
-        ).build()
+            Database::class.java, "contacts"
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides
     @Singleton
-    fun provideDatabaseRepository(db: ContactDatabase): DatabaseRepository {
+    fun provideDatabaseRepository(db: Database): DatabaseRepository {
         return DatabaseRepository(db)
     }
 

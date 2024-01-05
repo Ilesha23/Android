@@ -1,6 +1,7 @@
 package com.iyakovlev.contacts.data.database.interfaces
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -16,5 +17,11 @@ interface ContactDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertContacts(contacts: List<ContactEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(contact: ContactEntity)
+
+    @Query("delete from contacts where id = :id")
+    suspend fun delete(id: Long)
 
 }

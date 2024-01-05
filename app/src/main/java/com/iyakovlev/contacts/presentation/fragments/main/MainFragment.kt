@@ -1,9 +1,7 @@
 package com.iyakovlev.contacts.presentation.fragments.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,16 +10,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
-import com.iyakovlev.contacts.data.database.ContactDatabase
-import com.iyakovlev.contacts.data.database.entities.ContactEntity
-import com.iyakovlev.contacts.data.database.interfaces.ContactDao
+import com.iyakovlev.contacts.data.database.Database
 import com.iyakovlev.contacts.databinding.FragmentMainBinding
 import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 
@@ -30,7 +24,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     private val viewModel: MainViewModel by viewModels()
     @Inject
-    lateinit var db: ContactDatabase
+    lateinit var db: Database
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
