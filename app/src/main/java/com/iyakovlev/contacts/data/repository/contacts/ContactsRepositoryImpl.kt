@@ -52,8 +52,8 @@ class ContactsRepositoryImpl @Inject constructor(
     override suspend fun getUsers(): Resource<List<UserRemote>> {
         return performRequest(
             apiCall = { apiService.users(Constants.AUTHORISATION_HEADER + UserRepositoryImpl.user.accessToken) },
-            onSuccess = { it.data.users.map { it.toUserRemote() }.filter { it.name?.isNotBlank() == true } },
-            dbAction = { db.insertUsers(it.data.users.map { it.toUserEntity() }.filter { it.name?.isNotBlank() == true }) }, // TODO: usersdao userdao, main page without internet
+            onSuccess = { it.data.users.map { it.toUserRemote() }.filter { it.name?.isNotBlank() == true } }, // TODO: check when 1st login
+            dbAction = { db.insertUsers(it.data.users.map { it.toUserEntity() }.filter { it.name?.isNotBlank() == true }) }, // TODO: userdao, main page without internet
             onError = R.string.error_users,// TODO: onerror code
             onNoConnection = { db.getUsers().map { it.toUserRemote() } }
         )
@@ -68,6 +68,9 @@ class ContactsRepositoryImpl @Inject constructor(
                 )
             },
             onSuccess = {// TODO: maybe refactor somehow
+                // makes server and db info the same:
+
+                // add contacts that are in db but not on server
                 val l = db.getContacts().filter { contactEntity ->
                     !it.data.contacts.map { it.toContactEntity() }.contains(contactEntity)
                 }
@@ -75,6 +78,16 @@ class ContactsRepositoryImpl @Inject constructor(
                 for (i in l) {
                     addContact(i.id)
                 }
+
+                // delete contacts that are deleted from db but not deleted from server
+                val ll = it.data.contacts.map { it.toUserRemote() }.filter { user ->
+                    !db.getContacts().map { it.toUserRemote() }.contains(user)
+                }
+                for (i in ll) {
+                    deleteContact(i.id)
+                }
+
+                // return list from server
                 apiService.contacts(
                     Constants.AUTHORISATION_HEADER + UserRepositoryImpl.user.accessToken.toString(),
                     UserRepositoryImpl.user.id
@@ -96,7 +109,7 @@ class ContactsRepositoryImpl @Inject constructor(
                 )
             },
             onSuccess = { it.data.contacts.map { it.toUserRemote() } },
-            dbAction = { /*db.insert(it.data.contacts.first { it.id == contactId }.toContactEntity())*/ }, // TODO:
+            dbAction = { db.insert(it.data.contacts.first { it.id == contactId }.toContactEntity()) }, // TODO:
             onError = R.string.error_contact_add,
             onNoConnection = {
                 db.insert(db.getUser(contactId))
@@ -118,7 +131,10 @@ class ContactsRepositoryImpl @Inject constructor(
             onSuccess = { it.data.contacts.map { it.toUserRemote() } },
             dbAction = { db.delete(contactId) },
             onError = R.string.error_contact_delete,
-            onNoConnection = { db.getContacts().map { it.toUserRemote() } }
+            onNoConnection = {
+                db.delete(contactId)
+                db.getContacts().map { it.toUserRemote() }
+            }
         )
     }
 
