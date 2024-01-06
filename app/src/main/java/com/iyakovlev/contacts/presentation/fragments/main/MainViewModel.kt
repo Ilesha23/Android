@@ -33,6 +33,7 @@ class MainViewModel @Inject constructor(
 //        }
 //    }
 
+    // TODO: delete from db
     fun deleteUserData() {
         viewModelScope.launch(Dispatchers.IO) {
             dataStore.delete(Constants.EMAIL)

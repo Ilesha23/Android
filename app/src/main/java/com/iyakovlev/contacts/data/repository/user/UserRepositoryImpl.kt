@@ -5,6 +5,8 @@ import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.common.constants.Constants.AUTHORISATION_HEADER
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.data.api.ApiService
+import com.iyakovlev.contacts.data.database.entities.ProfileEntity
+import com.iyakovlev.contacts.data.database.repository.DatabaseRepository
 import com.iyakovlev.contacts.data.model.LoginRequest
 import com.iyakovlev.contacts.data.model.RegisterRequest
 import com.iyakovlev.contacts.data.model.UserEditRequest
@@ -15,7 +17,8 @@ import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val dataStore: DataStore
+    private val dataStore: DataStore,
+    private val db: DatabaseRepository
 ) : UserRepository {
 
     private suspend fun <T> performRequest(
@@ -28,13 +31,16 @@ class UserRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 response.body()?.let {
                     user = onSuccess(it)
+                    db.insertProfile(ProfileEntity(user.id, user.name, user.phone, user.address, user.career, user.birthday, user.image))
                     Resource.Success(user)
                 } ?: Resource.Error(onError)
             } else {
                 Resource.Error(onError)
             }
         } catch (e: Exception) {
-            Resource.Error(R.string.error)
+//            Resource.Error(R.string.error)
+            val user = db.getProfile()
+            Resource.Success(User(user.id, user.name, user.phone, user.address, user.career, user.birthday, user.image)) // TODO:
         }
     }
 

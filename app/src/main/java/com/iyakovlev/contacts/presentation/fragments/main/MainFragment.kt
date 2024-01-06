@@ -23,8 +23,8 @@ import javax.inject.Inject
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
     private val viewModel: MainViewModel by viewModels()
-    @Inject
-    lateinit var db: Database
+//    @Inject
+//    lateinit var db: Database
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

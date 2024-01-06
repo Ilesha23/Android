@@ -55,7 +55,7 @@ class ContactsRepositoryImpl @Inject constructor(
     override suspend fun getUsers(): Resource<List<UserRemote>> {
         return performRequest(
             apiCall = { apiService.users(Constants.AUTHORISATION_HEADER + UserRepositoryImpl.user.accessToken) },
-            onSuccess = { it.data.users.map { it.toUserRemote() }.filter { it.name?.isNotBlank() == true } }, // TODO: check when 1st login
+            onSuccess = { it.data.users.map { it.toUserRemote() }.filter { it.name?.isNotBlank() == true } },
             dbAction = { db.insertUsers(it.data.users.map { it.toUserEntity() }.filter { it.name?.isNotBlank() == true }) }, // TODO: userdao, main page without internet
             onError = R.string.error_users,// TODO: onerror code
             onNoConnection = { db.getUsers().map { it.toUserRemote() } }
@@ -85,7 +85,6 @@ class ContactsRepositoryImpl @Inject constructor(
                         addContact(i.id)
                     }
 
-                    // TODO: check first launch
                     // delete contacts that are deleted from db but not deleted from server
                     val ll = it.data.contacts.map { it.toUserRemote() }.filter { user ->
                         !db.getContacts().map { it.toUserRemote() }.contains(user)
@@ -117,7 +116,7 @@ class ContactsRepositoryImpl @Inject constructor(
                 )
             },
             onSuccess = { it.data.contacts.map { it.toUserRemote() } },
-            dbAction = { db.insert(it.data.contacts.first { it.id == contactId }.toContactEntity()) }, // TODO:
+            dbAction = { db.insert(it.data.contacts.first { it.id == contactId }.toContactEntity()) },
             onError = R.string.error_contact_add,
             onNoConnection = {
                 db.insert(db.getUser(contactId))
@@ -126,7 +125,6 @@ class ContactsRepositoryImpl @Inject constructor(
         )
     }
 
-    // TODO:  
     override suspend fun deleteContact(contactId: Long): Resource<List<UserRemote>> {
         return performRequest(
             apiCall = {
