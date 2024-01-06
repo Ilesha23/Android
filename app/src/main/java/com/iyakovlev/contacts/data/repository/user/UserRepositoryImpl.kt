@@ -24,7 +24,8 @@ class UserRepositoryImpl @Inject constructor(
     private suspend fun <T> performRequest(
         apiCall: suspend () -> Response<T>,
         onSuccess: (T) -> User,
-        onError: Int
+        onError: Int,
+        isError: Boolean
     ): Resource<User> {
         return try {
             val response = apiCall()
@@ -39,8 +40,13 @@ class UserRepositoryImpl @Inject constructor(
             }
         } catch (e: Exception) {
 //            Resource.Error(R.string.error)
-            val user = db.getProfile()
-            Resource.Success(User(user.id, user.name, user.phone, user.address, user.career, user.birthday, user.image)) // TODO:
+            // TODO: refactor
+            if (isError) {
+                Resource.Error(R.string.error)
+            } else {
+                val user = db.getProfile()
+                Resource.Success(User(user.id, user.name, user.phone, user.address, user.career, user.birthday, user.image)) // TODO:
+            }
         }
     }
 
@@ -48,7 +54,8 @@ class UserRepositoryImpl @Inject constructor(
         return performRequest(
             apiCall = { apiService.register(body) },
             onSuccess = { it.data.user.toUser(it.data.accessToken, it.data.refreshToken) },
-            onError = R.string.error_user_registration
+            onError = R.string.error_user_registration,
+            isError = false
         )
     }
 
@@ -67,7 +74,8 @@ class UserRepositoryImpl @Inject constructor(
                     user.refreshToken.toString()
                 )
             },
-            onError = R.string.error_user_edit
+            onError = R.string.error_user_edit,
+            isError = false
         )
     }
 
@@ -80,7 +88,8 @@ class UserRepositoryImpl @Inject constructor(
                     user.refreshToken.toString()
                 )
             },
-            onError = R.string.error_user_get
+            onError = R.string.error_user_get,
+            isError = false
         )
     }
 
@@ -88,7 +97,8 @@ class UserRepositoryImpl @Inject constructor(
         return performRequest(
             apiCall = { apiService.login(body) },
             onSuccess = { it.data.user.toUser(it.data.accessToken, it.data.refreshToken) },
-            onError = R.string.error_user_login
+            onError = R.string.error_user_login,
+            isError = true
         )
     }
 

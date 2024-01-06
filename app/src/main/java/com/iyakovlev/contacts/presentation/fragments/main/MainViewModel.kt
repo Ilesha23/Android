@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.common.resource.Resource
+import com.iyakovlev.contacts.data.database.repository.DatabaseRepository
 import com.iyakovlev.contacts.domain.datastore.DataStore
 import com.iyakovlev.contacts.domain.model.User
 import com.iyakovlev.contacts.domain.use_case.GetUserUseCase
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
-    private val dataStore: DataStore
+    private val dataStore: DataStore,
+    private val db: DatabaseRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<Resource<User>>(Resource.Loading())
@@ -33,11 +35,13 @@ class MainViewModel @Inject constructor(
 //        }
 //    }
 
-    // TODO: delete from db
     fun deleteUserData() {
         viewModelScope.launch(Dispatchers.IO) {
             dataStore.delete(Constants.EMAIL)
             dataStore.delete(Constants.PASS)
+            db.deleteProfile()
+            db.deleteUsers()
+            db.deleteContacts()
         }
     }
 

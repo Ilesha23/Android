@@ -19,4 +19,8 @@ interface UserDao {
     @Query("select * from users where id = :id")
     suspend fun getUser(id: Long): ContactEntity
 
+    @Query("delete from users")
+//    @Query("drop table users")
+    suspend fun deleteUsers()
+
 }

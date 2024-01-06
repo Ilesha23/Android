@@ -32,7 +32,7 @@ object DatabaseModule {
             applicationContext,
             Database::class.java, "contacts"
         )
-            .fallbackToDestructiveMigration()
+//            .fallbackToDestructiveMigration()
             .addCallback(dc)
             .build()
     }

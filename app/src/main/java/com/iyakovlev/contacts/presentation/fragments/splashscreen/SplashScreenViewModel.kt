@@ -36,7 +36,7 @@ class SplashScreenViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             email = dataStore.get(Constants.EMAIL).toString()
             pass = dataStore.get(Constants.PASS).toString()
-            if (email.isNotBlank() and pass.isNotBlank()) {
+            if ((email.isNotBlank() and (email != "null")) and (pass.isNotBlank() and (pass != "null"))) { // TODO: refactor
                 login(email, pass)
             } else {
                 _state.value = Resource.Error(R.string.error_user_login)

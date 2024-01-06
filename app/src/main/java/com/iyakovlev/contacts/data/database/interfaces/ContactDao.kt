@@ -24,4 +24,8 @@ interface ContactDao {
     @Query("delete from contacts where id = :id")
     suspend fun delete(id: Long)
 
+    @Query("delete from contacts")
+//    @Query("drop table contacts")
+    suspend fun deleteContacts()
+
 }

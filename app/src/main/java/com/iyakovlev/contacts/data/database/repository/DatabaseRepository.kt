@@ -43,6 +43,12 @@ class DatabaseRepository @Inject constructor(
         }
     }
 
+    override suspend fun deleteContacts() {
+        withContext(Dispatchers.IO) {
+            contactDao.deleteContacts()
+        }
+    }
+
     override suspend fun insertUsers(users: List<UserEntity>) {
         withContext(Dispatchers.IO) {
             userDao.insertUsers(users)
@@ -61,6 +67,12 @@ class DatabaseRepository @Inject constructor(
         }
     }
 
+    override suspend fun deleteUsers() {
+        withContext(Dispatchers.IO) {
+            userDao.deleteUsers()
+        }
+    }
+
     override suspend fun insertProfile(user: ProfileEntity) {
         withContext(Dispatchers.IO) {
             profileDao.insertProfile(user)
@@ -70,6 +82,12 @@ class DatabaseRepository @Inject constructor(
     override suspend fun getProfile(): ProfileEntity {
         return withContext(Dispatchers.IO) {
             return@withContext profileDao.getProfile()
+        }
+    }
+
+    override suspend fun deleteProfile() {
+        withContext(Dispatchers.IO) {
+            profileDao.deleteProfile()
         }
     }
 
