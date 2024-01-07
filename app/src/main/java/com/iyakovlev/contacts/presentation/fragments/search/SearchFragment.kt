@@ -125,7 +125,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 rvContacts.smoothScrollToPosition(0)
                 binding.fabUp.hide()
             }
-            ibBack.setOnClickListener {// TODO: ???
+            ibBack.setOnClickListener {
                 navController.navigateUp()
 
 //                navController.navigate(Uri.parse("myapp://com.iyakovlev.contacts/contacts"))

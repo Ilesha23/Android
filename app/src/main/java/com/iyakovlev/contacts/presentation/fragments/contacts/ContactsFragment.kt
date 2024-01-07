@@ -167,7 +167,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                         } else if (viewModel.state.value is Resource.Success) {
                             binding.pbContacts.toggleLoading(false)
                         }
-                        list.data?.let { toggleSearchInfo(it) }
+                        list.data?.let { toggleSearchInfo(it) } // TODO: change logic
                     }
                 }
                 launch {

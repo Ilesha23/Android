@@ -56,7 +56,7 @@ class ContactsRepositoryImpl @Inject constructor(
         return performRequest(
             apiCall = { apiService.users(Constants.AUTHORISATION_HEADER + UserRepositoryImpl.user.accessToken) },
             onSuccess = { it.data.users.map { it.toUserRemote() }.filter { it.name?.isNotBlank() == true } },
-            dbAction = { db.insertUsers(it.data.users.map { it.toUserEntity() }.filter { it.name?.isNotBlank() == true }) }, // TODO: userdao, main page without internet
+            dbAction = { db.insertUsers(it.data.users.map { it.toUserEntity() }.filter { it.name?.isNotBlank() == true }) },
             onError = R.string.error_users,// TODO: onerror code
             onNoConnection = { db.getUsers().map { it.toUserRemote() } }
         )
