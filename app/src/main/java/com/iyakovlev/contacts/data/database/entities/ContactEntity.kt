@@ -3,7 +3,7 @@ package com.iyakovlev.contacts.data.database.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.iyakovlev.contacts.domain.model.UserRemote
+import com.iyakovlev.contacts.data.model.UserRemote
 
 @Entity(tableName = "contacts")
 data class ContactEntity(

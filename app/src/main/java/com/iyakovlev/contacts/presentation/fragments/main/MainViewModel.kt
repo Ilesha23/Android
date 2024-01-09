@@ -3,10 +3,10 @@ package com.iyakovlev.contacts.presentation.fragments.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iyakovlev.contacts.common.constants.Constants
-import com.iyakovlev.contacts.common.resource.Resource
+import com.iyakovlev.contacts.domain.states.Resource
 import com.iyakovlev.contacts.data.database.repository.DatabaseRepository
 import com.iyakovlev.contacts.domain.datastore.DataStore
-import com.iyakovlev.contacts.domain.model.User
+import com.iyakovlev.contacts.data.model.User
 import com.iyakovlev.contacts.domain.use_case.GetUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

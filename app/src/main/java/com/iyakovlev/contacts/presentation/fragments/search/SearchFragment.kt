@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
-import com.iyakovlev.contacts.common.resource.Resource
+import com.iyakovlev.contacts.domain.states.Resource
 import com.iyakovlev.contacts.databinding.FragmentSearchBinding
 import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.presentation.fragments.search.adapters.SearchAdapter

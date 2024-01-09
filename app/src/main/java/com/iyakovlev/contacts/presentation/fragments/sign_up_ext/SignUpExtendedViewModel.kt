@@ -2,9 +2,9 @@ package com.iyakovlev.contacts.presentation.fragments.sign_up_ext
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.iyakovlev.contacts.common.resource.Resource
-import com.iyakovlev.contacts.data.model.UserEditRequest
-import com.iyakovlev.contacts.domain.model.User
+import com.iyakovlev.contacts.domain.states.Resource
+import com.iyakovlev.contacts.domain.api.model.UserEditRequest
+import com.iyakovlev.contacts.data.model.User
 import com.iyakovlev.contacts.domain.use_case.EditUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package com.iyakovlev.contacts.domain.model
+package com.iyakovlev.contacts.data.model
 
 data class User(
     val id: Long = 0,

@@ -1,6 +1,4 @@
-package com.iyakovlev.contacts.common.resource
-
-import com.iyakovlev.contacts.domain.model.User
+package com.iyakovlev.contacts.domain.states
 
 sealed class Resource<T>(
     val data: T? = null,

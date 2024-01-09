@@ -1,7 +1,7 @@
 package com.iyakovlev.contacts.presentation.fragments.add_contact.diffutil
 
 import androidx.recyclerview.widget.DiffUtil
-import com.iyakovlev.contacts.domain.model.UserRemote
+import com.iyakovlev.contacts.data.model.UserRemote
 
 class UsersDiffCallback : DiffUtil.ItemCallback<UserRemote>() {
 

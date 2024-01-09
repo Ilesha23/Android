@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
-import com.iyakovlev.contacts.common.resource.Resource
+import com.iyakovlev.contacts.domain.states.Resource
 import com.iyakovlev.contacts.databinding.FragmentContactsBinding
 import com.iyakovlev.contacts.presentation.activity.main.MainActivity
 import com.iyakovlev.contacts.presentation.base.BaseFragment
@@ -37,7 +37,6 @@ import com.iyakovlev.contacts.presentation.utils.extensions.showSnackBarWithTime
 import com.iyakovlev.contacts.presentation.utils.extensions.toggleLoading
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint

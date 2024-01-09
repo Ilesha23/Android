@@ -3,15 +3,15 @@ package com.iyakovlev.contacts.data.repository.user
 import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.common.constants.Constants.AUTHORISATION_HEADER
-import com.iyakovlev.contacts.common.resource.Resource
-import com.iyakovlev.contacts.data.api.ApiService
+import com.iyakovlev.contacts.domain.states.Resource
+import com.iyakovlev.contacts.domain.api.ApiService
 import com.iyakovlev.contacts.data.database.entities.ProfileEntity
 import com.iyakovlev.contacts.data.database.repository.DatabaseRepository
-import com.iyakovlev.contacts.data.model.LoginRequest
-import com.iyakovlev.contacts.data.model.RegisterRequest
-import com.iyakovlev.contacts.data.model.UserEditRequest
+import com.iyakovlev.contacts.domain.api.model.LoginRequest
+import com.iyakovlev.contacts.domain.api.model.RegisterRequest
+import com.iyakovlev.contacts.domain.api.model.UserEditRequest
 import com.iyakovlev.contacts.domain.datastore.DataStore
-import com.iyakovlev.contacts.domain.model.User
+import com.iyakovlev.contacts.data.model.User
 import retrofit2.Response
 import javax.inject.Inject
 

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.databinding.ItemUserBinding
-import com.iyakovlev.contacts.domain.model.UserRemote
+import com.iyakovlev.contacts.data.model.UserRemote
 import com.iyakovlev.contacts.presentation.fragments.add_contact.diffutil.UsersDiffCallback
 import com.iyakovlev.contacts.presentation.fragments.add_contact.interfaces.UserItemClickListener
 import com.iyakovlev.contacts.presentation.utils.extensions.loadImageWithGlide

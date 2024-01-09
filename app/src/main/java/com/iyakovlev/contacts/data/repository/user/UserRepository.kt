@@ -1,10 +1,10 @@
 package com.iyakovlev.contacts.data.repository.user
 
-import com.iyakovlev.contacts.common.resource.Resource
-import com.iyakovlev.contacts.data.model.LoginRequest
-import com.iyakovlev.contacts.data.model.RegisterRequest
-import com.iyakovlev.contacts.data.model.UserEditRequest
-import com.iyakovlev.contacts.domain.model.User
+import com.iyakovlev.contacts.domain.states.Resource
+import com.iyakovlev.contacts.domain.api.model.LoginRequest
+import com.iyakovlev.contacts.domain.api.model.RegisterRequest
+import com.iyakovlev.contacts.domain.api.model.UserEditRequest
+import com.iyakovlev.contacts.data.model.User
 
 interface UserRepository {
 

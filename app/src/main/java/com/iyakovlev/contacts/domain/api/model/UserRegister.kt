@@ -1,9 +1,9 @@
-package com.iyakovlev.contacts.data.model
+package com.iyakovlev.contacts.domain.api.model
 
 import com.iyakovlev.contacts.data.database.entities.ContactEntity
 import com.iyakovlev.contacts.data.database.entities.UserEntity
-import com.iyakovlev.contacts.domain.model.User
-import com.iyakovlev.contacts.domain.model.UserRemote
+import com.iyakovlev.contacts.data.model.User
+import com.iyakovlev.contacts.data.model.UserRemote
 
 data class RegisterRequest(
     val email: String,

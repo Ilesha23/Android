@@ -1,12 +1,12 @@
-package com.iyakovlev.contacts.data.api
+package com.iyakovlev.contacts.domain.api
 
-import com.iyakovlev.contacts.data.model.LoginRequest
-import com.iyakovlev.contacts.data.model.RegisterRequest
-import com.iyakovlev.contacts.data.model.RegisterResponse
-import com.iyakovlev.contacts.data.model.UserContactsResponse
-import com.iyakovlev.contacts.data.model.UserEditRequest
-import com.iyakovlev.contacts.data.model.UserGetResponse
-import com.iyakovlev.contacts.data.model.UsersResponse
+import com.iyakovlev.contacts.domain.api.model.LoginRequest
+import com.iyakovlev.contacts.domain.api.model.RegisterRequest
+import com.iyakovlev.contacts.domain.api.model.RegisterResponse
+import com.iyakovlev.contacts.domain.api.model.UserContactsResponse
+import com.iyakovlev.contacts.domain.api.model.UserEditRequest
+import com.iyakovlev.contacts.domain.api.model.UserGetResponse
+import com.iyakovlev.contacts.domain.api.model.UsersResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE

@@ -4,10 +4,10 @@ import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
-import com.iyakovlev.contacts.common.resource.Resource
-import com.iyakovlev.contacts.data.model.RegisterRequest
+import com.iyakovlev.contacts.domain.states.Resource
+import com.iyakovlev.contacts.domain.api.model.RegisterRequest
 import com.iyakovlev.contacts.data.repository.user.UserRepository
-import com.iyakovlev.contacts.domain.model.User
+import com.iyakovlev.contacts.data.model.User
 import com.iyakovlev.contacts.domain.use_case.RegisterUserUseCase
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,4 +1,4 @@
-package com.iyakovlev.contacts.data.model
+package com.iyakovlev.contacts.domain.api.model
 
 
 data class UserContactsResponse(

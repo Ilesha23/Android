@@ -1,6 +1,6 @@
 package com.iyakovlev.contacts.di
 
-import com.iyakovlev.contacts.data.api.ApiService
+import com.iyakovlev.contacts.domain.api.ApiService
 import com.iyakovlev.contacts.data.database.repository.DatabaseRepository
 import com.iyakovlev.contacts.data.repository.contacts.ContactsRepository
 import com.iyakovlev.contacts.data.repository.contacts.ContactsRepositoryImpl

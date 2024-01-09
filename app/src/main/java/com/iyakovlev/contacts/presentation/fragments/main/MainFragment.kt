@@ -9,14 +9,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
-import com.iyakovlev.contacts.common.resource.Resource
-import com.iyakovlev.contacts.data.database.Database
+import com.iyakovlev.contacts.domain.states.Resource
 import com.iyakovlev.contacts.databinding.FragmentMainBinding
 import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
