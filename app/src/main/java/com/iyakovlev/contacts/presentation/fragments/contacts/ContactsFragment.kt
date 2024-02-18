@@ -16,8 +16,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.iyakovlev.contacts.BuildConfig
 import com.iyakovlev.contacts.R
-import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.databinding.FragmentContactsBinding
 import com.iyakovlev.contacts.presentation.base.BaseFragment
@@ -135,14 +135,14 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.cachedList.collect {
-                        log("cached list submitted: ${viewModel.cachedList.value}", ISDEBUG)
+                        log("cached list submitted: ${viewModel.cachedList.value}", BuildConfig.DEBUG)
                         contactAdapter.submitList(it)
                         toggleSearchInfo(it)
                     }
                 }
                 launch {
                     viewModel.state.collect { list ->
-                        log("contacts list submit", ISDEBUG)
+                        log("contacts list submit", BuildConfig.DEBUG)
                         contactAdapter.submitList(list.data)
                         if (viewModel.state.value is Resource.Error) {
                             binding.pbContacts.toggleLoading(false)
@@ -216,7 +216,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
 
                 override fun onQueryTextChange(p0: String?): Boolean {
                     viewModel.setFilter(p0)
-                    log("setted filter: $p0", ISDEBUG)
+                    log("setted filter: $p0", BuildConfig.DEBUG)
                     return true
                 }
 

@@ -3,7 +3,7 @@ package com.iyakovlev.contacts.presentation.fragments.sign_up
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
+import com.iyakovlev.contacts.BuildConfig
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.data.model.RegisterRequest
 import com.iyakovlev.contacts.data.repository.user.UserRepository
@@ -28,7 +28,7 @@ class SignUpViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        log("sign up ext viewmodel init", ISDEBUG)
+        log("sign up ext viewmodel init", BuildConfig.DEBUG)
     }
 
     fun clear() {

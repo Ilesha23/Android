@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.iyakovlev.contacts.BuildConfig
 import com.iyakovlev.contacts.R
-import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.databinding.FragmentMainBinding
 import com.iyakovlev.contacts.presentation.base.BaseFragment
@@ -29,7 +29,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        log("main fr onviewcreated", ISDEBUG)
+        log("main fr onviewcreated", BuildConfig.DEBUG)
         setListeners()
         setObservers()
         viewModel.fetchUser()
