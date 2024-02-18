@@ -9,18 +9,26 @@ import com.iyakovlev.contacts.BuildConfig
 import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import java.lang.Exception
 import javax.inject.Inject
 
 class DataStoreImpl @Inject constructor(@ApplicationContext private val context: Context) :
     DataStore {
 
-    override suspend fun get(key: String): String? {
-        val dataStoreKey = stringPreferencesKey(key)
-        return if (context.dataStore.data.first().contains(dataStoreKey)) {
-            context.dataStore.data.first()[dataStoreKey]
-        } else {
-            null
+    override suspend fun get(key: String): Flow<String> {
+//        val dataStoreKey = stringPreferencesKey(key)
+//        return if (context.dataStore.data.first().contains(dataStoreKey)) {
+//            context.dataStore.data.first()[dataStoreKey]
+//        } else {
+//            null
+//        }
+        return flow {
+            val dataStoreKey = stringPreferencesKey(key)
+            val data = context.dataStore.data.first()[dataStoreKey].orEmpty()
+            emit(data)
         }
     }
 
