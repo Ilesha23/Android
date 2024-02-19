@@ -6,7 +6,7 @@ import com.iyakovlev.contacts.domain.model.UserRemote
 class ContactsDiffCallback : DiffUtil.ItemCallback<UserRemote>() {
 
     override fun areItemsTheSame(oldItem: UserRemote, newItem: UserRemote): Boolean {
-        return oldItem == newItem
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: UserRemote, newItem: UserRemote): Boolean {
