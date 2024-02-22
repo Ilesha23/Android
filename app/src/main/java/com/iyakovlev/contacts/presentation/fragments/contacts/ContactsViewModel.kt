@@ -3,8 +3,8 @@ package com.iyakovlev.contacts.presentation.fragments.contacts
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iyakovlev.contacts.BuildConfig
-import com.iyakovlev.contacts.common.resource.Resource
-import com.iyakovlev.contacts.domain.model.UserRemote
+import com.iyakovlev.contacts.data.model.UserRemote
+import com.iyakovlev.contacts.domain.states.Resource
 import com.iyakovlev.contacts.domain.use_case.AddContactUseCase
 import com.iyakovlev.contacts.domain.use_case.DeleteContactUseCase
 import com.iyakovlev.contacts.domain.use_case.GetContactsUseCase

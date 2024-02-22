@@ -1,7 +1,7 @@
 package com.iyakovlev.contacts.di
 
 import com.iyakovlev.contacts.BuildConfig
-import com.iyakovlev.contacts.data.api.ApiService
+import com.iyakovlev.contacts.domain.api.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

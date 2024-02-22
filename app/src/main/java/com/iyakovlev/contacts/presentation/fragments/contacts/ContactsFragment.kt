@@ -1,13 +1,20 @@
 package com.iyakovlev.contacts.presentation.fragments.contacts
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
-import android.widget.SearchView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,8 +25,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.iyakovlev.contacts.BuildConfig
 import com.iyakovlev.contacts.R
-import com.iyakovlev.contacts.common.resource.Resource
+import com.iyakovlev.contacts.domain.states.Resource
 import com.iyakovlev.contacts.databinding.FragmentContactsBinding
+import com.iyakovlev.contacts.presentation.activity.main.MainActivity
 import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.presentation.fragments.contacts.adapters.ContactsAdapter
 import com.iyakovlev.contacts.presentation.fragments.contacts.interfaces.ContactItemClickListener
@@ -35,6 +43,10 @@ import kotlinx.coroutines.launch
 class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsBinding::inflate) {
 
     private val viewModel: ContactsViewModel by viewModels()
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {}
 
     private val contactAdapter = ContactsAdapter(object : ContactItemClickListener {
 
@@ -154,7 +166,7 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
                         } else if (viewModel.state.value is Resource.Success) {
                             binding.pbContacts.toggleLoading(false)
                         }
-                        list.data?.let { toggleSearchInfo(it) }
+                        list.data?.let { toggleSearchInfo(it) } // TODO: change logic
                     }
                 }
                 launch {
@@ -195,35 +207,53 @@ class ContactsFragment : BaseFragment<FragmentContactsBinding>(FragmentContactsB
             ibBack.setOnClickListener {
                 navController.navigateUp()
             }
-            svContacts.setOnSearchClickListener {
-                tvHeader.visibility = View.INVISIBLE
-                ibBack.visibility = View.INVISIBLE
-                it.layoutParams.width = MATCH_PARENT
+            ivContacts.setOnClickListener {
+                // TODO: notification
+                showNotification()
             }
-            svContacts.setOnCloseListener {
-                tvHeader.visibility = View.VISIBLE
-                ibBack.visibility = View.VISIBLE
-                svContacts.layoutParams.width = WRAP_CONTENT
-                viewModel.setFilter(null)
-                contactAdapter.submitList(viewModel.state.value.data)
-                viewModel.state.value.data?.let { toggleSearchInfo(it) }
-                false
-            }
-            svContacts.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(p0: String?): Boolean {
-                    return true
-                }
-
-                override fun onQueryTextChange(p0: String?): Boolean {
-                    viewModel.setFilter(p0)
-                    log("setted filter: $p0", BuildConfig.DEBUG)
-                    return true
-                }
-
-            })
         }
     }
 
+    @SuppressLint("MissingPermission")
+    private fun showNotification() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) ==
+                PackageManager.PERMISSION_DENIED
+            ) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+
+        val notificationManager = NotificationManagerCompat.from(requireContext())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannel(
+                NotificationChannel(
+                    "channel_id",
+                    "channel_name",
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
+            )
+        }
+        val intent = Intent(requireContext(), MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP// or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        val pendingIntent =
+            PendingIntent.getActivity(requireContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val i =
+            navController.createDeepLink().setDestination(R.id.searchFragment).createPendingIntent()
+        val notification = NotificationCompat.Builder(requireContext(), "channel_id") // TODO: name
+            .setContentTitle(getString(R.string.notification_click_to_search))
+            .setSmallIcon(R.drawable.app_icon)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .addAction(R.drawable.app_icon, getString(R.string.search), i)
+            .setContentIntent(i)
+            .setAutoCancel(true)
+        notificationManager.notify(1, notification.build())
+    }
 
     private fun navigateToDetailView(id: Long, imageView: ImageView) {
         val contact = viewModel.state.value.data?.find {

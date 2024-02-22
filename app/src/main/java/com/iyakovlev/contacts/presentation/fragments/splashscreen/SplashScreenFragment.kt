@@ -7,8 +7,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.iyakovlev.contacts.BuildConfig
-import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.databinding.FragmentSplashScreenBinding
+import com.iyakovlev.contacts.domain.states.Resource
 import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint

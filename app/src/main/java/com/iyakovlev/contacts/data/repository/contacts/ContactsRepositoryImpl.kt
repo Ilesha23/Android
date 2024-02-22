@@ -1,8 +1,8 @@
 package com.iyakovlev.contacts.data.repository.contacts
 
+import com.iyakovlev.contacts.BuildConfig
 import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.constants.Constants
-import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
 import com.iyakovlev.contacts.domain.states.Resource
 import com.iyakovlev.contacts.domain.api.ApiService
 import com.iyakovlev.contacts.data.database.repository.DatabaseRepository
@@ -80,7 +80,7 @@ class ContactsRepositoryImpl @Inject constructor(
                     val l = db.getContacts().filter { contactEntity ->
                         !it.data.contacts.map { it.toContactEntity() }.contains(contactEntity)
                     }
-                    log("difference: $l", ISDEBUG)
+                    log("difference: $l", BuildConfig.DEBUG)
                     for (i in l) {
                         addContact(i.id)
                     }

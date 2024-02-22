@@ -2,9 +2,9 @@ package com.iyakovlev.contacts.presentation.fragments.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.iyakovlev.contacts.common.constants.Constants
-import com.iyakovlev.contacts.domain.states.Resource
+import com.iyakovlev.contacts.BuildConfig
 import com.iyakovlev.contacts.data.model.UserRemote
+import com.iyakovlev.contacts.domain.states.Resource
 import com.iyakovlev.contacts.domain.use_case.GetContactsUseCase
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +27,7 @@ class SearchViewModel @Inject constructor(
     val cachedList = _cachedList.asStateFlow()
 
     init {
-        log("contacts view model created", Constants.ISDEBUG)
+        log("contacts view model created", BuildConfig.DEBUG)
 //        viewModelScope.launch(Dispatchers.IO) {
 //            _state.emit(getContactsUseCase())
 //        }
@@ -35,7 +35,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun updateContacts() {
-        log("contacts fr: contacts list updated", Constants.ISDEBUG)
+        log("contacts fr: contacts list updated", BuildConfig.DEBUG)
         viewModelScope.launch(Dispatchers.IO) {
             val response = getContactsUseCase()
             _state.emit(response)
@@ -53,7 +53,7 @@ class SearchViewModel @Inject constructor(
                 }
             }
         }
-        log("${_cachedList.value}", Constants.ISDEBUG)
+        log("${_cachedList.value}", BuildConfig.DEBUG)
     }
 
 }

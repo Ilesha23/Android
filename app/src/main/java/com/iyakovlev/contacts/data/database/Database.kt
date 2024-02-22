@@ -11,7 +11,8 @@ import com.iyakovlev.contacts.data.database.interfaces.UserDao
 
 @Database(
     entities = [ContactEntity::class, UserEntity::class, ProfileEntity::class],
-    version = 3
+    version = 3,
+    exportSchema = false
 )
 abstract class Database: RoomDatabase() {
 

@@ -1,9 +1,7 @@
 package com.iyakovlev.contacts.presentation.fragments.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -11,14 +9,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.iyakovlev.contacts.BuildConfig
 import com.iyakovlev.contacts.R
-import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.databinding.FragmentMainBinding
+import com.iyakovlev.contacts.domain.states.Resource
 import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.utils.log
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 
 @AndroidEntryPoint
@@ -59,12 +55,18 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 viewModel.state.collect { resource ->
                     when (resource) {
                         is Resource.Error -> {
-                            Toast.makeText(context, getString(resource.message ?: R.string.error_user_get), Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                context,
+                                getString(resource.message ?: R.string.error_user_get),
+                                Toast.LENGTH_LONG
+                            ).show()
                             navController.navigate(MainFragmentDirections.actionMainFragmentToSignInFragment())
                         }
+
                         is Resource.Loading -> {
                             // progressbar
                         }
+
                         is Resource.Success -> {
                             binding.pbMain?.visibility = View.GONE
                             setData()
