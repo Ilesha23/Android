@@ -6,8 +6,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.iyakovlev.contacts.common.constants.Constants
-import com.iyakovlev.contacts.domain.states.Resource
+import com.iyakovlev.contacts.BuildConfig
+import com.iyakovlev.contacts.common.resource.Resource
 import com.iyakovlev.contacts.databinding.FragmentSplashScreenBinding
 import com.iyakovlev.contacts.presentation.base.BaseFragment
 import com.iyakovlev.contacts.utils.log
@@ -23,7 +23,7 @@ class SplashScreenFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         setObservers()
 
     }
@@ -33,7 +33,7 @@ class SplashScreenFragment :
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.state.collect {
-                        log("view model state collected in splash", Constants.ISDEBUG)
+                        log("view model state collected in splash", BuildConfig.DEBUG)
                         if (it is Resource.Success) {
                             navController.navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment())
                             log("navigated splash -> main fr")

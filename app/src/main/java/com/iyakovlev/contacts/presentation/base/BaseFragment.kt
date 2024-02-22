@@ -8,8 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
-import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
-import com.iyakovlev.contacts.utils.log
 
 abstract class BaseFragment<VBinding : ViewBinding>(
     private val inflaterMethod: (LayoutInflater, ViewGroup?, Boolean) -> VBinding

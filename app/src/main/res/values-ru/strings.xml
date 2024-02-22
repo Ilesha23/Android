@@ -69,7 +69,6 @@
     <string name="error_user_login">Не удалось войти</string>
     <string name="search_no_results">Нет результатов</string>
     <string name="search_recommendation">Вы можете увидеть больше контактов в рекоммендациях</string>
-    <string name="search">Поиск</string>
-    <string name="notification_click_to_search">Нажмите для поиска</string>
+    <string name="incorrect_email_or_password">Неверная почта или пароль</string>
 
 </resources>

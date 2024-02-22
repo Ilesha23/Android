@@ -4,15 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.constants.Constants
-import com.iyakovlev.contacts.domain.states.Resource
-import com.iyakovlev.contacts.domain.api.model.LoginRequest
+import com.iyakovlev.contacts.common.resource.Resource
+import com.iyakovlev.contacts.data.model.LoginRequest
 import com.iyakovlev.contacts.domain.datastore.DataStore
-import com.iyakovlev.contacts.data.model.User
+import com.iyakovlev.contacts.domain.model.User
 import com.iyakovlev.contacts.domain.use_case.AuthUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,9 +35,11 @@ class SplashScreenViewModel @Inject constructor(
 
     private fun checkLogin() {
         viewModelScope.launch(Dispatchers.IO) {
-            email = dataStore.get(Constants.EMAIL).toString()
-            pass = dataStore.get(Constants.PASS).toString()
-            if ((email.isNotBlank() and (email != "null")) and (pass.isNotBlank() and (pass != "null"))) { // TODO: refactor
+            val emailFlow = dataStore.get(Constants.EMAIL)
+            val passFlow = dataStore.get(Constants.PASS)
+            val email = emailFlow.first().toString()
+            val pass = passFlow.first().toString()
+            if (email.isNotBlank() and pass.isNotBlank()) {
                 login(email, pass)
             } else {
                 _state.value = Resource.Error(R.string.error_user_login)

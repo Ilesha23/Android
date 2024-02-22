@@ -1,7 +1,7 @@
 package com.iyakovlev.contacts.di
 
-import com.iyakovlev.contacts.common.constants.Constants.BASE_URL
-import com.iyakovlev.contacts.domain.api.ApiService
+import com.iyakovlev.contacts.BuildConfig
+import com.iyakovlev.contacts.data.api.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +18,7 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.SHPP_API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

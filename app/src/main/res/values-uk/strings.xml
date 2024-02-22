@@ -69,8 +69,7 @@
     <string name="error_user_login">Не вдалося увійти</string>
     <string name="search_no_results">Нема результатів</string>
     <string name="search_recommendation">Ви можете побачити більше контактів у рекомендаціях</string>
-    <string name="search">Пошук</string>
-    <string name="notification_click_to_search">Натисніть для пошуку</string>
+    <string name="incorrect_email_or_password">Невірна пошта або пароль</string>
 
 
 </resources>

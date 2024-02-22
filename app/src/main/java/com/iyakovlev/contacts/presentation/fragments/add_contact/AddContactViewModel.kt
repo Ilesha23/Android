@@ -2,6 +2,7 @@ package com.iyakovlev.contacts.presentation.fragments.add_contact
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.iyakovlev.contacts.BuildConfig
 import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.domain.states.Resource
 import com.iyakovlev.contacts.data.model.UserRemote
@@ -65,7 +66,7 @@ class AddContactViewModel @Inject constructor(
                 }
             }
         }
-        log("${_cachedList.value}", Constants.ISDEBUG)
+        log("${_cachedList.value}", BuildConfig.DEBUG)
     }
 
     fun addContact(id: Long) {

@@ -42,7 +42,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
                     viewModel.registerUser(email, password)
                     tilPassword.error = null
                 } else {
-                    tilPassword.error = "incorrect email or password" // ?
+                    tilPassword.error = getString(R.string.incorrect_email_or_password)
                     toggleLoading(false)
                 }
             }

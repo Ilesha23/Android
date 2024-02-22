@@ -2,9 +2,9 @@ package com.iyakovlev.contacts.presentation.fragments.contacts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.iyakovlev.contacts.common.constants.Constants.ISDEBUG
-import com.iyakovlev.contacts.domain.states.Resource
-import com.iyakovlev.contacts.data.model.UserRemote
+import com.iyakovlev.contacts.BuildConfig
+import com.iyakovlev.contacts.common.resource.Resource
+import com.iyakovlev.contacts.domain.model.UserRemote
 import com.iyakovlev.contacts.domain.use_case.AddContactUseCase
 import com.iyakovlev.contacts.domain.use_case.DeleteContactUseCase
 import com.iyakovlev.contacts.domain.use_case.GetContactsUseCase
@@ -44,7 +44,7 @@ class ContactsViewModel @Inject constructor(
     private var isRemoving = false
 
     init {
-        log("contacts view model created", ISDEBUG)
+        log("contacts view model created", BuildConfig.DEBUG)
 //        viewModelScope.launch(Dispatchers.IO) {
 //            _state.emit(getContactsUseCase())
 //        }
@@ -52,7 +52,7 @@ class ContactsViewModel @Inject constructor(
     }
 
     fun updateContacts() {
-        log("contacts fr: contacts list updated", ISDEBUG)
+        log("contacts fr: contacts list updated", BuildConfig.DEBUG)
         viewModelScope.launch(Dispatchers.IO) {
             val response = getContactsUseCase()
             _state.emit(response)
@@ -155,11 +155,11 @@ class ContactsViewModel @Inject constructor(
                 }
             }
         }
-        log("${_cachedList.value}", ISDEBUG)
+        log("${_cachedList.value}", BuildConfig.DEBUG)
     }
 
     override fun onCleared() {
-        log("view model cleared", ISDEBUG)
+        log("view model cleared", BuildConfig.DEBUG)
         super.onCleared()
     }
 

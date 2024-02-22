@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.iyakovlev.contacts.BuildConfig
 import com.iyakovlev.contacts.R
 import com.iyakovlev.contacts.common.constants.Constants
 import com.iyakovlev.contacts.domain.states.Resource
@@ -76,7 +77,7 @@ class AddContactFragment :
 
                 override fun onQueryTextChange(p0: String?): Boolean {
                     viewModel.setFilter(p0)
-                    log("setted filter: $p0", Constants.ISDEBUG)
+                    log("setted filter: $p0", BuildConfig.DEBUG)
                     return true
                 }
 
